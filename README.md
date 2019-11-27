@@ -26,3 +26,5 @@ To compile use this :
 
 To compile with Mysql :
   gcc "file.c" -o "output" -I/usr/include/mysql -lmysqlclient -L/usr/lib/x86_64-linux-gnu
+
+Authors : Thomas Tresgots / Antoine Thiel
