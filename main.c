@@ -10,7 +10,7 @@ int main() {
    char *server = "localhost";
    char *user = "root";
    char *password = "root"; /* set me first */
-   char *database = "mysql";
+   char *database = "project";
 
    conn = mysql_init(NULL);
 
@@ -21,15 +21,16 @@ int main() {
       exit(1);
    }
 
-   /* send SQL query */
-   if (mysql_query(conn, "show tables")) {
+   send SQL query 
+   if (mysql_query(conn, "select * from product")) {
       fprintf(stderr, "%s\n", mysql_error(conn));
       exit(1);
    }
+   
 
    res = mysql_use_result(conn);
-
-   /* output table name */
+   
+   output table name 
    printf("MySQL Tables in mysql database:\n");
    while ((row = mysql_fetch_row(res)) != NULL)
       printf("%s \n", row[0]);
