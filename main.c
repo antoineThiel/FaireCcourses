@@ -2,14 +2,14 @@
 #include <mysql.h>
 #include <stdio.h>
 
-main() {
+int main() {
    MYSQL *conn;
    MYSQL_RES *res;
    MYSQL_ROW row;
 
    char *server = "localhost";
    char *user = "root";
-   char *password = "PASSWORD"; /* set me first */
+   char *password = "root"; /* set me first */
    char *database = "mysql";
 
    conn = mysql_init(NULL);
@@ -37,4 +37,5 @@ main() {
    /* close connection */
    mysql_free_result(res);
    mysql_close(conn);
+   return 0;
 }
