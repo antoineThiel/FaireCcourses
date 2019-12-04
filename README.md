@@ -26,3 +26,6 @@ To compile use this :
 
 To compile with Mysql :
   gcc "file.c" -o "output" -I/usr/include/mysql -lmysqlclient -L/usr/lib/x86_64-linux-gnu
+
+To compile with gtk : 
+  once in the project's folder, type: make gcc
