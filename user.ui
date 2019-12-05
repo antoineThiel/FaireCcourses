@@ -11,7 +11,7 @@
         <child>
           <object id="top_menu" class="GtkTextView">
             <property name="visible">True</property>
-            <property name="label">Salut l'equipe</property>
+            <property name="buffer">Salut l'equipe</property>
             <property name="width">8</property>
             <property name="height">
           </object>
