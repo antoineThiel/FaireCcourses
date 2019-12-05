@@ -12,8 +12,6 @@
           <object id="top_menu" class="GtkTextView">
             <property name="visible">True</property>
             <property name="buffer">Salut l'equipe</property>
-            <property name="width">8</property>
-            <property name="height">
           </object>
           <packing>
             <property name="left-attach">0</property>
