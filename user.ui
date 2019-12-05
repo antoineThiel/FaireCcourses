@@ -11,7 +11,14 @@
         <child>
           <object id="top_menu" class="GtkTextView">
             <property name="visible">True</property>
-            <property name="buffer">Salut l'equipe</property>
+            
+            <child>
+              <object class="GtkTextBuffer">
+                <property name="visible">True</property>
+                <property name="text">Salut l'equipe</property>
+              </object>
+            </child>
+
           </object>
           <packing>
             <property name="left-attach">0</property>
