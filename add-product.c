@@ -1,6 +1,8 @@
 #include <mysql.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include "headers/sql_fonctions.h"
 
 char* get_input(char* param){
     fgets(param, 50, stdin);
@@ -8,9 +10,8 @@ char* get_input(char* param){
     return param;
 }
 
-int main() {
+void add_product() {
     MYSQL *conn;
-    MYSQL_ROW row;
 
     char *server = "localhost";
     char *user = "root";
@@ -69,6 +70,4 @@ int main() {
     mysql_close(conn);
     //Free memory
     free(start);
-
-    return 0;
-    }
+}
