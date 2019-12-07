@@ -1,5 +1,5 @@
 # FaireCcourses
-# Requires to be compile on Linux or WSL
+# Requires to be compile on Linux
 
 
 GETTING STARTED ON A FRESH OS
@@ -17,7 +17,7 @@ sudo apt-get install mysql-server
 sudo apt-get install libmysqlclient-dev
 
 Get Gtk:
-
+sudo apt-get install libdev-gtk+3 (à vérifier)
 
 Compile using ONLY Gtk3:
 gcc `pkg-config --cflags gtk+-3.0` -o "output" "file.c" `pkg-config --libs gtk+-3.0`
