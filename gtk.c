@@ -30,14 +30,13 @@ int main (int argc, char *argv[]){
 */
   button = gtk_builder_get_object (builder, "button1");
   g_signal_connect (button, "clicked", G_CALLBACK (add_product), NULL);
-/*  
+/* 
   button = gtk_builder_get_object (builder, "button1");
   g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
-
+*/
   button = gtk_builder_get_object (builder, "quit");
   g_signal_connect (button, "clicked", G_CALLBACK (gtk_main_quit), NULL);
 
-*/
   gtk_main ();
 
   return 0;
