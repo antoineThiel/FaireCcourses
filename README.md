@@ -19,11 +19,13 @@ sudo apt-get install libmysqlclient-dev
 Get Gtk:
 sudo apt-get install libdev-gtk+3 (à vérifier)
 
-Compile using ONLY Gtk3:
-gcc `pkg-config --cflags gtk+-3.0` -o "output" "file.c" `pkg-config --libs gtk+-3.0`
-
 Create & Compile
 You can use any text editor, save your file with the .c extension
 
 To compile, place yourself in the folder's project and use 
-make gcc
+
+make gcc (if wanted , you can also type "make" ,  since gcc is the only target written)
+
+launch program with ./test  (current destination file for compilation)
+
+WE ARE WORKING ON HOW TO COMPILE MULTIPLE FILES IN THE SAME TIME
