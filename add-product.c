@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <gtk/gtk.h>
 #include "headers/sql_fonctions.h"
 
 char* get_input(char* param){
@@ -10,7 +11,7 @@ char* get_input(char* param){
     return param;
 }
 
-void add_product() {
+void add_product(const gchar* param, const gchar* param2) {
     MYSQL *conn;
 
     char *server = "localhost";
@@ -18,10 +19,9 @@ void add_product() {
     char *password = "root";
     char *database = "project";
     char *start;
-    char *param;
+    const gchar *entry_text;
     char input[50];
     char quote[2]="\"";
-    char param2[50];
 
     //Rserve memory
     start = malloc(sizeof(char)*200);
@@ -30,10 +30,8 @@ void add_product() {
     strcpy(start, "insert into product values(NULL");
     strcat(start, ",");
     strcat(start, quote);
+    
 
-    //Get name of the product
-    printf("\nQuel est le nom du produit que vous souhaitez ajouter ?");
-    param = get_input(input);
 
     //add quotes & comma
     strcat(start, param);
@@ -46,7 +44,7 @@ void add_product() {
     param = get_input(input);
 
     //Finishing Query
-    strcat(start, param);
+    strcat(start, param2);
     strcat(start, quote);
     strcat(start, ")");
 
