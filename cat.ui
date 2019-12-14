@@ -1,5 +1,3 @@
-
-
 <interface>
   <object id="window" class="GtkWindow">
     <property name="visible">True</property>
@@ -9,24 +7,12 @@
       <object id="grid" class="GtkGrid">
         <property name="visible">True</property>
         <child>
-         <object id="entry1" class="GtkEntry">
-            <property name="visible">True</property>
-          </object>
-          <packing>
-            <property name="left-attach">0</property>
-            <property name="top-attach">1</property>
-            <property name="width">2</property>
-          </packing>
-        </child>
-        <child>
-          <object id="entry2" class="GtkEntry">
-            <property name="visible">True</property>
-          </object>
-          <packing>
-            <property name="left-attach">0</property>
-            <property name="top-attach">2</property>
-            <property name="width">2</property>
-          </packing>
+          <object id="select" class="GtkComboBoxText">
+          <items>
+            <item id="boisson">Boisson</item>
+            <item id="bonbon">Bonbon</item>
+            <item id="fruit">Fruit</item>
+          </items>
         </child>
         <child>
           <object id="button1" class="GtkButton">
@@ -49,7 +35,7 @@
             <property name="width">2</property>
           </packing>
         </child>
-      </object>
+	    </object>
       <packing>
       </packing>
     </child>
