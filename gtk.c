@@ -5,6 +5,7 @@
 #include <string.h>
 //#include "headers/sql_fonctions.h"
 
+
 void add_product( const gchar *param, const gchar *param2) {
     MYSQL *conn;
 
@@ -63,15 +64,16 @@ void add_product( const gchar *param, const gchar *param2) {
 }
 
 //Fonction pour récupérer le texte
-void get_input2( GtkWidget *widget, GtkWidget *entry, GtkWidget *entry2){
+void get_input2(GObject **tab){
   const gchar *trial, *trial2;
-  trial = gtk_entry_get_text (GTK_ENTRY (entry));
-  trial2 = gtk_entry_get_text(GTK_ENTRY (entry2));
+  trial = gtk_entry_get_text (GTK_ENTRY (tab[0]));
+  trial2 = gtk_entry_get_text(GTK_ENTRY (tab[1]));
   add_product(trial, trial2);
 }
 
 int main (int argc, char *argv[]){
 
+  GObject **gtkWidget_Array;
   GtkBuilder *builder;
   GObject *window;
   GObject *button;
@@ -80,6 +82,8 @@ int main (int argc, char *argv[]){
   GError *error = NULL;
   const gchar *trial;
   gtk_init (&argc, &argv);
+
+  gtkWidget_Array = malloc(2 * sizeof(GtkWidget*));
 
   /* Construct a GtkBuilder instance and load our UI description */
   builder = gtk_builder_new ();
@@ -96,17 +100,22 @@ int main (int argc, char *argv[]){
   
   button = gtk_builder_get_object (builder, "quit");
   g_signal_connect (button, "clicked", G_CALLBACK (gtk_main_quit), NULL);
+
   //Retrieving the entry from the builder
   entry1 = gtk_builder_get_object (builder, "entry1");
   entry2 = gtk_builder_get_object (builder, "entry2");
+
+  gtkWidget_Array[0] = entry1;
+  gtkWidget_Array[1] = entry2;
+
 
   //Add the add-product fonction to the button 1
   button = gtk_builder_get_object (builder, "button1");
 
   //Bouton clické
-  g_signal_connect (button, "clicked", G_CALLBACK (get_input2), entry1);
+  g_signal_connect (button, "clicked", G_CALLBACK (get_input2) , gtkWidget_Array);
 
-  g_signal_connect (button, "clicked", G_CALLBACK (get_input2), entry2);
+  //g_signal_connect (button, "clicked", G_CALLBACK (get_input2), entry2);
 
   
   gtk_main ();

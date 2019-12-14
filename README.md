@@ -38,4 +38,4 @@ make gcc (if wanted , you can also type "make" ,  since gcc is the only target w
 
 launch program with ./test  (current destination file for compilation)
 
-WE ARE WORKING ON HOW TO COMPILE MULTIPLE FILES IN THE SAME TIME
+WE ARE WORKING ON HOW TO COMPILE MULTIPLE FILES THEN launch "".exe""
