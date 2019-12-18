@@ -1,3 +1,1 @@
-void add_product();
-
-char* get_input(char* param);
+void add_product(const gchar *param, const gchar *param2);
