@@ -9,10 +9,10 @@
 void get_input2(GtkWidget *widget, GtkWidget **array){
   
   GtkWidget *entry = array[0];
-  GtkWidget *entry2 = array[1];
+  GtkWidget *combo = array[1];
   const gchar *a, *b;
   a = gtk_entry_get_text(GTK_ENTRY (entry));
-  b = gtk_entry_get_text(GTK_ENTRY (entry2));
+  b = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT (combo));
   add_product(a, b);
 }
 
@@ -23,20 +23,12 @@ int main (int argc, char *argv[]){
   GObject *window;
   GObject *button;
   GObject *entry1;
-  GObject *entry2;
   GObject *combo;
-  GError *error = NULL;
   gtk_init (&argc, &argv);
   gtkWidget_Array = malloc(2 * sizeof(GtkWidget));
 
   /* Construct a GtkBuilder instance and load our UI description */
-  builder = gtk_builder_new ();
-  if (gtk_builder_add_from_file (builder, "builder.ui", &error) == 0)
-    {
-      g_printerr ("Error loading file: %s\n", error->message);
-      g_clear_error (&error);
-      return 1;
-    } 
+  builder = gtk_builder_new_from_file ("glade/window_main.glade");
 
   //Destroying the window 
   window = gtk_builder_get_object (builder, "window");
@@ -45,18 +37,17 @@ int main (int argc, char *argv[]){
   button = gtk_builder_get_object (builder, "quit");
   g_signal_connect (button, "clicked", G_CALLBACK (gtk_main_quit), NULL);
 
-  combo = gtk_builder_get_object (builder, "comboboxtex_options");
+  combo = gtk_builder_get_object (builder, "comboboxcat");
 
   //Retrieving the entry from the builder
   entry1 = gtk_builder_get_object (builder, "entry1");
-  entry2 = gtk_builder_get_object (builder, "entry2");
 
   gtkWidget_Array[0] = entry1;
-  gtkWidget_Array[1] = entry2;
+  gtkWidget_Array[1] = combo;
 
 
   //Add the add-product fonction to the button 1
-  button = gtk_builder_get_object (builder, "button1");
+  button = gtk_builder_get_object (builder, "btn_add");
 
   //Bouton clické
   g_signal_connect (button, "clicked", G_CALLBACK (get_input2) , gtkWidget_Array);
