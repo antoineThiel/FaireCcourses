@@ -13,17 +13,18 @@ void get_input2(GtkWidget *widget, GtkWidget **array){
   const gchar *a, *b;
   a = gtk_entry_get_text(GTK_ENTRY (entry));
   b = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT (combo));
-  add_product(a, b);
+  add_product(a,b);
 }
 
 int main (int argc, char *argv[]){
 
   GObject **gtkWidget_Array;
   GtkBuilder *builder;
-  GObject *window;
+  GtkWidget *window;
   GObject *button;
   GObject *entry1;
   GObject *combo;
+
   gtk_init (&argc, &argv);
   gtkWidget_Array = malloc(2 * sizeof(GtkWidget));
 
@@ -31,13 +32,10 @@ int main (int argc, char *argv[]){
   builder = gtk_builder_new_from_file ("glade/window_main.glade");
 
   //Destroying the window 
-  window = gtk_builder_get_object (builder, "window");
+  window = GTK_WIDGET(gtk_builder_get_object (builder, "window"));
   g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
-  
-  button = gtk_builder_get_object (builder, "quit");
-  g_signal_connect (button, "clicked", G_CALLBACK (gtk_main_quit), NULL);
 
-  combo = gtk_builder_get_object (builder, "comboboxcat");
+  combo = gtk_builder_get_object (builder, "combobox_cat");
 
   //Retrieving the entry from the builder
   entry1 = gtk_builder_get_object (builder, "entry1");
@@ -52,9 +50,7 @@ int main (int argc, char *argv[]){
   //Bouton clické
   g_signal_connect (button, "clicked", G_CALLBACK (get_input2) , gtkWidget_Array);
 
-  //g_signal_connect (button, "clicked", G_CALLBACK (get_input2), entry2);
-
-  
+  gtk_widget_show(window);
   gtk_main ();
 
   return 0;
