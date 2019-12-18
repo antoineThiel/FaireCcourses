@@ -1,1 +1,2 @@
-void add_product(const gchar *param, const gchar *param2);
+void prepare_conn(MYSQL *conn);
+void add_product(MYSQL *conn ,  const gchar *param, const gchar *param2) ;
