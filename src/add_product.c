@@ -45,48 +45,28 @@ void add_product(MYSQL *conn ,  const gchar *param, const gchar *param2) {
     
 }
 
+// MYSQL_ROW* select_cat_options( MYSQL *conn){
 
-MYSQL* prepare_conn(MYSQL *conn){
+//    char *query = "SELECT * FROM categories";
+//    MYSQL_RES *result;
+//    MYSQL_ROW *data;
 
-    char *server = "localhost";
-    char *user = "root";
-    char *password = "root";
-    char *database = "project";
+//    short case_array = 0;
 
-    conn = mysql_init(NULL);
+//    if( !mysql_real_query(conn , query , strlen(query) ) ){
 
-    if (!mysql_real_connect(conn, server,
-            user, password, database, 0, NULL, 0)) {
-        fprintf(stderr, "%s\n", mysql_error(conn));
-        exit(1);
-    }
-    return conn;
-}
-
-
-
-MYSQL_ROW* select_cat_options( MYSQL *conn){
-
-   char *query = "SELECT * FROM categories";
-   MYSQL_RES *result;
-   MYSQL_ROW *data;
-
-   short case_array = 0;
-
-   if( !mysql_real_query(conn , query , strlen(query) ) ){
-
-        result = malloc(sizeof(MYSQL_ROW) * mysql_field_count(conn));
+//         result = malloc(sizeof(MYSQL_ROW) * mysql_field_count(conn));
        
-       result = mysql_store_result(conn);
+//        result = mysql_store_result(conn);
 
-       while( (data = mysql_fetch_row(result) ) != NULL){
-           case_array++;
-       }
-   }else{
-       fprintf(stderr, "An error occured : \n%s\n", mysql_error(conn));
-        exit(1);
-   }
+//        while( (data = mysql_fetch_row(result) ) != NULL){
+//            case_array++;
+//        }
+//    }else{
+//        fprintf(stderr, "An error occured : \n%s\n", mysql_error(conn));
+//         exit(1);
+//    }
 
-   return result;
+//    return result;
 
-}
+// }
