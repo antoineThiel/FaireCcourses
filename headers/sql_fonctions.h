@@ -1,2 +1,3 @@
-void prepare_conn(MYSQL *conn);
+MYSQL* prepare_conn(MYSQL *conn);
 void add_product(MYSQL *conn ,  const gchar *param, const gchar *param2) ;
+MYSQL_ROW* select_cat_options( MYSQL *conn);
