@@ -18,11 +18,6 @@
 #include "../headers/sql_fonctions.h"
 #include "../headers/gtk_fonctions.h"
 
-void nothing(GtkWidget *widget, builder_and_conn *data){
-  data++;
-  widget++;
-}
-
 
 //Fonction pour récupérer le texte
 void get_input2(GtkWidget *widget, builder_and_conn *data){
@@ -36,8 +31,8 @@ void get_input2(GtkWidget *widget, builder_and_conn *data){
   product = gtk_entry_get_text(GTK_ENTRY (entry));
   category = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT (combo));
   add_product(data->conn , product , category);
-  nothing(widget , data);
 
+  widget = widget; // if we don't, it's not compiling
 }
 
 int main (int argc, char *argv[]){
@@ -45,30 +40,25 @@ int main (int argc, char *argv[]){
 
   builder_and_conn gtkWidget_Array;
 
-  GtkBuilder *builder;
   GtkWidget *window;
   GObject *button;
   // GtkWidget *select_cat_btn;
 
-  MYSQL* conn; 
   //MYSQL_ROW* result_array;
   
-  PREPARE_CONNECTION(conn);
+  PREPARE_CONNECTION(gtkWidget_Array.conn);
 
   gtk_init (&argc, &argv);
   /* Construct a GtkBuilder instance and load our UI description */
-  builder = gtk_builder_new_from_file ("./glade/window_main.glade");
+  gtkWidget_Array.builder = gtk_builder_new_from_file ("./glade/window_main.glade");
 
-  window = GTK_WIDGET(gtk_builder_get_object (builder, "window"));
+  window = GTK_WIDGET(gtk_builder_get_object (gtkWidget_Array.builder, "window"));
   //Event Destroying the window 
   g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
 
-  gtkWidget_Array.builder = builder;
-  gtkWidget_Array.conn = conn; 
-
 
   //Add the add-product fonction to the button 1
-  button = gtk_builder_get_object (builder, "btn_add");
+  button = gtk_builder_get_object (gtkWidget_Array.builder, "btn_add");
 
   //select_cat_btn = GTK_WIDGET(gtk_builder_get_object(builder , "combobox_cat") );
   //result_array = select_cat_options(conn);
@@ -81,7 +71,7 @@ int main (int argc, char *argv[]){
   gtk_main ();
 
 
-  mysql_close(conn);
+  mysql_close(gtkWidget_Array.conn);
   return 0;
 }
 
