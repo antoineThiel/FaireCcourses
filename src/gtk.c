@@ -1,3 +1,17 @@
+#define SERVER "localhost"
+#define USER "root"
+#define PASSWORD "root"
+#define DATABASE "project"
+
+#define PREPARE_CONNECTION(connector) connector = mysql_init(NULL);\
+                                      if (!mysql_real_connect(connector, SERVER, USER, PASSWORD, DATABASE, 0, NULL, 0)) {\
+                                          fprintf(stderr, "%s\n", mysql_error(connector));\
+                                          exit(1);\
+                                      }\
+                                      printf("youpi");\
+
+                                 
+
 #include <gtk/gtk.h>
 #include <mysql.h>
 #include <stdio.h>
@@ -35,9 +49,10 @@ int main (int argc, char *argv[]){
   // GtkWidget *select_cat_btn;
 
   MYSQL* conn; 
-  MYSQL_ROW* result_array;
+  //MYSQL_ROW* result_array;
 
-  conn = prepare_conn(conn);
+  PREPARE_CONNECTION(conn);
+
 
   //gtkWidget_Array->builder = builder;
   //gtkWidget_Array->conn = conn; 
@@ -56,8 +71,8 @@ int main (int argc, char *argv[]){
   // button = gtk_builder_get_object (builder, "btn_add");
 
   //select_cat_btn = GTK_WIDGET(gtk_builder_get_object(builder , "combobox_cat") );
-  result_array = select_cat_options(conn);
-  fill_combobox_cat(result_array);
+  //result_array = select_cat_options(conn);
+  //fill_combobox_cat(result_array);
 
   //Bouton clické
   //g_signal_connect (button, "clicked", G_CALLBACK (get_input2) , button);
