@@ -45,28 +45,24 @@ void add_product(MYSQL *conn ,  const gchar *param, const gchar *param2) {
     
 }
 
-// MYSQL_ROW* select_cat_options( MYSQL *conn){
+void select_cat_options( MYSQL *conn , GtkComboBoxText *selector){
 
-//    char *query = "SELECT * FROM categories";
-//    MYSQL_RES *result;
-//    MYSQL_ROW *data;
+    char *query = "SELECT * FROM category";
+    MYSQL_RES *result;
+    MYSQL_ROW data;
 
-//    short case_array = 0;
+    if( !mysql_query(conn , query) ){
 
-//    if( !mysql_real_query(conn , query , strlen(query) ) ){
+        result = mysql_store_result(conn);
 
-//         result = malloc(sizeof(MYSQL_ROW) * mysql_field_count(conn));
-       
-//        result = mysql_store_result(conn);
+        while( (data = mysql_fetch_row(result) ) != NULL){
+            gtk_combo_box_text_append(selector , data[0] , data[1] );
+       }
 
-//        while( (data = mysql_fetch_row(result) ) != NULL){
-//            case_array++;
-//        }
-//    }else{
-//        fprintf(stderr, "An error occured : \n%s\n", mysql_error(conn));
-//         exit(1);
-//    }
+    }else{
+        fprintf(stderr, "An error occured : \n%s\n", mysql_error(conn));
+        exit(1);
+    }
 
-//    return result;
-
-// }
+    mysql_free_result(result);
+}

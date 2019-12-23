@@ -1,3 +1,2 @@
-MYSQL* prepare_conn(MYSQL *conn);
-void add_product(MYSQL *conn ,  const gchar *param, const gchar *param2) ;
-MYSQL_ROW* select_cat_options( MYSQL *conn);
+void add_product(MYSQL* ,  const gchar* , const gchar*) ;
+void select_cat_options( MYSQL* , GtkComboBoxText* );
