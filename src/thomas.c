@@ -35,9 +35,9 @@ void get_product(GtkWidget *widget, builder_and_conn *data){
   widget = widget; // if we don't, it's not compiling
 }
 
-void win_add_product(){
+void win_add_product(builder_and_conn *data){
 
-  GtkBuilder *builder;
+  GtkBuilder *builder ;En
   GtkWidget *window;
   GtkWidget *button;
   

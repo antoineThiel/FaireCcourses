@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "headers/sql_fonctions.h"
+#include "../headers/sql_fonctions.h"
+#include "../headers/gtk_fonctions.h"
 
 //Fonction pour récupérer le texte (add_product);
 void get_product(GtkWidget *widget, GtkWidget **array){
@@ -13,7 +14,9 @@ void get_product(GtkWidget *widget, GtkWidget **array){
   const gchar *a, *b;
   a = gtk_entry_get_text(GTK_ENTRY (entry));
   b = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT (combo));
-  add_product(a,b);
+  printf("%s, %s", a, b);
+  (void)widget;
+  //add_product(a,b);
 }
 
 
@@ -30,116 +33,102 @@ void get_log(GtkWidget * widget, GtkWidget **array){
   }
   else 
   gtk_label_set_text(GTK_LABEL(label), "Echec");
+  (void) widget;
 }
-
-char db_fill_store(){
-  MYSQL *conn;
-  MYSQL_RES *result;
-  MYSQL_ROW row;
-  int num_fields;
-
-    char *server = "localhost";
-    char *user = "root";
-    char *password = "root";
-    char *database = "project";
-    char *start;
-    char quote[2]="\"";
-
-    start = malloc(sizeof(char)*200);
-    strcpy(start, "SELECT name FROM `project`.`store` order by name asc;");
-    // Connect to database
-    if (!mysql_real_connect(conn, server,
-            user, password, database, 0, NULL, 0)) {
-        fprintf(stderr, "%s\n", mysql_error(conn));
-        exit(1);
-    }
-     //Query to get all stores
-    if (mysql_query(conn, start)) {
-        fprintf(stderr, "%s\n", mysql_error(conn));
-        exit(1);
-    }
-    num_fields = mysql_num_fields(result);
-
-    while ((row = mysql_fetch_row(result)))
-    {
-      for (int i = 0; i < num_fields; i++)
-      {
-        printf("%s ", row[i] ? row [i] : "NULL");
-      }
-
-      printf("\n");
-      
-    }
-    mysql_free_result(result);
-    mysql_close(conn);
-}
-
-void fill_combo_box_store(){
-  db_fill_store();
-}
-
-void win_add_product(){
+void win_add_product(GtkWidget *widget, builder_and_conn *builders){
 
   GtkWidget **gtkWidget_Array;
-  GtkBuilder *builder;
-  GtkWidget *window;
+  GtkWidget *grid;
+  GtkWidget *grid_content;
   GtkWidget *button;
   GtkWidget *combo;
   GtkWidget *entry;
+  GtkWidget *label;
 
   gtkWidget_Array = malloc(2 * sizeof(GtkWidget));
-
-  builder = gtk_builder_new_from_file("glade/window_add.glade");
-  window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
-  button = GTK_WIDGET(gtk_builder_get_object (builder, "btn_add"));
-  combo = GTK_WIDGET(gtk_builder_get_object (builder, "combobox_cat"));
-  entry = GTK_WIDGET(gtk_builder_get_object (builder, "entry1"));
+  
+  grid = GTK_WIDGET(gtk_builder_get_object(builders->builder, "grid"));
+  label = GTK_WIDGET(gtk_builder_get_object(builders->builder, "label"));
+  grid_content = gtk_grid_new();
+  gtk_widget_destroy(GTK_WIDGET(label));
+  gtk_grid_remove_column(GTK_GRID(grid), 2);
+  gtk_grid_insert_column(GTK_GRID(grid), 2);
+  gtk_grid_attach(GTK_GRID(grid), grid_content, 2,0,1,1);
+  button = gtk_button_new_with_label("Ajouter");
+  entry = gtk_entry_new();
+  combo = gtk_combo_box_text_new();
+  label = gtk_label_new("Nom du produit");
+  gtk_grid_attach(GTK_GRID(grid_content), label, 0,2,1,1);
+  label = gtk_label_new("Categorie");
+  gtk_grid_attach(GTK_GRID(grid_content), label, 0,3,1,1);
+  
+  gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(combo), NULL, "Fruit");
+  gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(combo), NULL, "Boisson");
+  gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(combo), NULL, "Bonbon");
+  
+  gtk_grid_attach(GTK_GRID(grid_content), button, 1,4,1,1);
+  gtk_grid_attach(GTK_GRID(grid_content), entry, 1,2,1,1);
+  gtk_grid_attach(GTK_GRID(grid_content), combo, 1,3,1,1);
 
 
   gtkWidget_Array[0] = entry;
   gtkWidget_Array[1] = combo;
 
   g_signal_connect (button, "clicked", G_CALLBACK (get_product) , gtkWidget_Array);
-
-  button = GTK_WIDGET (gtk_builder_get_object(builder, "btn_quit"));
-  g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_widget_destroy), window);
-
-  gtk_widget_show(window);
+  (void)widget;
+  gtk_widget_show_all(grid_content);
 }
 
-void win_log_in(){
+void win_log_in(GtkWidget *widget, builder_and_conn *builders){
+
   GtkWidget **array;
-  GtkBuilder *builder;
-  GtkWidget *window;
+  GtkWidget *grid;
+  GtkWidget *grid_content;
   GtkWidget *entry;
   GtkWidget *button;
   GtkWidget *label;
 
   array = malloc(3 * sizeof(GtkWidget));
-  builder = gtk_builder_new_from_file("glade/window_log_in.glade");
-  window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
-  entry = GTK_WIDGET(gtk_builder_get_object(builder, "entry_id"));
-  array[0] = entry;
-  entry = GTK_WIDGET(gtk_builder_get_object(builder, "entry_pass"));
-  array[1] = entry;
-  label = GTK_WIDGET(gtk_builder_get_object(builder, "is_log"));
-  array[2] = label;
-  button = GTK_WIDGET(gtk_builder_get_object(builder,"login"));
-  g_signal_connect(button, "clicked", G_CALLBACK(get_log), array);
-  button = GTK_WIDGET(gtk_builder_get_object(builder, "quit"));
-  g_signal_connect_swapped(button, "clicked", G_CALLBACK(gtk_widget_destroy), window);
+  grid = GTK_WIDGET(gtk_builder_get_object(builders->builder, "grid"));
+  label = GTK_WIDGET(gtk_builder_get_object(builders->builder, "label"));
 
-  gtk_widget_show(window);
+  gtk_widget_destroy(GTK_WIDGET(label));
+  gtk_grid_remove_column(GTK_GRID(grid), 2);
+  gtk_grid_insert_column(GTK_GRID(grid), 2);
+  
+  grid_content = gtk_grid_new();
+  gtk_grid_attach(GTK_GRID(grid), grid_content, 2,0,1,1);
+
+  entry = gtk_entry_new();
+  gtk_grid_attach(GTK_GRID(grid_content), entry, 1,2,1,1);
+  array[0] = entry;
+  entry = gtk_entry_new();
+  gtk_grid_attach(GTK_GRID(grid_content), entry, 1,3,1,1);
+  array[1] = entry;
+  label = gtk_label_new(NULL);
+  gtk_grid_attach(GTK_GRID(grid_content), label, 2,3,1,1);
+  array[2] = label;
+  button = gtk_button_new_with_label("Connexion");
+  gtk_grid_attach(GTK_GRID(grid_content), button, 1,4,1,1);
+  label = gtk_label_new("Username");
+  gtk_grid_attach(GTK_GRID(grid_content), label, 0,2,1,1);
+  label = gtk_label_new("Password");
+  gtk_grid_attach(GTK_GRID(grid_content), label, 0,3,1,1);
+
+  g_signal_connect(button, "clicked", G_CALLBACK(get_log), array);
+  
+  (void)widget;
+  gtk_widget_show_all(grid_content);
 }
 void win_chose_store(){
   GtkBuilder *builder;
   GtkWidget *window;
-  GtkWidget *combo;
+  //GtkWidget *combo;
 
   builder = gtk_builder_new_from_file("glade/window_chose_store.glade");
   window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
-  combo = GTK_WIDGET(gtk_builder_get_object(builder, "combobox_store"));
-  fill_combo_box_store();
+  //combo = GTK_WIDGET(gtk_builder_get_object(builder, "combobox_store"));
+  //fill_combo_box_store();
 
   gtk_widget_show(window);
 }
@@ -156,34 +145,36 @@ void win_show_order(){
 
 int main (int argc, char *argv[]){
 
-  GtkBuilder *builder;
+
+  builder_and_conn builders;
+  //GtkBuilder *builder;
   GtkWidget *window;
   GtkWidget *button;
 
   gtk_init (&argc, &argv);
 
   /* Construct a GtkBuilder instance and load our UI description */
-  builder = gtk_builder_new_from_file ("glade/window_main.glade");
+  builders.builder = gtk_builder_new_from_file ("./glade/window_main.glade");
 
   //Destroying the window 
-  window = GTK_WIDGET(gtk_builder_get_object (builder, "window"));
+  window = GTK_WIDGET(gtk_builder_get_object (builders.builder, "window"));
   g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
 
   //Get the buttons and apply usefulnes
-  button = GTK_WIDGET(gtk_builder_get_object(builder, "btn_add_product"));
-  g_signal_connect (button, "clicked", G_CALLBACK(win_add_product), NULL);
+  button = GTK_WIDGET(gtk_builder_get_object(builders.builder, "btn_add_product"));
+  g_signal_connect (button, "clicked", G_CALLBACK(win_add_product), &builders);
 
-  button = GTK_WIDGET(gtk_builder_get_object(builder, "btn_account"));
-  g_signal_connect (button, "clicked", G_CALLBACK(win_log_in), NULL);
+  button = GTK_WIDGET(gtk_builder_get_object(builders.builder, "btn_account"));
+  g_signal_connect (button, "clicked", G_CALLBACK(win_log_in), &builders);
 
-  button = GTK_WIDGET(gtk_builder_get_object(builder, "btn_store"));
+  button = GTK_WIDGET(gtk_builder_get_object(builders.builder, "btn_store"));
   g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), NULL);
 
-  button = GTK_WIDGET(gtk_builder_get_object(builder, "btn_order"));
+  button = GTK_WIDGET(gtk_builder_get_object(builders.builder, "btn_order"));
   g_signal_connect(button, "clicked", G_CALLBACK(win_show_order), NULL);
 
 
-  button = GTK_WIDGET (gtk_builder_get_object(builder, "quit"));
+  button = GTK_WIDGET (gtk_builder_get_object(builders.builder, "quit"));
   g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_main_quit), window);
 
   gtk_widget_show(window);
