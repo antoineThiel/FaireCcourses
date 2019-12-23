@@ -1,0 +1,1 @@
+CONNEXION MYSQL : a placer dans le main pour pouvoir envoyer le pointeur conn aux fonctions ! <3
