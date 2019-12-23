@@ -41,7 +41,7 @@ int main (int argc, char *argv[]){
   builder_and_conn gtkWidget_Array;
 
   GtkWidget *window;
-  // GObject *button;
+  GObject *button;
 
   
   PREPARE_CONNECTION(gtkWidget_Array.conn);
@@ -56,12 +56,12 @@ int main (int argc, char *argv[]){
 
 
   //Add the add-product fonction to the button 1
-  //button = gtk_builder_get_object (gtkWidget_Array.builder, "btn_add");
+  button = gtk_builder_get_object (gtkWidget_Array.builder, "btn_add");
 
   fill_combobox_cat(&gtkWidget_Array);
 
   //Bouton clické
-  // g_signal_connect (button, "clicked", G_CALLBACK (get_input2), &gtkWidget_Array  );
+  g_signal_connect (button, "clicked", G_CALLBACK (get_input2), &gtkWidget_Array  );
 
   gtk_widget_show(window);
   gtk_main ();
