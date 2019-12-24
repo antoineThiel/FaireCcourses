@@ -4,20 +4,48 @@
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkWindow" id="window">
     <property name="can_focus">False</property>
-    <property name="default_width">300</property>
-    <property name="default_height">300</property>
     <child>
       <placeholder/>
     </child>
     <child>
-      <object class="GtkGrid">
+      <object class="GtkGrid" id="grid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
-          <object class="GtkLabel">
+          <object class="GtkButton" id="btn_add_product">
+            <property name="label" translatable="yes">Ajouter un produit</property>
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Nom du produit</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="win_add_product" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left_attach">4</property>
+            <property name="top_attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btn_account">
+            <property name="label" translatable="yes">Connexion</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="win_log_in" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left_attach">4</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btn_store">
+            <property name="label" translatable="yes">choisissez un magasin 
+			&amp;
+commencer ses courses</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="win_chose_store" swapped="no"/>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -25,10 +53,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel">
+          <object class="GtkButton" id="btn_order">
+            <property name="label" translatable="yes">Voir mon panier</property>
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Categorie</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="win_show_order" swapped="no"/>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -36,44 +66,35 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="entry1">
+          <object class="GtkLabel">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Bienvenue dans FaireCcourses</property>
           </object>
           <packing>
-            <property name="left_attach">1</property>
-            <property name="top_attach">0</property>
+            <property name="left_attach">0</property>
+            <property name="top_attach">2</property>
+            <property name="width">4</property>
+            <property name="height">2</property>
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="btn_add">
-            <property name="label" translatable="yes">Ajouter</property>
+          <object class="GtkButton" id="quit">
+            <property name="label" translatable="yes">Quitter</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
           </object>
           <packing>
-            <property name="left_attach">0</property>
+            <property name="left_attach">4</property>
             <property name="top_attach">3</property>
-            <property name="width">3</property>
           </packing>
         </child>
         <child>
-          <object class="GtkComboBoxText" id="combobox_cat">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="active">0</property>
-            <items>
-              <item translatable="yes">Select Category ...</item>
-              <item translatable="yes">Boisson</item>
-              <item translatable="yes">Fruit</item>
-              <item translatable="yes">Bonbon</item>
-            </items>
-          </object>
-          <packing>
-            <property name="left_attach">1</property>
-            <property name="top_attach">1</property>
-          </packing>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
         </child>
         <child>
           <placeholder/>
