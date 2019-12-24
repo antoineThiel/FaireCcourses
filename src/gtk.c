@@ -40,6 +40,28 @@ void fill_combobox_cat(MYSQL *conn , GtkComboBoxText *combo){
     mysql_free_result(result);
 
 }
+
+void fill_combo_box_store( MYSQL *conn, GtkComboBoxText *selector){
+    char *query="select * from store order by name asc";
+    MYSQL_RES *result;
+    MYSQL_ROW data;
+
+    if( !mysql_query(conn , query) ){
+
+        result = mysql_store_result(conn);
+
+        while( (data = mysql_fetch_row(result) ) != NULL){
+            gtk_combo_box_text_append(selector , data[0] , data[1] );
+        }
+
+    }else{
+        fprintf(stderr, "An error occured : \n%s\n", mysql_error(conn));
+        exit(1);
+    }
+
+    mysql_free_result(result);
+}
+
 //Fonction pour récupérer le texte (add_product);
 static void get_product(GtkWidget *widget, conn_n_2_gtk_widget *array){
   
@@ -159,17 +181,34 @@ void win_log_in(GtkWidget *widget, builder_and_conn *builders){
   (void)widget;
   gtk_widget_show_all(grid_content);
 }
-void win_chose_store(){
-  GtkBuilder *builder;
-  GtkWidget *window;
-  //GtkWidget *combo;
+void win_chose_store(GtkWidget *widget, builder_and_conn *builders){
+  GtkWidget *grid_content;
+  GtkWidget *combo;
+  GtkWidget *grid;
+  GtkWidget *label;
+  GtkWidget *button;
 
-  builder = gtk_builder_new_from_file("glade/window_chose_store.glade");
-  window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
-  //combo = GTK_WIDGET(gtk_builder_get_object(builder, "combobox_store"));
-  //fill_combo_box_store();
+  grid = GTK_WIDGET(gtk_builder_get_object(builders->builder, "grid"));
+  label = GTK_WIDGET(gtk_builder_get_object(builders->builder, "label"));
+  grid_content = gtk_grid_new();
+  gtk_grid_remove_column(GTK_GRID(grid), 2);
+  gtk_grid_insert_column(GTK_GRID(grid), 2);
+  gtk_grid_attach(GTK_GRID(grid), grid_content, 2,0,1,1);
+  
+  combo = gtk_combo_box_text_new();
+  fill_combo_box_store(builders->conn, GTK_COMBO_BOX_TEXT(combo));
+  gtk_grid_attach(GTK_GRID(grid_content), combo, 1,2,1,1);
+  label = gtk_label_new("Nom du magasin");
+  gtk_grid_attach(GTK_GRID(grid_content), label, 0,2,1,1);
+  button = gtk_button_new_with_label("Commencer");
+  gtk_grid_attach(GTK_GRID(grid_content), button, 1,3,1,1);
 
-  gtk_widget_show(window);
+  //Recupérer la selection du select et lancer une fonction pour commencer les courses ?
+  //Ouvrir une nouvelle fenetre avec une barre de recherche et une liste sur la gauche avec un panier qui s'agrandit
+  //au fur et a mesure que l'utilisateur rajoute des produits ? :)
+
+  gtk_widget_show_all(grid_content);
+  (void)widget;
 }
 void win_show_order(){
   GtkBuilder *builder;
@@ -197,7 +236,7 @@ void event_handler(builder_and_conn *fundalentals){
   g_signal_connect (button, "clicked", G_CALLBACK(win_log_in), fundalentals);
 
   button = GTK_WIDGET(gtk_builder_get_object(fundalentals->builder, "btn_store"));
-  g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), NULL);
+  g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), fundalentals);
 
   button = GTK_WIDGET(gtk_builder_get_object(fundalentals->builder, "btn_order"));
   g_signal_connect(button, "clicked", G_CALLBACK(win_show_order), NULL);
