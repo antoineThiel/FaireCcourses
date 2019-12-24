@@ -190,7 +190,6 @@ void win_show_order(){
 
   gtk_widget_show(window);
 }
-
 void event_handler(builder_and_conn *fundalentals){
   
   GtkWidget *window;
