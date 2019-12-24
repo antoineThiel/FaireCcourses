@@ -7,4 +7,4 @@ struct builder_and_conn{
 
 };
 
-void fill_combobox_cat(builder_and_conn *data);
+void fill_combobox_cat(MYSQL *conn , GtkComboBoxText *combo);

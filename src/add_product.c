@@ -57,7 +57,8 @@ void select_cat_options( MYSQL *conn , GtkComboBoxText *selector){
 
         while( (data = mysql_fetch_row(result) ) != NULL){
             gtk_combo_box_text_append(selector , data[0] , data[1] );
-       }
+            printf("%s" , data[1]);
+        }
 
     }else{
         fprintf(stderr, "An error occured : \n%s\n", mysql_error(conn));
