@@ -191,13 +191,40 @@ void win_show_order(){
   gtk_widget_show(window);
 }
 
+void event_handler(builder_and_conn *fundalentals){
+  
+  GtkWidget *window;
+  GtkWidget *button;
+
+  //Destroying the window 
+  window = GTK_WIDGET(gtk_builder_get_object (fundalentals->builder, "window"));
+  g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+
+  //Get the buttons and apply usefulnes
+  button = GTK_WIDGET(gtk_builder_get_object(fundalentals->builder, "btn_add_product"));
+  g_signal_connect (button, "clicked", G_CALLBACK(win_add_product), fundalentals);
+
+  button = GTK_WIDGET(gtk_builder_get_object(fundalentals->builder, "btn_account"));
+  g_signal_connect (button, "clicked", G_CALLBACK(win_log_in), fundalentals);
+
+  button = GTK_WIDGET(gtk_builder_get_object(fundalentals->builder, "btn_store"));
+  g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), NULL);
+
+  button = GTK_WIDGET(gtk_builder_get_object(fundalentals->builder, "btn_order"));
+  g_signal_connect(button, "clicked", G_CALLBACK(win_show_order), NULL);
+
+
+  button = GTK_WIDGET (gtk_builder_get_object(fundalentals->builder, "quit"));
+  g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_main_quit), window);
+
+  gtk_widget_show(window);
+}
+
 
 int main (int argc, char *argv[]){
 
 
   builder_and_conn builders;
-  GtkWidget *window;
-  GtkWidget *button;
 
   gtk_init (&argc, &argv);
 
@@ -207,32 +234,11 @@ int main (int argc, char *argv[]){
   /* Construct a GtkBuilder instance and load our UI description */
   builders.builder = gtk_builder_new_from_file ("./glade/window_main.glade");
 
-  //Destroying the window 
-  window = GTK_WIDGET(gtk_builder_get_object (builders.builder, "window"));
-  g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+  event_handler(&builders);
 
-  //Get the buttons and apply usefulnes
-  button = GTK_WIDGET(gtk_builder_get_object(builders.builder, "btn_add_product"));
-  g_signal_connect (button, "clicked", G_CALLBACK(win_add_product), &builders);
-
-  button = GTK_WIDGET(gtk_builder_get_object(builders.builder, "btn_account"));
-  g_signal_connect (button, "clicked", G_CALLBACK(win_log_in), &builders);
-
-  button = GTK_WIDGET(gtk_builder_get_object(builders.builder, "btn_store"));
-  g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), NULL);
-
-  button = GTK_WIDGET(gtk_builder_get_object(builders.builder, "btn_order"));
-  g_signal_connect(button, "clicked", G_CALLBACK(win_show_order), NULL);
-
-
-  button = GTK_WIDGET (gtk_builder_get_object(builders.builder, "quit"));
-  g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_main_quit), window);
-
-
-  gtk_widget_show(window);
   gtk_main ();
 
-    mysql_close(builders.conn);
+  mysql_close(builders.conn);
 
 
   return 0;
