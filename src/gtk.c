@@ -41,18 +41,15 @@ void fill_combobox_cat(MYSQL *conn , GtkComboBoxText *combo){
 
 }
 //Fonction pour récupérer le texte (add_product);
-static void get_product(GtkWidget *widget, conn_n_2_gtk_widget *array){
-  
-  const gchar *a, *b;
- // GtkWidget *entry = array->entry;
-  //GtkWidget *combo = array->combo;
+static void get_product(GtkWidget *widget , GtkComboBoxText* array){
+//static void get_product(GtkWidget *widget , conn_n_2_gtk_widget *array){
 
-  a = gtk_entry_get_text(GTK_ENTRY (array->entry));
-  b = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT (array->combo));
-  
-  (void)widget; //Equivaut a windget = widget
-  
-  add_product(array->conn,a,b);
+
+  printf("%s \n" , gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT( array)) );
+  //printf("%s \n" , gtk_entry_get_text(GTK_ENTRY (array->entry)) ) ;
+
+  (void)widget;
+   
 }
 void get_log(GtkWidget * widget, GtkWidget **array){
   GtkWidget *entry_id = array[0];
@@ -71,10 +68,6 @@ void get_log(GtkWidget * widget, GtkWidget **array){
 }
 void win_add_product(GtkWidget *widget, builder_and_conn *builders){
 
-  //GtkWidget **gtkWidget_Array;
-  //GtkWidget *combo;
-  //GtkWidget *entry;
-
   conn_n_2_gtk_widget array;
   array.conn = builders->conn;
 
@@ -83,7 +76,6 @@ void win_add_product(GtkWidget *widget, builder_and_conn *builders){
   GtkWidget *button;
   GtkWidget *label;
 
-  //gtkWidget_Array = malloc(2 * sizeof(GtkWidget));
   
   grid = GTK_WIDGET(gtk_builder_get_object(builders->builder, "grid"));
   label = GTK_WIDGET(gtk_builder_get_object(builders->builder, "label"));
@@ -96,10 +88,13 @@ void win_add_product(GtkWidget *widget, builder_and_conn *builders){
   gtk_grid_insert_column(GTK_GRID(grid), 2);
   gtk_grid_attach(GTK_GRID(grid), grid_content, 2,0,1,1);
   button = gtk_button_new_with_label("Ajouter");
+
   array.entry = gtk_entry_new();
   array.combo = gtk_combo_box_text_new();
+
   label = gtk_label_new("Nom du produit");
   gtk_grid_attach(GTK_GRID(grid_content), label, 0,2,1,1);
+
   label = gtk_label_new("Categorie");
   gtk_grid_attach(GTK_GRID(grid_content), label, 0,3,1,1);
 // ~~~~~~~~~~~~~  replace this code with an xml file insertion  
@@ -107,14 +102,10 @@ void win_add_product(GtkWidget *widget, builder_and_conn *builders){
   fill_combobox_cat(builders->conn , GTK_COMBO_BOX_TEXT(array.combo));
   
   gtk_grid_attach(GTK_GRID(grid_content), button, 1,4,1,1);
-  gtk_grid_attach(GTK_GRID(grid_content), array.entry, 1,2,1,1);
-  gtk_grid_attach(GTK_GRID(grid_content), array.combo, 1,3,1,1);
+  gtk_grid_attach(GTK_GRID(grid_content), array.entry , 1,2,1,1);
+  gtk_grid_attach(GTK_GRID(grid_content), array.combo , 1,3,1,1);
 
-/*
-  gtkWidget_Array[0] = entry;
-  gtkWidget_Array[1] = combo; */
-
-  g_signal_connect (button, "clicked", G_CALLBACK (get_product) , &array);
+  g_signal_connect (button, "clicked", G_CALLBACK (get_product) , GTK_COMBO_BOX_TEXT(array.combo) );
   (void)widget;
   gtk_widget_show_all(grid_content);
 }
@@ -211,7 +202,6 @@ void event_handler(builder_and_conn *fundalentals){
 
 
 int main (int argc, char *argv[]){
-
 
   builder_and_conn builders;
 
