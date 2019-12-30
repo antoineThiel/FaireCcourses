@@ -1,10 +1,3 @@
-typedef struct builder_and_conn builder_and_conn;
+void fill_combobox_cat(GtkComboBoxText *combo);
+void fill_combobox_store(GtkComboBoxText *combo);
 
-struct builder_and_conn{
-    
-    GtkBuilder *builder;
-    MYSQL* conn;
-
-};
-
-void fill_combobox_cat(MYSQL *conn , GtkComboBoxText *combo);
