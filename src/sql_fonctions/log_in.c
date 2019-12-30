@@ -7,10 +7,10 @@
 
 
 int log_in(const gchar *id, const gchar *pass){
-  MYSQL *conn;
-  MYSQL_RES *result;
-  MYSQL_ROW row;
-  int num_fields;
+    MYSQL *conn;
+    MYSQL_RES *result;
+    MYSQL_ROW row;
+    int num_fields;
 
     char *server = "localhost";
     char *user = "root";

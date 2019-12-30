@@ -1,20 +1,7 @@
-#define SERVER "localhost"
-#define USER "root"
-#define PASSWORD "root"
-#define DATABASE "project"
-#define PREPARE_CONNECTION(connector) connector = mysql_init(NULL);\
-                                      if (!mysql_real_connect(connector, SERVER, USER, PASSWORD, DATABASE, 0, NULL, 0)) {\
-                                          fprintf(stderr, "%s\n", mysql_error(connector));\
-                                          exit(1);\
-                                      }                                 
-
 #include <gtk/gtk.h>
-#include <mysql.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../headers/sql_fonctions.h"
-#include "../headers/gtk_fonctions.h"
 #include "../headers/views.h"
 
 //Fonction pour récupérer le texte (add_product);
@@ -37,6 +24,7 @@ void event_handler(GtkBuilder *builder){
   button = GTK_WIDGET(gtk_builder_get_object(builder, "btn_store"));
   g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), builder);
 
+
 /*
   button = GTK_WIDGET(gtk_builder_get_object(builder, "btn_order"));
   g_signal_connect(button, "clicked", G_CALLBACK(win_show_order), builder);
@@ -44,6 +32,9 @@ void event_handler(GtkBuilder *builder){
 
   button = GTK_WIDGET (gtk_builder_get_object(builder, "quit"));
   g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_main_quit), window);
+
+
+
 
   gtk_widget_show(window);
 }
