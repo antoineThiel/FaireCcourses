@@ -111,7 +111,7 @@ char** get_product_list(const gchar *product){
     exit(1);
   }
 
-  result = mysql_store_result(conn);
+  result = mysql_store_result(conn);  
   data = mysql_fetch_row(result);
   
   mysql_close(conn);
@@ -120,6 +120,28 @@ char** get_product_list(const gchar *product){
   return data;
 }
   
+char** get_max_id(){
+  MYSQL* conn;
+  MYSQL_RES *results;
+  MYSQL_ROW row;
+  PREPARE_CONNECTION(conn);
+  char *start;
+  start = malloc(sizeof(char)*50);
+
+  strcpy(start, "select max(id) from `order`");
+
+  if (mysql_query(conn, start)) {
+    fprintf(stderr, "%s\n", mysql_error(conn));
+    exit(1);
+  }
+  results = mysql_store_result(conn);
+  row = mysql_fetch_row(results);
+  free(start);
+  mysql_close(conn);
+  mysql_free_result(results);
+  return row;
+
+}
 
 //SQL Creation nouvelle commande
 void start_order(MYSQL_ROW data){
@@ -173,25 +195,13 @@ void decrease(GtkWidget *widget, GtkWidget *label){
 //SQL ajout au panier def - a fix
 void def_add_cart(gchar *id_product, const gchar *quantity){
   MYSQL *conn;
-  MYSQL_RES *result;
-  MYSQL_ROW data2;
   PREPARE_CONNECTION(conn);
   char *start;
   //Rserve memory
   start = malloc(sizeof(char)*200);
 
-  strcpy(start, "select max(id) from order");
-  if (mysql_query(conn, start)) {
-    fprintf(stderr, "%s\n", mysql_error(conn));
-    exit(1);
-  }
-  result = mysql_store_result(conn);
-  data2 = mysql_fetch_row(result);
-  
   //initializing query
-  strcpy(start, "insert into product_order values(");
-  strcat(start, data2[0]);
-  strcat(start, ",");
+  strcpy(start, "insert into product_order values(NULL,");
   strcat(start, id_product);
   strcat(start, ",");
   strcat(start, quantity);
@@ -201,7 +211,6 @@ void def_add_cart(gchar *id_product, const gchar *quantity){
     fprintf(stderr, "%s\n", mysql_error(conn));
     exit(1);
   }
-
   mysql_close(conn);
   free(start);
 }
@@ -248,7 +257,10 @@ void display_search(GtkWidget *widget, GtkWidget **array){
 
   a = gtk_entry_get_text(GTK_ENTRY(array[1]));
   data = get_product_list(a);
-
+  if(data[0]==NULL){
+      printf("empty");
+  }
+  else{
   grid = GTK_WIDGET(gtk_builder_get_object(builder, "grid_results"));
   gtk_grid_insert_row (GTK_GRID(grid), 2);
   label = gtk_label_new(data[0]);
@@ -271,6 +283,7 @@ void display_search(GtkWidget *widget, GtkWidget **array){
 
 
   gtk_widget_show_all(grid);
+  }
   widget = widget;
 }
 
@@ -296,7 +309,7 @@ void win_shopping(){
   gtk_widget_show_all(window);
 }
 
-//Recupère l'id du magasin selon le nom créé une commande et affiche la nouvelle fenetre
+//Recupère l'id du magasin selon le nom, créé une commande et affiche la nouvelle fenetre
 void get_store(GtkWidget *widget, GtkWidget *combo){
   const gchar *a;
   gchar **data;
