@@ -193,7 +193,7 @@ void decrease(GtkWidget *widget, GtkWidget *label){
 }
 
 //SQL ajout au panier def - a fix
-void def_add_cart(gchar *id_product, const gchar *quantity){
+void def_add_cart(gchar *id_order,char *id_product, const gchar *quantity){
   MYSQL *conn;
   PREPARE_CONNECTION(conn);
   char *start;
@@ -201,7 +201,9 @@ void def_add_cart(gchar *id_product, const gchar *quantity){
   start = malloc(sizeof(char)*200);
 
   //initializing query
-  strcpy(start, "insert into product_order values(NULL,");
+  strcpy(start, "insert into product_order values(");
+  strcat(start, id_order);
+  strcat(start, ",");
   strcat(start, id_product);
   strcat(start, ",");
   strcat(start, quantity);
@@ -245,7 +247,7 @@ void add_to_cart(GtkWidget *widget, GtkWidget **array){
   quantity = gtk_label_get_text(GTK_LABEL(ammount));
 
   printf("\n%s", id_product[0]);
-  def_add_cart(id_product[0], quantity);
+  def_add_cart(id_order[0],temp, quantity);
   
 
   widget = widget;
