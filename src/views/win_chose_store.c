@@ -221,14 +221,25 @@ void add_to_cart(GtkWidget *widget, GtkWidget **array){
   const gchar *name;
   const gchar *quantity;
   gchar **id_product;
+  gchar **id_order;
+  char temp[10];
   GtkWidget *product_name =  array[1];
-
-  id_product = malloc(100);
 
   name = gtk_label_get_text(GTK_LABEL(product_name));
   printf("%s", name);
   id_product = get_product_id(name);
-  printf("\n%s", id_product[0]);
+  printf("\nid du produit : %s; %p", id_product[0], &id_product[0]);
+
+  strcpy(temp, id_product[0]);
+  id_order = get_max_id();
+  printf("\nid de la commande : %s; %p", id_order[0], &id_order[0]);
+
+  printf("\nid du produit : %s; %p", id_product[0], &id_product[0]);
+
+
+  printf("\nid du produit : %s; %p", temp, &temp);
+
+
 
   GtkWidget *ammount = array[0];
   quantity = gtk_label_get_text(GTK_LABEL(ammount));
