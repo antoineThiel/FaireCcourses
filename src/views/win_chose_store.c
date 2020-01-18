@@ -1,3 +1,4 @@
+//~~~~~~~~~INCLUDES~~~~~~~~~~~~~
 #include <gtk/gtk.h>
 #include <mysql.h>
 #include <stdio.h>
@@ -7,6 +8,10 @@
 #include "../../headers/gtk_fonctions.h"
 #include "../../headers/views.h"
 
+//~~~~~~~~~~~GLOBALS~~~~~~~~~~~~~
+
+extern GtkBuilder* MAIN_BUILDER;
+extern MYSQL* CONNECTOR_DB;
 
 //SQL recupère id du magasin donné en parametre
 char** get_id(const gchar *store){
@@ -231,7 +236,7 @@ void display_search(GtkWidget *widget, GtkWidget **array){
 
   const gchar *a;
   gchar **data;
-  GtkBuilder *builder = GTK_BUILDER(array[0]);
+  GtkBuilder *other_builder = GTK_BUILDER(array[0]);
   GtkWidget *grid;
   GtkWidget *label;
   GtkWidget *label2;
@@ -246,7 +251,7 @@ void display_search(GtkWidget *widget, GtkWidget **array){
       printf("empty");
   }
   else{
-  grid = GTK_WIDGET(gtk_builder_get_object(builder, "grid_results"));
+  grid = GTK_WIDGET(gtk_builder_get_object(other_builder, "grid_results"));
   gtk_grid_insert_row (GTK_GRID(grid), 2);
   label = gtk_label_new(data[0]);
   gtk_grid_attach(GTK_GRID(grid),label, 0, 2, 1, 1);
@@ -306,16 +311,16 @@ void get_store(GtkWidget *widget, GtkWidget *combo){
 }
 
 
-//Gere l'affichage du mod dans le builder principal
-void win_chose_store(GtkWidget *widget, GtkBuilder *builder){
+//Gere l'affichage du mod dans le MAIN_BUILDER principal
+void win_chose_store(GtkWidget *widget){
   GtkWidget *grid_content;
   GtkWidget *combo;
   GtkWidget *grid;
   GtkWidget *label;
   GtkWidget *button;
 
-  grid = GTK_WIDGET(gtk_builder_get_object(builder, "grid"));
-  label = GTK_WIDGET(gtk_builder_get_object(builder, "label"));
+  grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "grid"));
+  label = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "label"));
   grid_content = gtk_grid_new();
   gtk_grid_remove_column(GTK_GRID(grid), 2);
   gtk_grid_insert_column(GTK_GRID(grid), 2);

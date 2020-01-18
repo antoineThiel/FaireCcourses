@@ -1,3 +1,4 @@
+//~~~~~~~~~~~~~~~INCLUDES~~~~~~~~
 #include <gtk/gtk.h>
 #include <mysql.h>
 #include <stdio.h>
@@ -7,8 +8,9 @@
 #include "../../headers/gtk_fonctions.h"
 
 
+//~~~~~~~~~~~~~~~GLOBALS~~~~~~~~~~~~~~~
 extern MYSQL* CONNECTOR_DB;
-
+extern GtkBuilder* MAIN_BUILDER;
 
 void fill_combobox_cat(GtkComboBoxText *combo){
 

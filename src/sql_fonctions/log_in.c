@@ -1,11 +1,14 @@
- #include <stdio.h>
- #include <stdlib.h>
- #include <mysql.h>
- #include <string.h>
- #include <gtk/gtk.h>
+//~~~~~~~~~~INCLUDES~~~~~~~~~~~~
+#include <stdio.h>
+#include <stdlib.h>
+#include <mysql.h>
+#include <string.h>
+#include <gtk/gtk.h>
  
 
+//~~~~~~~~~~~~~GLOBALS~~~~~~~~~~~~~~~~~
 extern MYSQL* CONNECTOR_DB;
+extern GtkBuilder* MAIN_BUILDER;
 
 int log_in(const gchar *id, const gchar *pass){
     

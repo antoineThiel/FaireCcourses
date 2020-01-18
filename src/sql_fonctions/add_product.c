@@ -1,3 +1,4 @@
+//~~~~~~~~~~~INCLUDES~~~~~~~~~~~
 #include <mysql.h>
 #include <stdio.h>
 #include <string.h>
@@ -5,8 +6,10 @@
 #include <gtk/gtk.h>
 #include "../../headers/sql_fonctions.h"
 
-extern MYSQL* CONNECTOR_DB;
+//~~~~~~~~~~~~~GLOBALS~~~~~~~~~~~~~
 
+extern MYSQL* CONNECTOR_DB;
+extern GtkBuilder* MAIN_BUILDER;
 
 void add_product(const gchar *param, const gchar *param2) {
     

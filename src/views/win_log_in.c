@@ -1,29 +1,35 @@
+//~~~~~~INCLUDES~~~~~~~~~~~
 #include <gtk/gtk.h>
 #include <mysql.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../headers/sql_fonctions.h"
-#include "../headers/gtk_fonctions.h"
-#include "../headers/views.h"
+#include "../../headers/sql_fonctions.h"
+#include "../../headers/gtk_fonctions.h"
+#include "../../headers/views.h"
 
+//~~~~~~GLOBALS~~~~~~~~~~~~
+
+extern GtkBuilder *MAIN_BUILDER;
 
 void get_log(GtkWidget * widget, GtkWidget **array){
   GtkWidget *entry_id = array[0];
   GtkWidget *entry_pass = array[1];
-  GtkWidget *label = array[2];
+
+  GObject *btn_connexion = gtk_builder_get_object(MAIN_BUILDER , "btn_account");
+  
   const gchar *a, *b;
   a = gtk_entry_get_text(GTK_ENTRY (entry_id));
   b = gtk_entry_get_text(GTK_ENTRY (entry_pass));
   if (log_in(a, b) == 1){
-    //free(array);
-    gtk_label_set_text(GTK_LABEL(label), "Connecté");
+    
+    gtk_button_set_label(GTK_BUTTON(btn_connexion) , "yepee");
   }
   else 
-  gtk_label_set_text(GTK_LABEL(label), "Echec");
+  gtk_button_set_label(GTK_BUTTON(btn_connexion), "Nope.");
   (void) widget;
 }
-void win_log_in(GtkWidget *widget, GtkBuilder *builder){
+void win_log_in(GtkWidget *widget){
 
   GtkWidget **array;
   GtkWidget *grid;
@@ -33,8 +39,8 @@ void win_log_in(GtkWidget *widget, GtkBuilder *builder){
   GtkWidget *label;
 
   array = malloc(3 * sizeof(GtkWidget));
-  grid = GTK_WIDGET(gtk_builder_get_object(builder, "grid"));
-  label = GTK_WIDGET(gtk_builder_get_object(builder, "label"));
+  grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "grid"));
+  label = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "label"));
 
   gtk_widget_destroy(GTK_WIDGET(label));
   gtk_grid_remove_column(GTK_GRID(grid), 2);
@@ -63,4 +69,8 @@ void win_log_in(GtkWidget *widget, GtkBuilder *builder){
   
   (void)widget;
   gtk_widget_show_all(grid_content);
+}
+
+void modify_log_text(){
+
 }

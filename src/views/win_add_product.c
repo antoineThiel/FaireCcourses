@@ -1,3 +1,4 @@
+//~~~~~~~~~INCLUDES~~~~~~~~~~~~
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,6 +7,9 @@
 #include "../../headers/gtk_fonctions.h"
 #include "../../headers/views.h"
 
+
+//~~~~~~~~~~~~GLOBALS~~~~~~~~~~~~~~
+extern GtkBuilder* MAIN_BUILDER;
 
 void get_product(GtkWidget *widget, GtkWidget **array){
   
@@ -21,7 +25,7 @@ void get_product(GtkWidget *widget, GtkWidget **array){
   add_product(a,b);
 }
 
-void win_add_product(GtkWidget *widget, GtkBuilder *builder){
+void win_add_product(GtkWidget *widget){
 
   GtkWidget **array;
   GtkWidget *combo;
@@ -34,8 +38,8 @@ void win_add_product(GtkWidget *widget, GtkBuilder *builder){
 
   array = malloc(2 * sizeof(GtkWidget));
   
-  grid = GTK_WIDGET(gtk_builder_get_object(builder, "grid"));
-  label = GTK_WIDGET(gtk_builder_get_object(builder, "label"));
+  grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "grid"));
+  label = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "label"));
   grid_content = gtk_grid_new();
 
   gtk_grid_remove_column(GTK_GRID(grid), 2);
