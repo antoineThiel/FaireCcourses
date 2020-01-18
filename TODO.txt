@@ -1,3 +1,12 @@
+#############FEATURES################
+
 Faire algo labyrinthe
 afficher les articles lors de la recherche
-afficher la panier
+afficher le panier
+
+
+##############HOTFIXES##############
+
+Add minimum size to screen (menu resized after clicked on =/= buttons)
+
+change MYSQL* CONNECTOR_DB TO global variable

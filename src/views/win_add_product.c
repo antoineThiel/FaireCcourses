@@ -1,21 +1,10 @@
-#define SERVER "localhost"
-#define USER "root"
-#define PASSWORD "root"
-#define DATABASE "project"
-#define PREPARE_CONNECTION(connector) connector = mysql_init(NULL);\
-                                      if (!mysql_real_connect(connector, SERVER, USER, PASSWORD, DATABASE, 0, NULL, 0)) {\
-                                          fprintf(stderr, "%s\n", mysql_error(connector));\
-                                          exit(1);\
-                                      }                                 
-
 #include <gtk/gtk.h>
-#include <mysql.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../headers/sql_fonctions.h"
-#include "../headers/gtk_fonctions.h"
-#include "../headers/views.h"
+#include "../../headers/sql_fonctions.h"
+#include "../../headers/gtk_fonctions.h"
+#include "../../headers/views.h"
 
 
 void get_product(GtkWidget *widget, GtkWidget **array){

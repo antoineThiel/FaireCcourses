@@ -1,13 +1,3 @@
-#define SERVER "localhost"
-#define USER "root"
-#define PASSWORD "root"
-#define DATABASE "project"
-#define PREPARE_CONNECTION(connector) connector = mysql_init(NULL);\
-                                      if (!mysql_real_connect(connector, SERVER, USER, PASSWORD, DATABASE, 0, NULL, 0)) {\
-                                          fprintf(stderr, "%s\n", mysql_error(connector));\
-                                          exit(1);\
-                                      }                                 
-
 #include <gtk/gtk.h>
 #include <mysql.h>
 #include <stdio.h>
@@ -21,11 +11,9 @@
 //SQL recupère id du magasin donné en parametre
 char** get_id(const gchar *store){
     
-    MYSQL* conn;
     MYSQL_RES *result;
     MYSQL_ROW data;
 
-    PREPARE_CONNECTION(conn);
     char *start;
     char quote[2]="\""; 
     //Rserve memory
@@ -37,16 +25,15 @@ char** get_id(const gchar *store){
     strcat(start, store);
     strcat(start, quote);
 
-    if (mysql_query(conn, start)) {
-      fprintf(stderr, "%s\n", mysql_error(conn));
+    if (mysql_query(CONNECTOR_DB, start)) {
+      fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
       exit(1);
     }
 
-    result = mysql_store_result(conn);
+    result = mysql_store_result(CONNECTOR_DB);
     data = mysql_fetch_row(result);
     
 
-    mysql_close(conn);
     mysql_free_result(result);
     free(start);
     return data;
@@ -56,11 +43,9 @@ char** get_id(const gchar *store){
 //SQL Recupère id du produit donné en parametre
 char** get_product_id(const gchar *product){
     
-    MYSQL* conn;
     MYSQL_RES *result;
     MYSQL_ROW data;
 
-    PREPARE_CONNECTION(conn);
     char *start;
     char quote[2]="\""; 
     //Rserve memory
@@ -72,15 +57,14 @@ char** get_product_id(const gchar *product){
     strcat(start, product);
     strcat(start, quote);
 
-    if (mysql_query(conn, start)) {
-      fprintf(stderr, "%s\n", mysql_error(conn));
+    if (mysql_query(CONNECTOR_DB, start)) {
+      fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
       exit(1);
     }
 
-    result = mysql_store_result(conn);
+    result = mysql_store_result(CONNECTOR_DB);
     data = mysql_fetch_row(result);    
 
-    mysql_close(conn);
     mysql_free_result(result);
     free(start);
     return data;
@@ -91,10 +75,8 @@ char** get_product_id(const gchar *product){
 //SQL Retour de recherche pour le mot clé entré
 char** get_product_list(const gchar *product){
 
-  MYSQL *conn;
   MYSQL_RES *result;
   MYSQL_ROW data;
-  PREPARE_CONNECTION(conn);
   char *start;
   char quote[2]="\""; 
   //Rserve memory
@@ -106,38 +88,34 @@ char** get_product_list(const gchar *product){
   strcat(start, product);
   strcat(start, quote);
 
-  if (mysql_query(conn, start)) {
-    fprintf(stderr, "%s\n", mysql_error(conn));
+  if (mysql_query(CONNECTOR_DB, start)) {
+    fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
     exit(1);
   }
 
-  result = mysql_store_result(conn);  
+  result = mysql_store_result(CONNECTOR_DB);  
   data = mysql_fetch_row(result);
   
-  mysql_close(conn);
   mysql_free_result(result);
   free(start);
   return data;
 }
   
 char** get_max_id(){
-  MYSQL* conn;
   MYSQL_RES *results;
   MYSQL_ROW row;
-  PREPARE_CONNECTION(conn);
   char *start;
   start = malloc(sizeof(char)*50);
 
   strcpy(start, "select max(id) from `order`");
 
-  if (mysql_query(conn, start)) {
-    fprintf(stderr, "%s\n", mysql_error(conn));
+  if (mysql_query(CONNECTOR_DB, start)) {
+    fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
     exit(1);
   }
-  results = mysql_store_result(conn);
+  results = mysql_store_result(CONNECTOR_DB);
   row = mysql_fetch_row(results);
   free(start);
-  mysql_close(conn);
   mysql_free_result(results);
   return row;
 
@@ -145,19 +123,16 @@ char** get_max_id(){
 
 //SQL Creation nouvelle commande
 void start_order(MYSQL_ROW data){
-  MYSQL* conn;
-  PREPARE_CONNECTION(conn);
   char *start;
   //Rserve memory
   start = malloc(sizeof(char)*200);
   strcpy(start, "insert into `order` values(NULL,");
   strcat(start, data[0]);
   strcat(start, ", NULL, NULL)");
-  if (mysql_query(conn, start)) {
-    fprintf(stderr, "%s\n", mysql_error(conn));
+  if (mysql_query(CONNECTOR_DB, start)) {
+    fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
     exit(1);
   }
-  mysql_close(conn);
   free(start);
 }
 
@@ -194,8 +169,6 @@ void decrease(GtkWidget *widget, GtkWidget *label){
 
 //SQL ajout au panier def - a fix
 void def_add_cart(gchar *id_order,char *id_product, const gchar *quantity){
-  MYSQL *conn;
-  PREPARE_CONNECTION(conn);
   char *start;
   //Rserve memory
   start = malloc(sizeof(char)*200);
@@ -209,11 +182,10 @@ void def_add_cart(gchar *id_order,char *id_product, const gchar *quantity){
   strcat(start, quantity);
   strcat(start, ")");
 
-  if (mysql_query(conn, start)) {
-    fprintf(stderr, "%s\n", mysql_error(conn));
+  if (mysql_query(CONNECTOR_DB, start)) {
+    fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
     exit(1);
   }
-  mysql_close(conn);
   free(start);
 }
 
