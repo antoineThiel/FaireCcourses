@@ -18,38 +18,42 @@
 #include "../headers/sql_fonctions.h"
 #include "../headers/gtk_fonctions.h"
 
-void fill_combobox_cat(MYSQL *conn , GtkComboBoxText *combo){
 
-  char *query = "SELECT * FROM category";
-    MYSQL_RES *result;
-    MYSQL_ROW data;
+//Fonction pour récupérer le texte
+void get_input2(GtkWidget *widget, builder_and_conn *data){
 
-    if( !mysql_query(conn , query) ){
+  const gchar *product, *category;
 
-        result = mysql_store_result(conn);
+  GtkWidget *entry = GTK_WIDGET(gtk_builder_get_object (data->builder, "entry1") );
+  GtkWidget *combo = GTK_WIDGET(gtk_builder_get_object (data->builder, "combobox_cat") );
 
-        while( (data = mysql_fetch_row(result) ) != NULL){
-            gtk_combo_box_text_append(combo , data[0] , data[1] );
-        }
 
-    }else{
-        fprintf(stderr, "An error occured : \n%s\n", mysql_error(conn));
-        exit(1);
-    }
+  product = gtk_entry_get_text(GTK_ENTRY (entry));
+  category = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT (combo));
+  add_product(data->conn , product , category);
 
-    mysql_free_result(result);
+  widget = widget; // if we don't, it's not compiling (variable not used...)
+}
+void fill_combobox_cat(builder_and_conn *data){
+
+  GtkWidget* select_cat_btn;
+
+  select_cat_btn = GTK_WIDGET(gtk_builder_get_object(data->builder , "combobox_cat") );
+
+  select_cat_options(data->conn , GTK_COMBO_BOX_TEXT(select_cat_btn) );
 
 }
 //Fonction pour récupérer le texte (add_product);
-static void get_product(GtkWidget *widget , conn_n_2_gtk_widget *array){
+void get_product(GtkWidget *widget, GtkWidget **array){
+  
+  GtkWidget *entry = array[0];
+  GtkWidget *combo = array[1];
+  const gchar *a, *b;
+  a = gtk_entry_get_text(GTK_ENTRY (entry));
+  b = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT (combo));
+  printf("%s, %s", a, b);
   (void)widget;
-
-  GtkEntry *entry = GTK_ENTRY(array->entry);
-  GtkComboBoxText *combo = GTK_COMBO_BOX_TEXT(array->combo);
-
-  printf("%s" ,gtk_entry_get_text( entry) );
-  printf("%s" ,gtk_combo_box_text_get_active_text( GTK_COMBO_BOX_TEXT(combo) ) );
-  // printf( "%li \n %li" , sizeof(entry) , sizeof(combo));
+  //add_product(a,b);
 }
 void get_log(GtkWidget * widget, GtkWidget **array){
   GtkWidget *entry_id = array[0];
@@ -68,52 +72,44 @@ void get_log(GtkWidget * widget, GtkWidget **array){
 }
 void win_add_product(GtkWidget *widget, builder_and_conn *builders){
 
-  conn_n_2_gtk_widget array;
-  // array.conn = builders->conn;
-
+  GtkWidget **gtkWidget_Array;
   GtkWidget *grid;
   GtkWidget *grid_content;
   GtkWidget *button;
+  GtkWidget *combo;
+  GtkWidget *entry;
   GtkWidget *label;
+
+  gtkWidget_Array = malloc(2 * sizeof(GtkWidget));
   
   grid = GTK_WIDGET(gtk_builder_get_object(builders->builder, "grid"));
   label = GTK_WIDGET(gtk_builder_get_object(builders->builder, "label"));
   grid_content = gtk_grid_new();
-
   gtk_widget_destroy(GTK_WIDGET(label));
-
-// TODO
   gtk_grid_remove_column(GTK_GRID(grid), 2);
   gtk_grid_insert_column(GTK_GRID(grid), 2);
   gtk_grid_attach(GTK_GRID(grid), grid_content, 2,0,1,1);
   button = gtk_button_new_with_label("Ajouter");
-
-  array.entry = gtk_entry_new();
-
-  array.combo = gtk_combo_box_text_new();
-
+  entry = gtk_entry_new();
+  combo = gtk_combo_box_text_new();
   label = gtk_label_new("Nom du produit");
   gtk_grid_attach(GTK_GRID(grid_content), label, 0,2,1,1);
-
   label = gtk_label_new("Categorie");
   gtk_grid_attach(GTK_GRID(grid_content), label, 0,3,1,1);
-// ~~~~~~~~~~~~~  replace this code with an xml file insertion  
-
-  fill_combobox_cat(builders->conn , GTK_COMBO_BOX_TEXT(array.combo));
+  
+  gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(combo), NULL, "Fruit");
+  gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(combo), NULL, "Boisson");
+  gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(combo), NULL, "Bonbon");
   
   gtk_grid_attach(GTK_GRID(grid_content), button, 1,4,1,1);
-
-  gtk_grid_attach(GTK_GRID(grid_content), array.entry, 1,2,1,1);
-
-  gtk_grid_attach(GTK_GRID(grid_content), array.combo, 1,3,1,1);
+  gtk_grid_attach(GTK_GRID(grid_content), entry, 1,2,1,1);
+  gtk_grid_attach(GTK_GRID(grid_content), combo, 1,3,1,1);
 
 
-/*
   gtkWidget_Array[0] = entry;
-  gtkWidget_Array[1] = combo; */
+  gtkWidget_Array[1] = combo;
 
-  printf("%p %p %p" , &array , array.combo , array.entry);
-  g_signal_connect (button, "clicked", G_CALLBACK (get_product) , &array );
+  g_signal_connect (button, "clicked", G_CALLBACK (get_product) , gtkWidget_Array);
   (void)widget;
   gtk_widget_show_all(grid_content);
 }
@@ -179,56 +175,80 @@ void win_show_order(){
 
   gtk_widget_show(window);
 }
-void event_handler(builder_and_conn *fundalentals){
-  
-  GtkWidget *window;
-  GtkWidget *button;
-
-  //Destroying the window 
-  window = GTK_WIDGET(gtk_builder_get_object (fundalentals->builder, "window"));
-  g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
-
-  //Get the buttons and apply usefulnes
-  button = GTK_WIDGET(gtk_builder_get_object(fundalentals->builder, "btn_add_product"));
-  g_signal_connect (button, "clicked", G_CALLBACK(win_add_product), fundalentals);
-
-  button = GTK_WIDGET(gtk_builder_get_object(fundalentals->builder, "btn_account"));
-  g_signal_connect (button, "clicked", G_CALLBACK(win_log_in), fundalentals);
-
-  button = GTK_WIDGET(gtk_builder_get_object(fundalentals->builder, "btn_store"));
-  g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), NULL);
-
-  button = GTK_WIDGET(gtk_builder_get_object(fundalentals->builder, "btn_order"));
-  g_signal_connect(button, "clicked", G_CALLBACK(win_show_order), NULL);
-
-
-  button = GTK_WIDGET (gtk_builder_get_object(fundalentals->builder, "quit"));
-  g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_main_quit), window);
-
-  gtk_widget_show(window);
-}
 
 
 int main (int argc, char *argv[]){
 
 
   builder_and_conn builders;
+  GtkWidget *window;
+  GtkWidget *button;
 
   gtk_init (&argc, &argv);
-
-
-  PREPARE_CONNECTION(builders.conn);
 
   /* Construct a GtkBuilder instance and load our UI description */
   builders.builder = gtk_builder_new_from_file ("./glade/window_main.glade");
 
-  event_handler(&builders);
+  //Destroying the window 
+  window = GTK_WIDGET(gtk_builder_get_object (builders.builder, "window"));
+  g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
 
+  //Get the buttons and apply usefulnes
+  button = GTK_WIDGET(gtk_builder_get_object(builders.builder, "btn_add_product"));
+  g_signal_connect (button, "clicked", G_CALLBACK(win_add_product), &builders);
+
+  button = GTK_WIDGET(gtk_builder_get_object(builders.builder, "btn_account"));
+  g_signal_connect (button, "clicked", G_CALLBACK(win_log_in), &builders);
+
+  button = GTK_WIDGET(gtk_builder_get_object(builders.builder, "btn_store"));
+  g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), NULL);
+
+  button = GTK_WIDGET(gtk_builder_get_object(builders.builder, "btn_order"));
+  g_signal_connect(button, "clicked", G_CALLBACK(win_show_order), NULL);
+
+
+  button = GTK_WIDGET (gtk_builder_get_object(builders.builder, "quit"));
+  g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_main_quit), window);
+
+  gtk_widget_show(window);
   gtk_main ();
-
-  mysql_close(builders.conn);
-
 
   return 0;
 }
 
+
+int main (int argc, char *argv[]){
+
+
+  builder_and_conn gtkWidget_Array;
+
+  GtkWidget *window;
+  GObject *button;
+
+  
+  PREPARE_CONNECTION(gtkWidget_Array.conn);
+
+  gtk_init (&argc, &argv);
+  /* Construct a GtkBuilder instance and load our UI description */
+  gtkWidget_Array.builder = gtk_builder_new_from_file ("./glade/window_main.glade");
+
+  window = GTK_WIDGET(gtk_builder_get_object (gtkWidget_Array.builder, "window"));
+  //Event Destroying the window 
+  g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+
+
+  //Add the add-product fonction to the button 1
+  button = gtk_builder_get_object (gtkWidget_Array.builder, "btn_add");
+
+  fill_combobox_cat(&gtkWidget_Array);
+
+  //Bouton clické
+  g_signal_connect (button, "clicked", G_CALLBACK (get_input2), &gtkWidget_Array  );
+
+  gtk_widget_show(window);
+  gtk_main ();
+
+
+  mysql_close(gtkWidget_Array.conn);
+  return 0;
+}

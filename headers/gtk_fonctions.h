@@ -15,6 +15,6 @@ struct conn_n_2_gtk_widget{
     
     GtkWidget *entry;
     GtkWidget *combo;
-    MYSQL* conn;
+    //MYSQL* conn;
 };
 
