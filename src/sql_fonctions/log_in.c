@@ -39,7 +39,7 @@ int log_in(const gchar *id, const gchar *pass){
   result = mysql_store_result(CONNECTOR_DB);
   num_fields = mysql_num_rows(result);
 
-  if(num_fields == 0){
+  if(num_fields == 0){ // failed
     free(start);
     return 0;
   }

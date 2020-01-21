@@ -11,6 +11,8 @@
 //~~~~~~GLOBALS~~~~~~~~~~~~
 
 extern GtkBuilder *MAIN_BUILDER;
+extern SESSION USER_DATA;
+
 
 void get_log(GtkWidget * widget, GtkWidget **array){
   GtkWidget *entry_id = array[0];
@@ -21,9 +23,10 @@ void get_log(GtkWidget * widget, GtkWidget **array){
   const gchar *a, *b;
   a = gtk_entry_get_text(GTK_ENTRY (entry_id));
   b = gtk_entry_get_text(GTK_ENTRY (entry_pass));
-  if (log_in(a, b) == 1){
+  if ( (USER_DATA.IS_CONNECTED = log_in(a, b) ) ){
     
     gtk_button_set_label(GTK_BUTTON(btn_connexion) , "yepee");
+    
   }
   else 
   gtk_button_set_label(GTK_BUTTON(btn_connexion), "Nope.");
