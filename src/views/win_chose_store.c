@@ -12,6 +12,7 @@
 
 extern GtkBuilder* MAIN_BUILDER;
 extern MYSQL* CONNECTOR_DB;
+extern SESSION USER_DATA;
 
 //SQL recupère id du magasin donné en parametre
 char** get_id(const gchar *store){
@@ -318,31 +319,37 @@ void win_chose_store(GtkWidget *widget){
   GtkWidget *grid;
   GtkWidget *label;
   GtkWidget *button;
+  if(USER_DATA.IS_CONNECTED){
+    grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "grid"));
+    label = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "label"));
+    grid_content = gtk_grid_new();
+    gtk_grid_remove_column(GTK_GRID(grid), 2);
+    gtk_grid_insert_column(GTK_GRID(grid), 2);
+    gtk_grid_attach(GTK_GRID(grid), grid_content, 2,0,1,1);
+    
+    combo = gtk_combo_box_text_new();
+    fill_combobox_store(GTK_COMBO_BOX_TEXT(combo));
+    gtk_grid_attach(GTK_GRID(grid_content), combo, 1,2,1,1);
+    label = gtk_label_new("Nom du magasin");
+    gtk_grid_attach(GTK_GRID(grid_content), label, 0,2,1,1);
+    button = gtk_button_new_with_label("Commencer");
+    gtk_grid_attach(GTK_GRID(grid_content), button, 1,3,1,1);
 
-  grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "grid"));
-  label = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "label"));
-  grid_content = gtk_grid_new();
-  gtk_grid_remove_column(GTK_GRID(grid), 2);
-  gtk_grid_insert_column(GTK_GRID(grid), 2);
-  gtk_grid_attach(GTK_GRID(grid), grid_content, 2,0,1,1);
+
+    g_signal_connect(button, "clicked", G_CALLBACK(get_store), combo);
+
+    //Recupérer la selection du select et lancer une fonction pour commencer les courses ?
+    //Ouvrir une nouvelle fenetre avec une barre de recherche et une liste sur la gauche avec un panier qui s'agrandit
+    //au fur et a mesure que l'utilisateur rajoute des produits ? :)
+
+    gtk_widget_show_all(grid_content);
+
+
+    (void)widget;
+  }
+  else
+  {
+    g_print("You need to log first \n");
+  }
   
-  combo = gtk_combo_box_text_new();
-  fill_combobox_store(GTK_COMBO_BOX_TEXT(combo));
-  gtk_grid_attach(GTK_GRID(grid_content), combo, 1,2,1,1);
-  label = gtk_label_new("Nom du magasin");
-  gtk_grid_attach(GTK_GRID(grid_content), label, 0,2,1,1);
-  button = gtk_button_new_with_label("Commencer");
-  gtk_grid_attach(GTK_GRID(grid_content), button, 1,3,1,1);
-
-
-  g_signal_connect(button, "clicked", G_CALLBACK(get_store), combo);
-
-  //Recupérer la selection du select et lancer une fonction pour commencer les courses ?
-  //Ouvrir une nouvelle fenetre avec une barre de recherche et une liste sur la gauche avec un panier qui s'agrandit
-  //au fur et a mesure que l'utilisateur rajoute des produits ? :)
-
-  gtk_widget_show_all(grid_content);
-
-
-  (void)widget;
 }

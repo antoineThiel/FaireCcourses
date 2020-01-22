@@ -4,6 +4,8 @@ Faire algo labyrinthe
 afficher les articles lors de la recherche
 afficher le panier
 
+lors de l'echec d'un log , créer fonction generateLogError (camel/snake ???) qui ecrit au centre de l'app un text de refus
+
 
 ##############HOTFIXES##############
 

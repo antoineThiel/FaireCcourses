@@ -4,6 +4,7 @@ void fill_combobox_store(GtkComboBoxText *combo);
 struct SESSION{
     int IS_CONNECTED; // initially disconnected
     char* CURRENT_SHOP;
+    int ADMIN; //allows =/= rights
 };
 
 typedef struct SESSION SESSION;

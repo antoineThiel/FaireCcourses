@@ -37,19 +37,18 @@ void event_handler(){
 
   //Get the buttons and apply usefulnes
   button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_add_product"));
-  g_signal_connect (button, "clicked", G_CALLBACK(win_add_product), MAIN_BUILDER);
+  g_signal_connect (button, "clicked", G_CALLBACK(win_add_product), NULL);
 
   button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_account"));
-  g_signal_connect (button, "clicked", G_CALLBACK(win_log_in),MAIN_BUILDER );
+  g_signal_connect (button, "clicked", G_CALLBACK(win_log_in),NULL );
 
   button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_store"));
-  g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), MAIN_BUILDER);
+  g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), NULL);
 
 
-/*
   button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_order"));
   g_signal_connect(button, "clicked", G_CALLBACK(win_show_order), MAIN_BUILDER);
-*/
+
 
   button = GTK_WIDGET (gtk_builder_get_object(MAIN_BUILDER, "quit"));
   g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_main_quit), window);

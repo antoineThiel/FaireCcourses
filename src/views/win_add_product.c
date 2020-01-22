@@ -72,6 +72,8 @@ void win_add_product(GtkWidget *widget){
     gtk_widget_show_all(grid_content);
   }
   else{
-    printf("You need to log first");
+    g_print("You need to log first");
   }
 }
+
+
