@@ -1,12 +1,5 @@
 //~~~~~~INCLUDES~~~~~~~~~~~
-#include <gtk/gtk.h>
-#include <mysql.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "../../headers/sql_fonctions.h"
-#include "../../headers/gtk_fonctions.h"
-#include "../../headers/views.h"
+    #include "../../headers/all.h"
 
 //~~~~~~GLOBALS~~~~~~~~~~~~
 

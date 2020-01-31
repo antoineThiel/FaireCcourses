@@ -1,11 +1,5 @@
 //~~~~~~~~~~~INCLUDES~~~~~~~~~~~
-#include <mysql.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <gtk/gtk.h>
-#include "../../headers/sql_fonctions.h"
-
+    #include "../../headers/all.h"
 //~~~~~~~~~~~~~GLOBALS~~~~~~~~~~~~~
 
 extern MYSQL* CONNECTOR_DB;
