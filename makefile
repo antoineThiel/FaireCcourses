@@ -18,5 +18,5 @@ total:
 
 
 
-lauch:
+launch:
 	./bin/total
