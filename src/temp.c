@@ -1,22 +1,5 @@
-#define SERVER "localhost"
-#define USER "root"
-#define PASSWORD "root"
-#define DATABASE "project"
-
-#define PREPARE_CONNECTION(connector) connector = mysql_init(NULL);\
-                                      if (!mysql_real_connect(connector, SERVER, USER, PASSWORD, DATABASE, 0, NULL, 0)) {\
-                                          fprintf(stderr, "%s\n", mysql_error(connector));\
-                                          exit(1);\
-                                      }
-                                 
-
-#include <gtk/gtk.h>
-#include <mysql.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "../headers/sql_fonctions.h"
-#include "../headers/gtk_fonctions.h"
+/* //~~~~~~INCLUDES~~~~~~~~~~~
+    #include "../headers/all.h"
 
 
 //Fonction pour récupérer le texte
@@ -81,7 +64,8 @@ void win_add_product(GtkWidget *widget, builder_and_conn *builders){
   GtkWidget *label;
 
   gtkWidget_Array = malloc(2 * sizeof(GtkWidget));
-  
+  check_malloc(gtkWidget_array);
+
   grid = GTK_WIDGET(gtk_builder_get_object(builders->builder, "grid"));
   label = GTK_WIDGET(gtk_builder_get_object(builders->builder, "label"));
   grid_content = gtk_grid_new();
@@ -123,6 +107,7 @@ void win_log_in(GtkWidget *widget, builder_and_conn *builders){
   GtkWidget *label;
 
   array = malloc(3 * sizeof(GtkWidget));
+  check_malloc(array);
   grid = GTK_WIDGET(gtk_builder_get_object(builders->builder, "grid"));
   label = GTK_WIDGET(gtk_builder_get_object(builders->builder, "label"));
 
@@ -184,10 +169,10 @@ int main (int argc, char *argv[]){
   GtkWidget *window;
   GtkWidget *button;
 
-  gtk_init (&argc, &argv);
+  gtk_init (&argc, &argv);*/
 
   /* Construct a GtkBuilder instance and load our UI description */
-  builders.builder = gtk_builder_new_from_file ("./glade/window_main.glade");
+/*  builders.builder = gtk_builder_new_from_file ("./glade/window_main.glade");
 
   //Destroying the window 
   window = GTK_WIDGET(gtk_builder_get_object (builders.builder, "window"));
@@ -228,9 +213,9 @@ int main (int argc, char *argv[]){
   
   PREPARE_CONNECTION(gtkWidget_Array.conn);
 
-  gtk_init (&argc, &argv);
+  gtk_init (&argc, &argv);*/
   /* Construct a GtkBuilder instance and load our UI description */
-  gtkWidget_Array.builder = gtk_builder_new_from_file ("./glade/window_main.glade");
+/*  gtkWidget_Array.builder = gtk_builder_new_from_file ("./glade/window_main.glade");
 
   window = GTK_WIDGET(gtk_builder_get_object (gtkWidget_Array.builder, "window"));
   //Event Destroying the window 
@@ -251,4 +236,4 @@ int main (int argc, char *argv[]){
 
   mysql_close(gtkWidget_Array.conn);
   return 0;
-}
+} */

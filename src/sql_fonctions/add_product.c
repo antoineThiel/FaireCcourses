@@ -13,6 +13,7 @@ void add_product(const gchar *param, const gchar *param2) {
     char quote[2]="\""; 
     //Rserve memory
     start = malloc(sizeof(char)*200);
+    check_malloc(start);
     
     //initializing query
     strcpy(start, "insert into product values(NULL");

@@ -35,6 +35,7 @@ void win_log_in(GtkWidget *widget){
   GtkWidget *label;
 
   array = malloc(3 * sizeof(GtkWidget));
+  check_malloc(array);
   grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "grid"));
   label = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "label"));
 

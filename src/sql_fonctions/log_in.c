@@ -14,6 +14,7 @@ int log_in(const gchar *id, const gchar *pass){
   char quote[2]="\"";
 
   start = malloc(sizeof(char)*200);
+  check_malloc(start);
 
   strcpy(start, "select * from customer where username=");
   strcat(start, quote);

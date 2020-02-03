@@ -14,7 +14,7 @@ void win_show_order(GtkWidget *widget){
         //DO SOMETHING
     }
     else{
-        g_print("You need to log first \n");
+        print_error();
     }
 
 }

@@ -34,6 +34,7 @@ void win_add_product(GtkWidget *widget){
 
     if(USER_DATA.IS_CONNECTED){
     array = malloc(2 * sizeof(GtkWidget));
+    check_malloc(array);
     
     grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "grid"));
     label = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "label"));
@@ -65,8 +66,8 @@ void win_add_product(GtkWidget *widget){
     (void)widget;
     gtk_widget_show_all(grid_content);
   }
-  else{
-    g_print("You need to log first");
+  else{ 
+    print_error();
   }
 }
 

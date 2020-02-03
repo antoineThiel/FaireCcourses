@@ -17,7 +17,7 @@ char** get_id(const gchar *store){
     char quote[2]="\""; 
     //Rserve memory
     start = malloc(sizeof(char)*200);
-    
+    check_malloc(start);
     //initializing query
     strcpy(start, "select id from store where name =");
     strcat(start, quote);
@@ -49,6 +49,7 @@ char** get_product_id(const gchar *product){
     char quote[2]="\""; 
     //Rserve memory
     start = malloc(sizeof(char)*200);
+    check_malloc(start);
     
     //initializing query
     strcpy(start, "select id from product where name =");
@@ -80,6 +81,7 @@ char** get_product_list(const gchar *product){
   char quote[2]="\""; 
   //Rserve memory
   start = malloc(sizeof(char)*200);
+  check_malloc(start);
   
   //initializing query
   strcpy(start, "select name from product where name =");
@@ -105,6 +107,7 @@ char** get_max_id(){
   MYSQL_ROW row;
   char *start;
   start = malloc(sizeof(char)*50);
+  check_malloc(start);
 
   strcpy(start, "select max(id) from `order`");
 
@@ -125,6 +128,8 @@ void start_order(MYSQL_ROW data){
   char *start;
   //Rserve memory
   start = malloc(sizeof(char)*200);
+  check_malloc(start);
+
   strcpy(start, "insert into `order` values(NULL,");
   strcat(start, data[0]);
   strcat(start, ", NULL, NULL)");
@@ -171,6 +176,7 @@ void def_add_cart(gchar *id_order,char *id_product, const gchar *quantity){
   char *start;
   //Rserve memory
   start = malloc(sizeof(char)*200);
+  check_malloc(start);
 
   //initializing query
   strcpy(start, "insert into product_order values(");
@@ -238,6 +244,7 @@ void display_search(GtkWidget *widget, GtkWidget **array){
   GtkWidget **array2;
 
   array2 = malloc( 2* sizeof(GtkWidget));
+  check_malloc(array2);
 
   a = gtk_entry_get_text(GTK_ENTRY(array[1]));
   data = get_product_list(a);
@@ -280,6 +287,8 @@ void win_shopping(){
   GtkWidget **array;
 
   array = malloc (2 * sizeof(GtkWidget));
+  check_malloc(array);
+
   builder = gtk_builder_new_from_file("./glade/window_shop.glade");
   window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
   entry = GTK_WIDGET(gtk_builder_get_object(builder, "search_entry"));
@@ -342,7 +351,7 @@ void win_chose_store(GtkWidget *widget){
   }
   else
   {
-    g_print("You need to log first \n");
+    print_error();
   }
   
 }
