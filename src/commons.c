@@ -20,6 +20,6 @@ void check_fopen(FILE* pf){
 }
 
 bool is_whitespace(const char letter){
-
+    // whitespace? 1 : 0  (translation ;) )
     return strchr(" \t\n\v\f\r" , letter) != NULL ;
 }

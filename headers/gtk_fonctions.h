@@ -1,4 +1,3 @@
-//
 //~~~~~~~~~~~~DEFINES~~~~~~~~~~~~
     #define SERVER "localhost"
     #define USER "root"
