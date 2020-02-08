@@ -76,13 +76,13 @@ char** get_product_id(const gchar *product){
 char** get_product_list(const gchar *product){
 
   MYSQL_RES *result;
-  MYSQL_ROW data;
+  MYSQL_ROW data = NULL;
+  __uint64_t line_counter = 0;
   char *start;
   char quote[2]="\""; 
   //Rserve memory
   start = malloc(sizeof(char)*200);
-  check_malloc(start);
-  
+  check_malloc(start);  
   //initializing query
   strcpy(start, "select name from product where name =");
   strcat(start, quote);
@@ -90,16 +90,23 @@ char** get_product_list(const gchar *product){
   strcat(start, quote);
 
   if (mysql_query(CONNECTOR_DB, start)) {
+    g_print("%s" , product);
+
     fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
     exit(1);
   }
 
   result = mysql_store_result(CONNECTOR_DB);  
-  data = mysql_fetch_row(result);
-  
-  mysql_free_result(result);
-  free(start);
+  line_counter = mysql_num_rows(result);
+  if(line_counter != 0){  
+    data = mysql_fetch_row(result);
+    mysql_free_result(result);
+    free(start);
+
+  }
+
   return data;
+
 }
   
 char** get_max_id(){
@@ -242,7 +249,7 @@ void add_to_cart(GtkWidget *widget, GtkWidget **array){
 void display_search(GtkWidget *widget, GtkWidget **array){
 
   const gchar *a;
-  gchar **data;
+  char **data;
   GtkWidget *grid;
   GtkWidget *label;
   GtkWidget *label2;
@@ -254,8 +261,9 @@ void display_search(GtkWidget *widget, GtkWidget **array){
 
   a = gtk_entry_get_text(GTK_ENTRY(array[1]));
   data = get_product_list(a);
-  if(data[0]==NULL){
-      printf("empty");
+
+  if(data==NULL){
+      g_print("empty");
   }
   else{
 
