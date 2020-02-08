@@ -1,4 +1,3 @@
-
 typedef struct FILE_representation{
 
     //qty of bits / line
