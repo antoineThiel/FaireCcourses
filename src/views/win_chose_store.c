@@ -359,9 +359,15 @@ void win_chose_store(GtkWidget *widget){
   if(USER_DATA.IS_CONNECTED){
     grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "base_grid"));
 
-    gtk_grid_remove_column(GTK_GRID(grid), 1);
-    gtk_grid_insert_column(GTK_GRID(grid), 1);
-
+    if (USER_DATA.CURRENT_GRID != NULL)
+    {
+      gtk_widget_destroy(USER_DATA.CURRENT_GRID);
+    }
+    else{
+      gtk_grid_remove_column(GTK_GRID(grid), 1);
+      gtk_grid_insert_column(GTK_GRID(grid), 1);
+    }
+    
     grid_content = gtk_grid_new();
     USER_DATA.CURRENT_GRID = grid_content;
     gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,3,1);
