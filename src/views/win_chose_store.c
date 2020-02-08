@@ -84,7 +84,7 @@ char** get_product_list(const gchar *product){
   check_malloc(start);
   
   //initializing query
-  strcpy(start, "select name from product where name =");
+  strcpy(start, "select name, category, price from product where name =");
   strcat(start, quote);
   strcat(start, product);
   strcat(start, quote);
@@ -194,7 +194,7 @@ void def_add_cart(gchar *id_order,char *id_product, const gchar *quantity){
   free(start);
 }
 
-void see_order(const gchar *name, const gchar *ammount, GtkWidget *grid){
+void see_order(const gchar *name, const gchar *ammount, const gchar *price, GtkWidget *grid){
 
   
   GtkWidget *label;
@@ -205,6 +205,10 @@ void see_order(const gchar *name, const gchar *ammount, GtkWidget *grid){
 
   label = gtk_label_new(ammount);
   gtk_grid_attach(GTK_GRID(grid), label, 1,2,1,1);
+
+  label = gtk_label_new(price);
+  gtk_grid_insert_column(GTK_GRID(grid), 2);
+  gtk_grid_attach(GTK_GRID(grid), label, 3, 2, 1, 1);
   gtk_widget_show_all(grid);
 
 }
@@ -215,10 +219,13 @@ void add_to_cart(GtkWidget *widget, GtkWidget **array){
 
   const gchar *name;
   const gchar *quantity;
+  const gchar *price;
   gchar **id_product;
   gchar **id_order;
   char temp[10];
   GtkWidget *product_name =  array[1];
+  GtkWidget *price_product = array[3];
+  price = gtk_label_get_text(GTK_LABEL(price_product));
 
   name = gtk_label_get_text(GTK_LABEL(product_name));
   id_product = get_product_id(name);
@@ -232,7 +239,7 @@ void add_to_cart(GtkWidget *widget, GtkWidget **array){
 
   def_add_cart(id_order[0],temp, quantity);
   
-  see_order(name, quantity, array[2]);
+  see_order(name, quantity, price, array[2]);
 
   widget = widget;
 
@@ -246,6 +253,7 @@ void display_search(GtkWidget *widget, GtkWidget **array){
   GtkWidget *grid;
   GtkWidget *label;
   GtkWidget *label2;
+  GtkWidget *label3;
   GtkWidget *button;
   GtkWidget **array2;
 
@@ -262,28 +270,44 @@ void display_search(GtkWidget *widget, GtkWidget **array){
   //Grille + ajout ligne
   grid = GTK_WIDGET(array[0]);
   gtk_grid_remove_row(GTK_GRID(grid), 2);
+  gtk_grid_remove_row(GTK_GRID(grid), 2);
+  gtk_grid_remove_row(GTK_GRID(grid), 2);
+  gtk_grid_insert_row (GTK_GRID(grid), 2);
+  gtk_grid_insert_row (GTK_GRID(grid), 2);
   gtk_grid_insert_row (GTK_GRID(grid), 2);
   
   //Nom
   label = gtk_label_new(data[0]);
   gtk_grid_attach(GTK_GRID(grid),label, 0, 2, 1, 1);
+
+  //Category
+  label = gtk_label_new(data[1]);
+  gtk_grid_attach(GTK_GRID(grid),label, 1, 2, 1, 1);
+
+  //Price
+  strcat(data[2], "€");
+  label = gtk_label_new(data[2]);
+  gtk_grid_attach(GTK_GRID(grid),label, 2, 2, 1, 1);
+  
   
   //Quantity
   button = gtk_button_new_with_label("-");
-  gtk_grid_attach(GTK_GRID(grid),button, 1, 2, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid),button, 0, 3, 1, 1);
   label = gtk_label_new("1");
   g_signal_connect(button, "clicked", G_CALLBACK(decrease), label);
-  gtk_grid_attach(GTK_GRID(grid),label, 2, 2, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid),label, 1, 3, 1, 1);
   button = gtk_button_new_with_label("+");
   g_signal_connect(button, "clicked", G_CALLBACK(increase), label);
-  gtk_grid_attach(GTK_GRID(grid),button, 3, 2, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid),button, 2, 3, 1, 1);
   button = gtk_button_new_with_label("Ajouter");
-  gtk_grid_attach(GTK_GRID(grid),button, 4, 2, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid),button, 0, 4, 3, 1);
   
   
   label2 = gtk_label_new(data[0]);
+  label3 = gtk_label_new(data[2]);
   array2[0] = label;  //Quantity
   array2[1] = label2; //Name
+  array2[3] = label3; //Price
   array2[2] = array[2];   //grid_results
   g_signal_connect(button, "clicked", G_CALLBACK(add_to_cart), array2);
   
@@ -383,13 +407,6 @@ void win_chose_store(GtkWidget *widget){
     gtk_widget_show_all(grid_content);
 
     g_signal_connect(button, "clicked", G_CALLBACK(get_store), combo);
-
-    //Recupérer la selection du select et lancer une fonction pour commencer les courses ?
-    //Ouvrir une nouvelle fenetre avec une barre de recherche et une liste sur la gauche avec un panier qui s'agrandit
-    //au fur et a mesure que l'utilisateur rajoute des produits ? :)
-
-   
-
 
     (void)widget;
   }
