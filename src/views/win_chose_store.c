@@ -76,13 +76,13 @@ char** get_product_id(const gchar *product){
 char** get_product_list(const gchar *product){
 
   MYSQL_RES *result;
-  MYSQL_ROW data;
+  MYSQL_ROW data = NULL;
+  __uint64_t line_counter = 0;
   char *start;
   char quote[2]="\""; 
   //Rserve memory
   start = malloc(sizeof(char)*200);
-  check_malloc(start);
-  
+  check_malloc(start);  
   //initializing query
   strcpy(start, "select name, category, price from product where name =");
   strcat(start, quote);
@@ -90,16 +90,23 @@ char** get_product_list(const gchar *product){
   strcat(start, quote);
 
   if (mysql_query(CONNECTOR_DB, start)) {
+    g_print("%s" , product);
+
     fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
     exit(1);
   }
 
   result = mysql_store_result(CONNECTOR_DB);  
-  data = mysql_fetch_row(result);
-  
-  mysql_free_result(result);
-  free(start);
+  line_counter = mysql_num_rows(result);
+  if(line_counter != 0){  
+    data = mysql_fetch_row(result);
+    mysql_free_result(result);
+    free(start);
+
+  }
+
   return data;
+
 }
   
 char** get_max_id(){
@@ -248,7 +255,7 @@ void add_to_cart(GtkWidget *widget, GtkWidget **array){
 void display_search(GtkWidget *widget, GtkWidget **array){
 
   const gchar *a;
-  gchar **data;
+  char **data;
   GtkWidget *grid;
   GtkWidget *label;
   GtkWidget *label2;
@@ -261,13 +268,22 @@ void display_search(GtkWidget *widget, GtkWidget **array){
 
   a = gtk_entry_get_text(GTK_ENTRY(array[1]));
   data = get_product_list(a);
-  if(data[0]==NULL){
-      printf("empty");
+
+  grid = GTK_WIDGET(array[0]);
+
+  if(data==NULL){
+    g_print("empty");
+    gtk_grid_remove_row(GTK_GRID(grid), 2);
+    gtk_grid_remove_row(GTK_GRID(grid), 2);
+    gtk_grid_remove_row(GTK_GRID(grid), 2);
+    gtk_grid_insert_row (GTK_GRID(grid), 2);
+    label = gtk_label_new("Sa nanes xiste pas! eh");
+    gtk_grid_attach(GTK_GRID(grid) , label , 0 , 2 , 3 , 1);
+
   }
   else{
 
   //Grille + ajout ligne
-  grid = GTK_WIDGET(array[0]);
   gtk_grid_remove_row(GTK_GRID(grid), 2);
   gtk_grid_remove_row(GTK_GRID(grid), 2);
   gtk_grid_remove_row(GTK_GRID(grid), 2);
@@ -311,9 +327,9 @@ void display_search(GtkWidget *widget, GtkWidget **array){
   g_signal_connect(button, "clicked", G_CALLBACK(add_to_cart), array2);
   
 
-
-  gtk_widget_show_all(grid);
   }
+  gtk_widget_show_all(grid);
+
   widget = widget;
 }
 
