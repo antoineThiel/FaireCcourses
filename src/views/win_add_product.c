@@ -5,6 +5,7 @@
 //~~~~~~~~~~~~GLOBALS~~~~~~~~~~~~~~
 extern GtkBuilder* MAIN_BUILDER;
 extern SESSION USER_DATA;
+extern ORDER ORDER_DATA;
 
 
 void get_product(GtkWidget *widget, GtkWidget **array){
@@ -38,9 +39,9 @@ void win_add_product(GtkWidget *widget){
     
     grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "base_grid"));
     
-    if (USER_DATA.CURRENT_GRID != NULL)
+    if (ORDER_DATA.CURRENT_GRID != NULL)
     {
-      gtk_widget_destroy(USER_DATA.CURRENT_GRID);
+      gtk_widget_destroy(ORDER_DATA.CURRENT_GRID);
     }
     else{
       gtk_grid_remove_column(GTK_GRID(grid), 1);
@@ -48,7 +49,7 @@ void win_add_product(GtkWidget *widget){
     }
     
     grid_content = gtk_grid_new();
-    USER_DATA.CURRENT_GRID = grid_content;
+    ORDER_DATA.CURRENT_GRID = grid_content;
     gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,2,3);
 
     button = gtk_button_new_with_label("Ajouter");

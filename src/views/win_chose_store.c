@@ -6,6 +6,14 @@
 extern GtkBuilder* MAIN_BUILDER;
 extern MYSQL* CONNECTOR_DB;
 extern SESSION USER_DATA;
+extern ORDER ORDER_DATA;
+
+void set_label_price(){
+
+  char text[20];
+  sprintf(text, "Total : %.2lf €", ORDER_DATA.TOTAL_PRICE);
+  gtk_label_set_text(GTK_LABEL(ORDER_DATA.PRICE), text);
+}
 
 //SQL recupère id du magasin donné en parametre
 char** get_id(const gchar *store){
@@ -139,7 +147,7 @@ void start_order(MYSQL_ROW data){
 
   strcpy(start, "insert into `order` values(NULL,");
   strcat(start, data[0]);
-  strcat(start, ", NULL, NULL)");
+  strcat(start, ", NULL, NULL, 0)");
   if (mysql_query(CONNECTOR_DB, start)) {
     fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
     exit(1);
@@ -201,7 +209,7 @@ void def_add_cart(gchar *id_order,char *id_product, const gchar *quantity){
   free(start);
 }
 
-void see_order(const gchar *name, const gchar *ammount, const gchar *price, GtkWidget *grid){
+void see_order(const gchar *name, const gchar *ammount, GtkWidget *grid){
 
   
   GtkWidget *label;
@@ -212,9 +220,6 @@ void see_order(const gchar *name, const gchar *ammount, const gchar *price, GtkW
 
   label = gtk_label_new(ammount);
   gtk_grid_attach(GTK_GRID(grid), label, 1,2,1,1);
-
-  label = gtk_label_new(price);
-  gtk_grid_attach(GTK_GRID(grid), label, 3, 2, 1, 1);
   gtk_widget_show_all(grid);
 
 }
@@ -238,14 +243,17 @@ void add_to_cart(GtkWidget *widget, GtkWidget **array){
 
   strcpy(temp, id_product[0]);
   id_order = get_max_id();
-  USER_DATA.ORDER_NUMBER = id_order[0];
+  ORDER_DATA.ORDER_NUMBER = id_order[0];
 
   GtkWidget *ammount = array[0];
   quantity = gtk_label_get_text(GTK_LABEL(ammount));
 
   def_add_cart(id_order[0],temp, quantity);
+
+  ORDER_DATA.TOTAL_PRICE += (strtod(price, NULL)*strtod(quantity, NULL));
+  set_label_price();
   
-  see_order(name, quantity, price, array[2]);
+  see_order(name, quantity, array[2]);
 
   widget = widget;
 
@@ -347,11 +355,11 @@ void win_shopping(){
 
   grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "base_grid"));
   
-  gtk_widget_destroy(USER_DATA.CURRENT_GRID);
+  gtk_widget_destroy(ORDER_DATA.CURRENT_GRID);
   gtk_grid_insert_column(GTK_GRID(grid), 1);
   
   grid_content = gtk_grid_new();
-  USER_DATA.CURRENT_GRID = grid_content;
+  ORDER_DATA.CURRENT_GRID = grid_content;
   gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,6,1);
 
   entry = gtk_entry_new();
@@ -364,6 +372,7 @@ void win_shopping(){
   label = gtk_label_new("Votre Panier : ");
   gtk_grid_attach(GTK_GRID(grid_results), label, 0, 0, 1, 1);
   label = gtk_label_new("Total : ");
+  ORDER_DATA.PRICE = label;
   gtk_grid_attach(GTK_GRID(grid_results), label, 0,2,1,1);
 
   gtk_widget_show_all(grid_content);
@@ -384,7 +393,6 @@ void get_store(GtkWidget *widget, GtkWidget *combo){
   a=gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(combo));
   data = get_id(a);
   start_order(data);
-  USER_DATA.ORDER_STARTED = 1;
   win_shopping();
   widget = widget;
 }
@@ -400,9 +408,9 @@ void win_chose_store(GtkWidget *widget){
   if(USER_DATA.IS_CONNECTED){
     grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "base_grid"));
 
-    if (USER_DATA.CURRENT_GRID != NULL)
+    if (ORDER_DATA.CURRENT_GRID != NULL)
     {
-      gtk_widget_destroy(USER_DATA.CURRENT_GRID);
+      gtk_widget_destroy(ORDER_DATA.CURRENT_GRID);
     }
     else{
       gtk_grid_remove_column(GTK_GRID(grid), 1);
@@ -410,7 +418,7 @@ void win_chose_store(GtkWidget *widget){
     }
     
     grid_content = gtk_grid_new();
-    USER_DATA.CURRENT_GRID = grid_content;
+    ORDER_DATA.CURRENT_GRID = grid_content;
     gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,3,1);
 
     combo = gtk_combo_box_text_new();

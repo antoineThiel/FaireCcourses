@@ -17,14 +17,20 @@ void fill_combobox_store(GtkComboBoxText *combo);
 
 struct SESSION{
     int IS_CONNECTED; // initially disconnected
-    char* CURRENT_SHOP;
-    int ORDER_STARTED; //Check if the order is started duh
-    char* ORDER_NUMBER;
     int ADMIN; //allows =/= rights
+};
+
+struct ORDER{
+    char* CURRENT_SHOP;
+    char* ORDER_NUMBER;
+    double TOTAL_PRICE;
     GtkWidget *CURRENT_GRID;
+    GtkWidget *PRICE;
 };
 
 typedef struct SESSION SESSION;
+typedef struct ORDER ORDER;
 
 
 void session_init(SESSION* data);
+void order_init(ORDER* data);
