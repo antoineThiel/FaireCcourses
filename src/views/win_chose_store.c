@@ -207,7 +207,6 @@ void see_order(const gchar *name, const gchar *ammount, const gchar *price, GtkW
   gtk_grid_attach(GTK_GRID(grid), label, 1,2,1,1);
 
   label = gtk_label_new(price);
-  gtk_grid_insert_column(GTK_GRID(grid), 2);
   gtk_grid_attach(GTK_GRID(grid), label, 3, 2, 1, 1);
   gtk_widget_show_all(grid);
 
@@ -345,9 +344,11 @@ void win_shopping(){
   gtk_grid_attach(GTK_GRID(grid_content), button, 4, 0, 1, 1);
 
   grid_results = gtk_grid_new();
-  gtk_grid_attach(GTK_GRID(grid), grid_results, 7, 0, 5, 1);
+  gtk_grid_attach(GTK_GRID(grid), grid_results, 7, 0, 5, 2);
   label = gtk_label_new("Votre Panier : ");
   gtk_grid_attach(GTK_GRID(grid_results), label, 0, 0, 1, 1);
+  label = gtk_label_new("Total : ");
+  gtk_grid_attach(GTK_GRID(grid_results), label, 0,2,1,1);
 
   gtk_widget_show_all(grid_content);
   gtk_widget_show_all(grid_results);
