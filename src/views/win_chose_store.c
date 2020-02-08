@@ -76,30 +76,37 @@ char** get_product_id(const gchar *product){
 char** get_product_list(const gchar *product){
 
   MYSQL_RES *result;
-  MYSQL_ROW data;
+  MYSQL_ROW data = NULL;
+  __uint64_t line_counter = 0;
   char *start;
   char quote[2]="\""; 
   //Rserve memory
   start = malloc(sizeof(char)*200);
-  check_malloc(start);
-  
+  check_malloc(start);  
   //initializing query
-  strcpy(start, "select name from product where name =");
+  strcpy(start, "select name, category, price from product where name =");
   strcat(start, quote);
   strcat(start, product);
   strcat(start, quote);
 
   if (mysql_query(CONNECTOR_DB, start)) {
+    g_print("%s" , product);
+
     fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
     exit(1);
   }
 
   result = mysql_store_result(CONNECTOR_DB);  
-  data = mysql_fetch_row(result);
-  
-  mysql_free_result(result);
-  free(start);
+  line_counter = mysql_num_rows(result);
+  if(line_counter != 0){  
+    data = mysql_fetch_row(result);
+    mysql_free_result(result);
+    free(start);
+
+  }
+
   return data;
+
 }
   
 char** get_max_id(){
@@ -194,38 +201,52 @@ void def_add_cart(gchar *id_order,char *id_product, const gchar *quantity){
   free(start);
 }
 
+void see_order(const gchar *name, const gchar *ammount, const gchar *price, GtkWidget *grid){
+
+  
+  GtkWidget *label;
+
+  label = gtk_label_new(name);
+  gtk_grid_insert_row(GTK_GRID(grid), 2);
+  gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
+
+  label = gtk_label_new(ammount);
+  gtk_grid_attach(GTK_GRID(grid), label, 1,2,1,1);
+
+  label = gtk_label_new(price);
+  gtk_grid_insert_column(GTK_GRID(grid), 2);
+  gtk_grid_attach(GTK_GRID(grid), label, 3, 2, 1, 1);
+  gtk_widget_show_all(grid);
+
+}
+
+
 //Recupere nom produit, id produit, quantité
 void add_to_cart(GtkWidget *widget, GtkWidget **array){
 
   const gchar *name;
   const gchar *quantity;
+  const gchar *price;
   gchar **id_product;
   gchar **id_order;
   char temp[10];
   GtkWidget *product_name =  array[1];
+  GtkWidget *price_product = array[3];
+  price = gtk_label_get_text(GTK_LABEL(price_product));
 
   name = gtk_label_get_text(GTK_LABEL(product_name));
-  printf("%s", name);
   id_product = get_product_id(name);
-  printf("\nid du produit : %s; %p", id_product[0], &id_product[0]);
 
   strcpy(temp, id_product[0]);
   id_order = get_max_id();
-  printf("\nid de la commande : %s; %p", id_order[0], &id_order[0]);
-
-  printf("\nid du produit : %s; %p", id_product[0], &id_product[0]);
-
-
-  printf("\nid du produit : %s; %p", temp, &temp);
-
-
+  USER_DATA.ORDER_NUMBER = id_order[0];
 
   GtkWidget *ammount = array[0];
   quantity = gtk_label_get_text(GTK_LABEL(ammount));
 
-  printf("\n%s", id_product[0]);
   def_add_cart(id_order[0],temp, quantity);
   
+  see_order(name, quantity, price, array[2]);
 
   widget = widget;
 
@@ -235,71 +256,124 @@ void add_to_cart(GtkWidget *widget, GtkWidget **array){
 void display_search(GtkWidget *widget, GtkWidget **array){
 
   const gchar *a;
-  gchar **data;
-  GtkBuilder *other_builder = GTK_BUILDER(array[0]);
+  char **data;
   GtkWidget *grid;
   GtkWidget *label;
   GtkWidget *label2;
+  GtkWidget *label3;
   GtkWidget *button;
   GtkWidget **array2;
 
-  array2 = malloc( 2* sizeof(GtkWidget));
+  array2 = malloc( 3* sizeof(GtkWidget));
   check_malloc(array2);
 
   a = gtk_entry_get_text(GTK_ENTRY(array[1]));
   data = get_product_list(a);
-  if(data[0]==NULL){
-      printf("empty");
+
+  grid = GTK_WIDGET(array[0]);
+
+  if(data==NULL){
+    g_print("empty");
+    gtk_grid_remove_row(GTK_GRID(grid), 2);
+    gtk_grid_remove_row(GTK_GRID(grid), 2);
+    gtk_grid_remove_row(GTK_GRID(grid), 2);
+    gtk_grid_insert_row (GTK_GRID(grid), 2);
+    label = gtk_label_new("Sa nanes xiste pas! eh");
+    gtk_grid_attach(GTK_GRID(grid) , label , 0 , 2 , 3 , 1);
+
   }
   else{
-  grid = GTK_WIDGET(gtk_builder_get_object(other_builder, "grid_results"));
+
+  //Grille + ajout ligne
+  gtk_grid_remove_row(GTK_GRID(grid), 2);
+  gtk_grid_remove_row(GTK_GRID(grid), 2);
+  gtk_grid_remove_row(GTK_GRID(grid), 2);
   gtk_grid_insert_row (GTK_GRID(grid), 2);
+  gtk_grid_insert_row (GTK_GRID(grid), 2);
+  gtk_grid_insert_row (GTK_GRID(grid), 2);
+  
+  //Nom
   label = gtk_label_new(data[0]);
   gtk_grid_attach(GTK_GRID(grid),label, 0, 2, 1, 1);
+
+  //Category
+  label = gtk_label_new(data[1]);
+  gtk_grid_attach(GTK_GRID(grid),label, 1, 2, 1, 1);
+
+  //Price
+  strcat(data[2], "€");
+  label = gtk_label_new(data[2]);
+  gtk_grid_attach(GTK_GRID(grid),label, 2, 2, 1, 1);
+  
+  
+  //Quantity
   button = gtk_button_new_with_label("-");
-  gtk_grid_attach(GTK_GRID(grid),button, 2, 2, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid),button, 0, 3, 1, 1);
   label = gtk_label_new("1");
   g_signal_connect(button, "clicked", G_CALLBACK(decrease), label);
-  gtk_grid_attach(GTK_GRID(grid),label, 3, 2, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid),label, 1, 3, 1, 1);
   button = gtk_button_new_with_label("+");
   g_signal_connect(button, "clicked", G_CALLBACK(increase), label);
-  gtk_grid_attach(GTK_GRID(grid),button, 4, 2, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid),button, 2, 3, 1, 1);
   button = gtk_button_new_with_label("Ajouter");
-  gtk_grid_attach(GTK_GRID(grid),button, 5, 2, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid),button, 0, 4, 3, 1);
+  
+  
   label2 = gtk_label_new(data[0]);
-  array2[0] = label;
-  array2[1] = label2;
+  label3 = gtk_label_new(data[2]);
+  array2[0] = label;  //Quantity
+  array2[1] = label2; //Name
+  array2[3] = label3; //Price
+  array2[2] = array[2];   //grid_results
   g_signal_connect(button, "clicked", G_CALLBACK(add_to_cart), array2);
   
 
-
-  gtk_widget_show_all(grid);
   }
+  gtk_widget_show_all(grid);
+
   widget = widget;
 }
 
-//Gère l'affiche de la nouvelle fenetre
+//Gère l'affichage de la recherche des produits
 void win_shopping(){
-  GtkBuilder *builder;
-  GtkWidget *window;
+  GtkWidget *grid;
+  GtkWidget *grid_content;
+  GtkWidget *grid_results;
   GtkWidget *entry;
   GtkWidget *button;
   GtkWidget **array;
+  GtkWidget *label;
 
-  array = malloc (2 * sizeof(GtkWidget));
-  check_malloc(array);
+  array = malloc(3*sizeof(GtkWidget));
 
-  builder = gtk_builder_new_from_file("./glade/window_shop.glade");
-  window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
-  entry = GTK_WIDGET(gtk_builder_get_object(builder, "search_entry"));
-  button = GTK_WIDGET(gtk_builder_get_object(builder, "btn_search"));
+  grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "base_grid"));
+  
+  gtk_widget_destroy(USER_DATA.CURRENT_GRID);
+  gtk_grid_insert_column(GTK_GRID(grid), 1);
+  
+  grid_content = gtk_grid_new();
+  USER_DATA.CURRENT_GRID = grid_content;
+  gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,6,1);
 
-  array[0] = GTK_WIDGET(builder);
+  entry = gtk_entry_new();
+  button = gtk_button_new_with_label("Search");
+  gtk_grid_attach(GTK_GRID(grid_content), entry, 0, 0, 4, 1);
+  gtk_grid_attach(GTK_GRID(grid_content), button, 4, 0, 1, 1);
+
+  grid_results = gtk_grid_new();
+  gtk_grid_attach(GTK_GRID(grid), grid_results, 7, 0, 5, 1);
+  label = gtk_label_new("Votre Panier : ");
+  gtk_grid_attach(GTK_GRID(grid_results), label, 0, 0, 1, 1);
+
+  gtk_widget_show_all(grid_content);
+  gtk_widget_show_all(grid_results);
+  
+  
+  array[0] = grid_content;
   array[1] = entry;
+  array[2] = grid_results;
   g_signal_connect(button, "clicked", G_CALLBACK(display_search), array);
 
-
-  gtk_widget_show_all(window);
 }
 
 //Recupère l'id du magasin selon le nom, créé une commande et affiche la nouvelle fenetre
@@ -309,6 +383,7 @@ void get_store(GtkWidget *widget, GtkWidget *combo){
   a=gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(combo));
   data = get_id(a);
   start_order(data);
+  USER_DATA.ORDER_STARTED = 1;
   win_shopping();
   widget = widget;
 }
@@ -317,35 +392,37 @@ void get_store(GtkWidget *widget, GtkWidget *combo){
 //Gere l'affichage du mod dans le MAIN_BUILDER principal
 void win_chose_store(GtkWidget *widget){
   GtkWidget *grid_content;
-  GtkWidget *combo;
   GtkWidget *grid;
+  GtkWidget *combo;
   GtkWidget *label;
   GtkWidget *button;
   if(USER_DATA.IS_CONNECTED){
-    grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "grid"));
-    label = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "label"));
-    grid_content = gtk_grid_new();
-    gtk_grid_remove_column(GTK_GRID(grid), 2);
-    gtk_grid_insert_column(GTK_GRID(grid), 2);
-    gtk_grid_attach(GTK_GRID(grid), grid_content, 2,0,1,1);
+    grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "base_grid"));
+
+    if (USER_DATA.CURRENT_GRID != NULL)
+    {
+      gtk_widget_destroy(USER_DATA.CURRENT_GRID);
+    }
+    else{
+      gtk_grid_remove_column(GTK_GRID(grid), 1);
+      gtk_grid_insert_column(GTK_GRID(grid), 1);
+    }
     
+    grid_content = gtk_grid_new();
+    USER_DATA.CURRENT_GRID = grid_content;
+    gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,3,1);
+
     combo = gtk_combo_box_text_new();
     fill_combobox_store(GTK_COMBO_BOX_TEXT(combo));
-    gtk_grid_attach(GTK_GRID(grid_content), combo, 1,2,1,1);
+    gtk_grid_attach(GTK_GRID(grid_content), combo, 1,0,1,1);
     label = gtk_label_new("Nom du magasin");
-    gtk_grid_attach(GTK_GRID(grid_content), label, 0,2,1,1);
+    gtk_grid_attach(GTK_GRID(grid_content), label, 0,0,1,1);
     button = gtk_button_new_with_label("Commencer");
-    gtk_grid_attach(GTK_GRID(grid_content), button, 1,3,1,1);
-
-
-    g_signal_connect(button, "clicked", G_CALLBACK(get_store), combo);
-
-    //Recupérer la selection du select et lancer une fonction pour commencer les courses ?
-    //Ouvrir une nouvelle fenetre avec une barre de recherche et une liste sur la gauche avec un panier qui s'agrandit
-    //au fur et a mesure que l'utilisateur rajoute des produits ? :)
+    gtk_grid_attach(GTK_GRID(grid_content), button, 2,0,1,1);
 
     gtk_widget_show_all(grid_content);
 
+    g_signal_connect(button, "clicked", G_CALLBACK(get_store), combo);
 
     (void)widget;
   }

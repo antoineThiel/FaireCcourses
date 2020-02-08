@@ -36,31 +36,36 @@ void win_log_in(GtkWidget *widget){
 
   array = malloc(3 * sizeof(GtkWidget));
   check_malloc(array);
-  grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "grid"));
+  grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "base_grid"));
   label = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "label"));
 
-  gtk_widget_destroy(GTK_WIDGET(label));
-  gtk_grid_remove_column(GTK_GRID(grid), 2);
-  gtk_grid_insert_column(GTK_GRID(grid), 2);
+    if (USER_DATA.CURRENT_GRID != NULL)
+    {
+      gtk_widget_destroy(USER_DATA.CURRENT_GRID);
+    }
+    else{
+      gtk_grid_remove_column(GTK_GRID(grid), 1);
+      gtk_grid_insert_column(GTK_GRID(grid), 1);
+    }
   
   grid_content = gtk_grid_new();
-  gtk_grid_attach(GTK_GRID(grid), grid_content, 2,0,1,1);
-
+  USER_DATA.CURRENT_GRID = grid_content;
+  gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,2,2);
+  
   entry = gtk_entry_new();
-  gtk_grid_attach(GTK_GRID(grid_content), entry, 1,2,1,1);
+  gtk_grid_attach(GTK_GRID(grid_content), entry, 1,0,1,1);
   array[0] = entry;
+  
   entry = gtk_entry_new();
-  gtk_grid_attach(GTK_GRID(grid_content), entry, 1,3,1,1);
+  gtk_grid_attach(GTK_GRID(grid_content), entry, 1,1,1,1);
   array[1] = entry;
-  label = gtk_label_new(NULL);
-  gtk_grid_attach(GTK_GRID(grid_content), label, 2,3,1,1);
-  array[2] = label;
+  
   button = gtk_button_new_with_label("Connexion");
-  gtk_grid_attach(GTK_GRID(grid_content), button, 1,4,1,1);
+  gtk_grid_attach(GTK_GRID(grid_content), button, 2,0,1,2);
   label = gtk_label_new("Username");
-  gtk_grid_attach(GTK_GRID(grid_content), label, 0,2,1,1);
+  gtk_grid_attach(GTK_GRID(grid_content), label, 0,0,1,1);
   label = gtk_label_new("Password");
-  gtk_grid_attach(GTK_GRID(grid_content), label, 0,3,1,1);
+  gtk_grid_attach(GTK_GRID(grid_content), label, 0,1,1,1);
 
   g_signal_connect(button, "clicked", G_CALLBACK(get_log), array);
   

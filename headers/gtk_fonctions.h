@@ -57,7 +57,10 @@ void modify_log_text(void);
 struct SESSION{
     int IS_CONNECTED; // initially disconnected
     char* CURRENT_SHOP;
+    int ORDER_STARTED; //Check if the order is started duh
+    char* ORDER_NUMBER;
     int ADMIN; //allows =/= rights
+    GtkWidget *CURRENT_GRID;
 };
 
 typedef struct SESSION SESSION;
