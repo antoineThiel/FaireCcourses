@@ -8,6 +8,71 @@ extern MYSQL* CONNECTOR_DB;
 extern SESSION USER_DATA;
 extern ORDER ORDER_DATA;
 
+void unset(){
+  ORDER_DATA.TOTAL_PRICE = 0;
+  ORDER_DATA.PRICE = NULL;
+  ORDER_DATA.ORDER_NUMBER = NULL;
+  win_chose_store(NULL);
+}
+
+void update_price_order(){
+  char start[60];
+  sprintf(start, "update `order` set price = %.2lf where id = %s", ORDER_DATA.TOTAL_PRICE, ORDER_DATA.ORDER_NUMBER);
+  if (mysql_query(CONNECTOR_DB, start)) {
+  fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
+  exit(1);
+  }
+}
+
+void update_id_customer(){
+  char start[60];
+  sprintf(start, "update `order` set id_customer = %d where id = %s", USER_DATA.ID_CUSTOMER, ORDER_DATA.ORDER_NUMBER);
+  if (mysql_query(CONNECTOR_DB, start)) {
+  fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
+  exit(1);
+  }
+}
+
+void update_order_customer(){
+  char start[90];
+  sprintf(start, "update customer set total_order = (select total_order where id = %d) +1 where id = %d", USER_DATA.ID_CUSTOMER, USER_DATA.ID_CUSTOMER);
+  if (mysql_query(CONNECTOR_DB, start)) {
+    fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
+    exit(1);
+  }
+}
+
+void validate_order(){
+  
+  update_price_order();
+  update_id_customer();
+  update_order_customer();
+
+  gtk_widget_destroy(ORDER_DATA.CURRENT_GRID);
+  gtk_widget_destroy(ORDER_DATA.GRID_RESULTS);
+  GtkWidget *button;
+  GtkWidget *grid_content;
+  GtkWidget *grid;
+  grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "base_grid"));
+  grid_content = gtk_grid_new();
+  ORDER_DATA.CURRENT_GRID = GTK_WIDGET(grid_content);
+  gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,2,3);
+  button = gtk_button_new_with_label("Refaire une commande");
+  gtk_grid_attach(GTK_GRID(grid_content), button, 1,1,1,1);
+
+  g_signal_connect(button, "clicked", G_CALLBACK(unset), NULL);
+
+  button = gtk_button_new_with_label("Quitter le programme");
+  gtk_grid_attach(GTK_GRID(grid_content), button, 1, 3, 1, 1);
+
+  g_signal_connect(button, "clicked", G_CALLBACK(gtk_main_quit), NULL);
+
+  gtk_widget_show_all(grid_content);
+
+
+
+  //print_plan()
+}
 void set_label_price(){
 
   char text[20];
@@ -145,9 +210,9 @@ void start_order(MYSQL_ROW data){
   start = malloc(sizeof(char)*200);
   check_malloc(start);
 
-  strcpy(start, "insert into `order` values(NULL,");
+  strcpy(start, "insert into `order` values(NULL, NULL, 0, ");
   strcat(start, data[0]);
-  strcat(start, ", NULL, NULL, 0)");
+  strcat(start, ")");
   if (mysql_query(CONNECTOR_DB, start)) {
     fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
     exit(1);
@@ -348,6 +413,7 @@ void win_shopping(){
   GtkWidget *grid_results;
   GtkWidget *entry;
   GtkWidget *button;
+  GtkWidget *button2;
   GtkWidget **array;
   GtkWidget *label;
 
@@ -368,21 +434,27 @@ void win_shopping(){
   gtk_grid_attach(GTK_GRID(grid_content), button, 4, 0, 1, 1);
 
   grid_results = gtk_grid_new();
+  ORDER_DATA.GRID_RESULTS = grid_results;
   gtk_grid_attach(GTK_GRID(grid), grid_results, 7, 0, 5, 2);
   label = gtk_label_new("Votre Panier : ");
   gtk_grid_attach(GTK_GRID(grid_results), label, 0, 0, 1, 1);
   label = gtk_label_new("Total : ");
   ORDER_DATA.PRICE = label;
   gtk_grid_attach(GTK_GRID(grid_results), label, 0,2,1,1);
+  button2 = gtk_button_new_with_label("Valider");
+  gtk_grid_attach(GTK_GRID(grid_results), button2, 0,3,1,1);
 
   gtk_widget_show_all(grid_content);
   gtk_widget_show_all(grid_results);
+  
   
   
   array[0] = grid_content;
   array[1] = entry;
   array[2] = grid_results;
   g_signal_connect(button, "clicked", G_CALLBACK(display_search), array);
+  g_signal_connect(button2, "clicked", G_CALLBACK(validate_order), NULL);
+
 
 }
 
@@ -392,6 +464,7 @@ void get_store(GtkWidget *widget, GtkWidget *combo){
   gchar **data;
   a=gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(combo));
   data = get_id(a);
+  ORDER_DATA.CURRENT_SHOP = atoi(data[0]);
   start_order(data);
   win_shopping();
   widget = widget;

@@ -22,10 +22,11 @@ struct SESSION{
 };
 
 struct ORDER{
-    char* CURRENT_SHOP;
+    int CURRENT_SHOP;
     char* ORDER_NUMBER;
     double TOTAL_PRICE;
     GtkWidget *CURRENT_GRID;
+    GtkWidget *GRID_RESULTS;
     GtkWidget *PRICE;
 };
 
