@@ -36,28 +36,35 @@ void win_add_product(GtkWidget *widget){
     array = malloc(2 * sizeof(GtkWidget));
     check_malloc(array);
     
-    grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "grid"));
-    label = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "label"));
+    grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "base_grid"));
+    
+    if (USER_DATA.CURRENT_GRID != NULL)
+    {
+      gtk_widget_destroy(USER_DATA.CURRENT_GRID);
+    }
+    else{
+      gtk_grid_remove_column(GTK_GRID(grid), 1);
+      gtk_grid_insert_column(GTK_GRID(grid), 1);
+    }
+    
     grid_content = gtk_grid_new();
-
-    gtk_grid_remove_column(GTK_GRID(grid), 2);
-    gtk_grid_insert_column(GTK_GRID(grid), 2);
-    gtk_grid_attach(GTK_GRID(grid), grid_content, 2,0,1,1);
+    USER_DATA.CURRENT_GRID = grid_content;
+    gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,2,3);
 
     button = gtk_button_new_with_label("Ajouter");
     entry = gtk_entry_new();
     combo = gtk_combo_box_text_new();
 
     label = gtk_label_new("Nom du produit");
-    gtk_grid_attach(GTK_GRID(grid_content), label, 0,2,1,1);
+    gtk_grid_attach(GTK_GRID(grid_content), label, 0,0,1,1);
     label = gtk_label_new("Categorie");
-    gtk_grid_attach(GTK_GRID(grid_content), label, 0,3,1,1);
+    gtk_grid_attach(GTK_GRID(grid_content), label, 0,1,1,1);
 
     fill_combobox_cat(GTK_COMBO_BOX_TEXT(combo));
     
-    gtk_grid_attach(GTK_GRID(grid_content), button, 1,4,1,1);
-    gtk_grid_attach(GTK_GRID(grid_content), entry, 1,2,1,1);
-    gtk_grid_attach(GTK_GRID(grid_content), combo, 1,3,1,1);
+    gtk_grid_attach(GTK_GRID(grid_content), button, 1,2,1,1);
+    gtk_grid_attach(GTK_GRID(grid_content), entry, 1,0,1,1);
+    gtk_grid_attach(GTK_GRID(grid_content), combo, 1,1,1,1);
 
     array[0] = entry;
     array[1] = combo; 

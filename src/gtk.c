@@ -55,4 +55,5 @@ int main (int argc, char *argv[]){
 void session_init(SESSION* data){
   data->IS_CONNECTED = 1;
   data->ORDER_STARTED = 0;
+  data->CURRENT_GRID = NULL;
 }
