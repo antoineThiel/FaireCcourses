@@ -270,13 +270,21 @@ void display_search(GtkWidget *widget, GtkWidget **array){
   a = gtk_entry_get_text(GTK_ENTRY(array[1]));
   data = get_product_list(a);
 
+  grid = GTK_WIDGET(array[0]);
+
   if(data==NULL){
-      g_print("empty");
+    g_print("empty");
+    gtk_grid_remove_row(GTK_GRID(grid), 2);
+    gtk_grid_remove_row(GTK_GRID(grid), 2);
+    gtk_grid_remove_row(GTK_GRID(grid), 2);
+    gtk_grid_insert_row (GTK_GRID(grid), 2);
+    label = gtk_label_new("Sa nanes xiste pas! eh");
+    gtk_grid_attach(GTK_GRID(grid) , label , 0 , 2 , 3 , 1);
+
   }
   else{
 
   //Grille + ajout ligne
-  grid = GTK_WIDGET(array[0]);
   gtk_grid_remove_row(GTK_GRID(grid), 2);
   gtk_grid_remove_row(GTK_GRID(grid), 2);
   gtk_grid_remove_row(GTK_GRID(grid), 2);
@@ -320,9 +328,9 @@ void display_search(GtkWidget *widget, GtkWidget **array){
   g_signal_connect(button, "clicked", G_CALLBACK(add_to_cart), array2);
   
 
-
-  gtk_widget_show_all(grid);
   }
+  gtk_widget_show_all(grid);
+
   widget = widget;
 }
 
