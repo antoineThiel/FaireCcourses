@@ -14,7 +14,7 @@ char** get_infos(char* id){
     MYSQL_ROW row;
 
     char start[100];
-    sprintf(start, "select username, total_order, statut from customer where id = '%s'",id);
+    sprintf(start, "select username, total_order, `status` from customer where id = '%s'",id);
     if (mysql_query(CONNECTOR_DB, start)) {
     fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
     exit(1);
@@ -75,6 +75,7 @@ void my_account(GtkWidget *widget){
     }
     gtk_grid_attach(GTK_GRID(grid_content), label, 1,2,1,1);
     gtk_widget_show_all(grid_content);
+    event_handler();
     widget = widget;
 }
 

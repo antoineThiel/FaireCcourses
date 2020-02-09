@@ -3,7 +3,7 @@
     #define SERVER "localhost"
     #define USER "root"
     #define PASSWORD "root"
-    #define DATABASE "project"
+    #define DATABASE "final_db"
     #define PREPARE_CONNECTION(connector) connector = mysql_init(NULL);\
                                       if (!mysql_real_connect(connector, SERVER, USER, PASSWORD, DATABASE, 0, NULL, 0)) {\
                                           fprintf(stderr, "%s\n", mysql_error(connector));\

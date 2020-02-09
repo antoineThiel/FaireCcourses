@@ -14,7 +14,7 @@ char** get_id_customer(const gchar *name, const gchar *pass){
   MYSQL_ROW row;
 
   char start[80];
-  sprintf(start, "select id from customer where username = '%s' and password = '%s'", name, pass);
+  sprintf(start, "select id, status from customer where username = '%s' and password = '%s'", name, pass);
 
   if (mysql_query(CONNECTOR_DB, start)) {
   fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
@@ -42,6 +42,7 @@ void get_log(GtkWidget * widget, GtkWidget **array){
 
     data = get_id_customer(a, b);
     USER_DATA.ID_CUSTOMER = atoi(data[0]);
+    USER_DATA.ADMIN = atoi(data[1]);
     gtk_widget_hide(GTK_WIDGET(btn_connexion));
     win_my_account(widget);
     

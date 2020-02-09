@@ -42,10 +42,19 @@ void event_handler(){
   g_signal_connect (button, "clicked", G_CALLBACK(win_log_in),NULL );
 
   if (USER_DATA.IS_CONNECTED){
-  //Get the buttons and apply usefulnes
-  button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_add_product"));
-  g_signal_connect (button, "clicked", G_CALLBACK(win_add_product), NULL);
+    if(USER_DATA.ADMIN){
+    //Get the buttons and apply usefulnes
+    button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_add_product"));
+    g_signal_connect (button, "clicked", G_CALLBACK(win_add_product_admin), NULL);
 
+    button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_see_product"));
+    g_signal_connect(button, "clicked", G_CALLBACK(win_see_product), NULL);
+    }else {
+      button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_add_product"));
+      gtk_widget_hide(button);
+      button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_see_product"));
+      gtk_widget_hide(button);
+    }
   button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_store"));
   g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), NULL);
   }
@@ -73,6 +82,7 @@ int main (int argc, char *argv[]){
   
   gtk_main ();
   
+  mysql_close(CONNECTOR_DB);
   return 0;
 }
 

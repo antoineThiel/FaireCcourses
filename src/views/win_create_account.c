@@ -8,9 +8,9 @@ extern MYSQL* CONNECTOR_DB;
 extern SESSION USER_DATA;
 extern ORDER ORDER_DATA;
 
-void create_account(const gchar *username, const gchar *password){
+void create_account(const gchar *username, const gchar *password, short is_admin){
     char start[255];
-    sprintf(start, "insert into customer values(NULL, '%s', '%s', 0, 0)", username, password);
+    sprintf(start, "insert into customer values(NULL, '%s', '%s', 0, %hu)", username, password, is_admin);
     if (mysql_query(CONNECTOR_DB, start)) {
         fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
         exit(1);
@@ -20,13 +20,21 @@ void create_account(const gchar *username, const gchar *password){
 void verif_creation(GtkWidget *widget, GtkWidget **logs){
     const gchar *username;
     const gchar *password;
+    const gchar *statut;
+    short is_admin;
     GtkWidget *entry_name = logs[0];
     GtkWidget *entry_pass = logs[1];
+    GtkWidget *status = logs[2];
 
     username = gtk_entry_get_text(GTK_ENTRY(entry_name));
     password = gtk_entry_get_text(GTK_ENTRY(entry_pass));
-    
-    create_account(username, password);
+    statut = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(status));
+    if (!strcmp(statut, "Client")){
+        is_admin = 0;
+    }else{
+        is_admin = 1;
+    }
+    create_account(username, password, is_admin);
     
     win_log_in(NULL);
     (void) widget;
@@ -40,8 +48,9 @@ void win_create_account(GtkWidget *widget){
     GtkWidget *entry1;
     GtkWidget *grid_content;
     GtkWidget **logs;
+    GtkWidget *combo;
 
-    logs = malloc(2*sizeof(GtkWidget));
+    logs = malloc(3*sizeof(GtkWidget));
 
     event_handler();
 
@@ -74,8 +83,14 @@ void win_create_account(GtkWidget *widget){
     entry = gtk_entry_new();
     gtk_grid_attach(GTK_GRID(grid_content), entry, 1,2,1,1);
 
+    combo = gtk_combo_box_text_new();
+    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), "1", "Administrateur");
+    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), "2", "Client");
+    gtk_grid_attach(GTK_GRID(grid_content), combo, 0,3,1,1);
+    logs[2] = combo;
+
     button = gtk_button_new_with_label("Confirmer la création");
-    gtk_grid_attach(GTK_GRID(grid_content), button, 0, 3, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid_content), button, 0, 4, 2, 1);
 
 
 
