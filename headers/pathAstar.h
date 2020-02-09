@@ -9,17 +9,21 @@ typedef struct FILE_representation{
 
     __uint8_t* aisle;
 
+    __uint16_t checkpoints_max;
+
 }FILE_representation;
 
+typedef struct checkpoint{
+    __uint16_t pos_x;
+    __uint16_t pos_y; 
+}checkpoint;
 
-void read_config(const char* filepath);
+FILE_representation read_config(const char* filepath);
 
 //returns a struct FILE_rep from file , with struct.width and height fields filled
 FILE_representation get_config(FILE* pf);
 
 void fill_shop_model(FILE_representation* infos);
-
-FILE_representation file_rep_init(void);
 
 //prints all the fields of FILE_rep struct
 void get_file_rep(FILE_representation* f);
@@ -35,3 +39,10 @@ FILE_representation file_rep_init(void);
 
 //returns pos of 1st byte defining the shop's aisles
 __uint8_t get_file_debt(FILE* pf);
+
+//generates a graph from a 2D "map"
+__uint16_t* createGraph(FILE_representation* file_rep);
+
+//returns distance (in ~~blocs) between 2 chechpoints given
+__uint16_t distance_between(checkpoint first , checkpoint second);
+
