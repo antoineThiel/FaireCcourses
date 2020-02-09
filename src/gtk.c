@@ -21,6 +21,9 @@ void launcher(){
   button = GTK_WIDGET(gtk_builder_get_object(builder, "btn_account"));
   g_signal_connect (button, "clicked", G_CALLBACK (win_start), NULL);
 
+  button = GTK_WIDGET(gtk_builder_get_object(builder, "btn_add_account"));
+  g_signal_connect (button, "clicked", G_CALLBACK (win_create_account), NULL);
+
   button = GTK_WIDGET(gtk_builder_get_object(builder, "btn_quit"));
   g_signal_connect(button, "clicked", G_CALLBACK(gtk_main_quit), NULL);
   gtk_widget_show(window);
@@ -75,7 +78,7 @@ int main (int argc, char *argv[]){
 
 
 void session_init(SESSION* data){
-  data->IS_CONNECTED = 1;
+  data->IS_CONNECTED = 0;
 }
 
 void order_init(ORDER* data){
