@@ -231,6 +231,10 @@ void win_add_product_admin(GtkWidget *widget){
       gtk_grid_remove_column(GTK_GRID(grid), 1);
       gtk_grid_insert_column(GTK_GRID(grid), 1);
     }
+
+    if (ORDER_DATA.GRID_RESULTS != NULL){
+      gtk_widget_destroy(ORDER_DATA.GRID_RESULTS);
+    }
   
   grid_content = gtk_grid_new();
   ORDER_DATA.CURRENT_GRID = grid_content;

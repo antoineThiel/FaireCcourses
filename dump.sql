@@ -25,33 +25,19 @@ insert into category values ( NULL, 'habits femmes', 1);
 insert into category values ( NULL, 'habits enfants', 1);
 insert into category values ( NULL, 'congelés', 1);
 
-create table product(id int auto_increment primary key, name varchar(50), category varchar(50), price double);
-insert into product values ( NULL, 'bavette', 'viande', 5);
-insert into product values ( NULL, 'pomme', 'fruits', 1);
-insert into product values ( NULL, 'carottes', 'légumes', 1);
-insert into product values ( NULL, 'prince', 'gâteaux', 2);
-insert into product values ( NULL, 'crocros', 'bonbons', 3);
-insert into product values ( NULL, 'coquillettes', 'féculents', 2);
-insert into product values ( NULL, 'brosse à dents', 'produits de toilettes', 3);
-insert into product values ( NULL, 'pelle', 'jardinage', 10);
-insert into product values ( NULL, 'slip', 'habits hommes', 5);
-insert into product values ( NULL, 'culottes', 'habits femmes', 5);
-insert into product values ( NULL, 'sweat', 'habits enfants', 10);
-insert into product values ( NULL, 'frites', 'congelés', 7);
-
-create table product_store(id_store int, id_product int);
-insert into product_store values ( 1, 1);
-insert into product_store values ( 1, 2);
-insert into product_store values ( 1, 3);
-insert into product_store values ( 1, 4);
-insert into product_store values ( 1, 5);
-insert into product_store values ( 1, 6);
-insert into product_store values ( 1, 7);
-insert into product_store values ( 1, 8);
-insert into product_store values ( 1, 9);
-insert into product_store values ( 1, 10);
-insert into product_store values ( 1, 11);
-insert into product_store values ( 1, 12);
+create table product(id int auto_increment primary key, name varchar(50), category varchar(50), price double, id_store int);
+insert into product values ( NULL, 'bavette', 'viande', 5, 1);
+insert into product values ( NULL, 'pomme', 'fruits', 1, 1);
+insert into product values ( NULL, 'carottes', 'légumes', 1, 1);
+insert into product values ( NULL, 'prince', 'gâteaux', 2, 1);
+insert into product values ( NULL, 'crocros', 'bonbons', 3, 1);
+insert into product values ( NULL, 'coquillettes', 'féculents', 2 ,1);
+insert into product values ( NULL, 'brosse à dents', 'produits de toilettes', 3, 1);
+insert into product values ( NULL, 'pelle', 'jardinage', 10, 1);
+insert into product values ( NULL, 'slip', 'habits hommes', 5, 1);
+insert into product values ( NULL, 'culottes', 'habits femmes', 5, 1);
+insert into product values ( NULL, 'sweat', 'habits enfants', 10, 1);
+insert into product values ( NULL, 'frites', 'congelés', 7, 1);
 
 create table `order`(id int auto_increment primary key, id_customer int, price double, id_store int);
 

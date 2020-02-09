@@ -44,6 +44,10 @@ void my_account(GtkWidget *widget){
       gtk_grid_insert_column(GTK_GRID(grid), 1);
     }
 
+    if (ORDER_DATA.GRID_RESULTS != NULL){
+      gtk_widget_destroy(ORDER_DATA.GRID_RESULTS);
+    }
+
     grid_content = gtk_grid_new();
     ORDER_DATA.CURRENT_GRID = grid_content;
     gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,2,5);

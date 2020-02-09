@@ -22,21 +22,39 @@ MYSQL_RES* get_list(const gchar *category){
 void be4results(GtkWidget *widget, GtkWidget *cat){
 
     GtkWidget *label;
+    GtkWidget *grid_results;
+    GtkWidget *grid;
     const gchar *category = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(cat));
     MYSQL_RES* results = get_list(category);
     u_int64_t size = mysql_num_rows(results);
+
     if (size > 0)
     {    
-        char** data = mysql_fetch_row(results);
+        if (ORDER_DATA.GRID_RESULTS != NULL)
+        {
+            gtk_widget_destroy(ORDER_DATA.GRID_RESULTS);
+        }       
+        grid_results= gtk_grid_new();
+        ORDER_DATA.GRID_RESULTS = grid_results;
+        grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "base_grid"));
+        gtk_grid_attach(GTK_GRID(grid), grid_results, 10,0,2,10);
+        label = gtk_label_new("Nom : ");
+        gtk_grid_attach(GTK_GRID(grid_results), label, 0,0,1,1);
+        label = gtk_label_new("Prix :");
+        gtk_grid_attach(GTK_GRID(grid_results), label, 1,0,1,1);
+
         for (u_int64_t i = 0; i < size ; i++)
         {
+            char** data = mysql_fetch_row(results);
             label = gtk_label_new(data[0]);
-            gtk_grid_attach(GTK_GRID(ORDER_DATA.CURRENT_GRID), label, 1,3,1,1);
-            label = gtk_label_new(data[1]);
-            gtk_grid_attach(GTK_GRID(ORDER_DATA.CURRENT_GRID), label, 2, 3, 1, 1);
+            gtk_grid_attach(GTK_GRID(grid_results), label, 0,1+(int)i,1,1);
+            char price[5];
+            sprintf(price, "%s €", data[1]);
+            label = gtk_label_new(price);
+            gtk_grid_attach(GTK_GRID(grid_results), label, 1,1+(int)i,1,1);
         }
     }
-    gtk_widget_show_all(ORDER_DATA.CURRENT_GRID);
+    gtk_widget_show_all(ORDER_DATA.GRID_RESULTS);
     (void)widget;
 }
 
@@ -77,6 +95,10 @@ void win_see_product(GtkWidget *widget){
     if (ORDER_DATA.CURRENT_GRID != NULL)
     {
         gtk_widget_destroy(ORDER_DATA.CURRENT_GRID);
+    }
+
+    if (ORDER_DATA.GRID_RESULTS != NULL){
+      gtk_widget_destroy(ORDER_DATA.GRID_RESULTS);
     }
     
 
