@@ -1,4 +1,11 @@
-void win_add_product(GtkWidget *widget);
+void win_add_product(const gchar *store);
 void win_chose_store(GtkWidget *widget);
 void win_log_in(GtkWidget *widget);
-void win_show_order(GtkWidget *widget);
+void win_my_account(GtkWidget *widget);
+void win_start(GtkWidget *widget);
+void win_create_account(GtkWidget *widget);
+void win_add_product_admin(GtkWidget *widget);
+void event_handler();
+char** get_product_id(const gchar *product);
+char** get_id(const gchar *store);
+void win_see_product(GtkWidget *widget);
