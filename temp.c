@@ -1,31 +1,32 @@
-#include "headers/all.h"
+// #include "headers/all.h"
 
 
-MYSQL* CONNECTOR_DB;
-GtkBuilder* MAIN_BUILDER;
+// MYSQL* CONNECTOR_DB;
+// GtkBuilder* MAIN_BUILDER;
 
-SESSION USER_DATA;
-
-
-int main(){
-  FILE_representation tmp = read_config("shops_config/model.model");
-  Graph* market_graph;
-  __int32_t* steps_needed = NULL;
-  
-  market_graph = createGraph(&tmp);
-  file_rep_destroy(&tmp);
+// SESSION USER_DATA;
 
 
-  steps_needed = createStepsArray(market_graph);
+// int main(){
+//     generateSchema();
+//     // FILE_representation tmp = read_config("shops_config/model.model");
+//     // Graph* market_graph;
+//     // __int32_t* steps_needed = NULL;
 
-  free(market_graph);
-  free_graph(market_graph);
+//     // market_graph = createGraph(&tmp);
+//     // file_rep_destroy(&tmp);
 
-  for(__uint16_t i = 0 ; i < market_graph->width_of_it ; i++){
-    printf("step %u : %u\n" , i , steps_needed[i]);
-  }
 
-  free(steps_needed);
+//     // steps_needed = createStepsArray(market_graph);
 
-  return 0;
-}
+//     // free(market_graph);
+//     // free_graph(market_graph);
+
+//     // for(__uint16_t i = 0 ; i < market_graph->width_of_it ; i++){
+//     //     printf("step %u : %u\n" , i , steps_needed[i]);
+//     // }
+
+//     // free(steps_needed);
+
+//     return 0;
+// }

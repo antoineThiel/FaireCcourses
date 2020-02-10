@@ -1,11 +1,15 @@
-//~~~~~~~~~~~INCLUDES~~~~~~~~~~~
+//INCLUDES
     #include "../../headers/all.h"
-//    
+//
 
 //GLOBALS
     __uint16_t MARKET_ENTRANCE;
     __uint16_t MARKET_EXIT;
 
+    extern SESSION USER_DATA;
+    extern MYSQL* CONNECTOR_DB;
+
+//
 FILE_representation read_config(const char* filepath){
     FILE_representation config = file_rep_init();
     FILE* file = fopen(filepath  , "rb");
@@ -22,8 +26,6 @@ FILE_representation read_config(const char* filepath){
     fclose(file);
     return config;
 }
-
-
 
 FILE_representation get_config(FILE* pf){
 
@@ -59,7 +61,7 @@ FILE_representation get_config(FILE* pf){
 }
 
 void fill_shop_model(FILE_representation* infos){
-    
+
     __uint8_t* oneline = malloc(sizeof(__uint8_t) * infos->width);
     check_malloc(oneline);
 
@@ -68,9 +70,9 @@ void fill_shop_model(FILE_representation* infos){
     fseek(infos->shop_file , pos_debut , SEEK_SET);
 
     for(__uint8_t rows = 0 ; rows < infos->height ; rows++){
-       
+
         fread(oneline , sizeof(__uint8_t) , infos->width+1 , infos->shop_file );  // width+1 to include the newline char
-        // printf("%s\n" , oneline); 
+        // printf("%s\n" , oneline);
         for(__uint8_t cols = 0 ; cols < infos->width ; cols++){
             if( (infos->aisle[rows * infos->width + cols] = oneline[cols] - '0' ) > 1 ){
                 infos->checkpoints_max++;
@@ -157,7 +159,7 @@ Graph* createGraph(FILE_representation* file_rep){
     graph->width_of_it = graph_dimension;
     size_t graph_size = file_rep->checkpoints_max * file_rep->checkpoints_max;
 
-    checkpoint* arrayChecks = malloc(sizeof(checkpoint)* graph_dimension); 
+    checkpoint* arrayChecks = malloc(sizeof(checkpoint)* graph_dimension);
     size_t pos_to_push = 0;
     __uint16_t* distances_graph = malloc(sizeof(__uint16_t)* graph_size);
     check_malloc(distances_graph);
@@ -179,13 +181,13 @@ Graph* createGraph(FILE_representation* file_rep){
             }
         }
     }
-    /* for(size_t y = 0 ; y < graph_dimension ; y++){
+    for(size_t y = 0 ; y < graph_dimension ; y++){
         for(size_t x = 0 ; x < graph_dimension ; x++){
-            distances_graph[x* graph_dimension + y] = distance_between( arrayChecks[y] , arrayChecks[x] ); 
-            printf("%u ", distances_graph[x* graph_dimension + y]);
+            distances_graph[x* graph_dimension + y] = distance_between( arrayChecks[y] , arrayChecks[x] );
+            printf("%u\t", distances_graph[x* graph_dimension + y]);
         }
         printf("\n");
-    } */
+    }
 
     graph->distance_array = distances_graph;
     graph->arrayChecks = arrayChecks;
@@ -211,11 +213,12 @@ __uint16_t search_index_of_min_in_line(Graph* graph , __uint16_t line , __int32_
     __uint16_t index = 0 ;
     // __uint16_t index_tmp = index , min_dist_tmp = min_dist;
 
-    for(__uint16_t pos = 1 ; pos < graph->width_of_it - 1 ; pos++ ){
-        
+    for(__uint16_t pos = 0 ; pos < graph->width_of_it ; pos++ ){
+
+        //order of statement is pure algorithm/self appreciation deppending of data consumed
         if(graph->distance_array[line * graph->width_of_it + pos] > 0){
             if(graph->distance_array[line * graph->width_of_it + pos] < min_dist){
-                if(is_in( index , already_checked , graph->width_of_it)){
+                if(already_visited( already_checked , pos , graph->width_of_it)){ //"index" already passed by : skip loop's round , no already passed by :
                     continue;
                 }
                 // else{
@@ -223,12 +226,11 @@ __uint16_t search_index_of_min_in_line(Graph* graph , __uint16_t line , __int32_
                 //     index = index_tmp;
                 // }
                 min_dist = graph->distance_array[line * graph->width_of_it + pos];
-                index = pos;        
-                
+                index = pos;
+
             }
-            printf("new min dist : %u\n", min_dist);
-        }    
-        
+        }
+
     }
 
     return index;
@@ -237,25 +239,53 @@ __uint16_t search_index_of_min_in_line(Graph* graph , __uint16_t line , __int32_
 
 __int32_t* createStepsArray(Graph* graph){
 
-    __int32_t* visisted_shelf = malloc(graph->width_of_it * sizeof(__int32_t)); //avoid initializing it :)))
-    check_malloc(visisted_shelf);
-    memset(visisted_shelf , -1 , graph->width_of_it * sizeof(__int32_t) ) ;
-    
-    __uint16_t new_step ; //index to put new step in follow steps
-    __uint16_t  current_line = 0 ;
+    __int32_t* visited_shelf = malloc(graph->width_of_it * sizeof(__int32_t)); //avoid initializing it :)))
+    check_malloc(visited_shelf);
+    memset(visited_shelf , -1 , graph->width_of_it * sizeof(__int32_t) ) ;
 
-    //begining is obviously the entrance , and last... is the exit :)  
-    visisted_shelf[0] = MARKET_ENTRANCE;
-    visisted_shelf[graph->width_of_it -1] = MARKET_EXIT;
+    __uint16_t new_step ; //index to put new step in follow steps
+    __uint16_t  current_line = MARKET_ENTRANCE ;
+
+    //begining is obviously the entrance , and last... is the exit :)
+    visited_shelf[0] = MARKET_ENTRANCE;
+    visited_shelf[graph->width_of_it -1] = MARKET_EXIT;
     printf("\n");
     for( new_step = 1 ; new_step < graph->width_of_it - 1 ; new_step++ ){
 
-        current_line = visisted_shelf[new_step] = search_index_of_min_in_line(graph , current_line , visisted_shelf);
-
-        // printf("%u \n" , current_line);
+        visited_shelf[new_step] = search_index_of_min_in_line(graph , current_line , visited_shelf); // add closest point to visited cities
+        current_line = visited_shelf[new_step];
+        printf("%u \n" , current_line);
     }
-   
 
-    return visisted_shelf;
+    return visited_shelf;
 
+}
+
+bool already_visited(const __int32_t * visited_ones , __uint16_t shelf , __uint16_t size_array){
+    for(__uint16_t i = 0 ; i < size_array ; i++){
+        if(shelf == visited_ones[i]) return 1;
+    }
+    return 0;
+
+}
+
+void generateSchema(void){
+    FILE_representation tmp = read_config("shops_config/model.model");
+    Graph* market_graph;
+    __int32_t* steps_needed = NULL;
+
+    market_graph = createGraph(&tmp);
+    file_rep_destroy(&tmp);
+
+
+    steps_needed = createStepsArray(market_graph);
+
+    free(market_graph);
+    free_graph(market_graph);
+
+    for(__uint16_t i = 0 ; i < market_graph->width_of_it ; i++){
+        printf("step %u : %u\n" , i , steps_needed[i]);
+    }
+
+    free(steps_needed);
 }

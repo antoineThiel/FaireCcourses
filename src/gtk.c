@@ -47,6 +47,8 @@ int main (int argc, char *argv[]){
   event_handler();
   
   gtk_main ();
+
+  generateSchema();
   
   return 0;
 }
