@@ -11,14 +11,12 @@ extern ORDER ORDER_DATA;
 void unset(){
   ORDER_DATA.TOTAL_PRICE = 0;
   ORDER_DATA.PRICE = NULL;
-  ORDER_DATA.ORDER_NUMBER = NULL;
   win_chose_store(NULL);
 }
 
 void update_price_order(){
   char start[60];
-  g_print("ici");
-  sprintf(start, "update `order` set price = %.2lf where id = %s", ORDER_DATA.TOTAL_PRICE, ORDER_DATA.ORDER_NUMBER);
+  sprintf(start, "update `order` set price = %.2lf where id = %d", ORDER_DATA.TOTAL_PRICE, ORDER_DATA.ORDER_NUMBER);
   if (mysql_query(CONNECTOR_DB, start)) {
   fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
   exit(1);
@@ -27,8 +25,7 @@ void update_price_order(){
 
 void update_id_customer(){
   char start[60];
-  g_print("non la");
-  sprintf(start, "update `order` set id_customer = %d where id = %s", USER_DATA.ID_CUSTOMER, ORDER_DATA.ORDER_NUMBER);
+  sprintf(start, "update `order` set id_customer = %d where id = %d", USER_DATA.ID_CUSTOMER, ORDER_DATA.ORDER_NUMBER);
   if (mysql_query(CONNECTOR_DB, start)) {
   fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
   exit(1);
@@ -165,8 +162,6 @@ char** get_product_list(const gchar *product){
   strcat(start, quote);
 
   if (mysql_query(CONNECTOR_DB, start)) {
-    g_print("%s" , product);
-
     fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
     exit(1);
   }
@@ -300,6 +295,7 @@ void add_to_cart(GtkWidget *widget, GtkWidget **array){
   const gchar *price;
   gchar **id_product;
   gchar **id_order;
+  int tmp;
   char temp[10];
   GtkWidget *product_name =  array[1];
   GtkWidget *price_product = array[3];
@@ -310,7 +306,8 @@ void add_to_cart(GtkWidget *widget, GtkWidget **array){
 
   strcpy(temp, id_product[0]);
   id_order = get_max_id();
-  ORDER_DATA.ORDER_NUMBER = id_order[0];
+  tmp = atoi(id_order[0]);
+  ORDER_DATA.ORDER_NUMBER = tmp;
 
   GtkWidget *ammount = array[0];
   quantity = gtk_label_get_text(GTK_LABEL(ammount));

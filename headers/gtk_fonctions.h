@@ -30,7 +30,7 @@ struct SESSION{
 
 struct ORDER{
     int CURRENT_SHOP;
-    char* ORDER_NUMBER;
+    int ORDER_NUMBER;
     double TOTAL_PRICE;
     GtkWidget *CURRENT_GRID;
     GtkWidget *GRID_RESULTS;

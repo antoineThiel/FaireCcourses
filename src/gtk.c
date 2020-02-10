@@ -78,6 +78,8 @@ int main (int argc, char *argv[]){
   /* Construct a GtkBuilder instance and load our UI description */
   MAIN_BUILDER = gtk_builder_new_from_file ("./glade/window_main.glade");
   
+  setlocale(LC_NUMERIC, "en_US.UTF-8");
+
   launcher();
   
   gtk_main ();

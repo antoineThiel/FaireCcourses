@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <locale.h>
 
 #include <mysql/mysql.h>
 #include <gtk/gtk.h>
