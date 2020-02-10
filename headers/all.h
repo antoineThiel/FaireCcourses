@@ -12,4 +12,5 @@
 #include "sql_fonctions.h"
 #include "views.h"
 #include "pathAstar.h"
+#include "path_as_file.h"
 

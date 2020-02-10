@@ -77,10 +77,24 @@ create table product_order(
     quantity int not null
     );
 
+drop table shelf;
 create table shelf(
     id int auto_increment primary key, 
-    category varchar(50), 
+    category int, 
     id_store int, 
-    pos_x int, 
-    pos_y int
-    );
+    shelf_order int
+);
+    
+INSERT INTO shelf VALUES(NULL, 1 , 1 , 1);
+INSERT INTO shelf VALUES(NULL, 2 , 1 , 2);
+INSERT INTO shelf VALUES(NULL, 3 , 1 , 3);
+INSERT INTO shelf VALUES(NULL, 4 , 1 , 4);
+INSERT INTO shelf VALUES(NULL, 5 , 1 , 5);
+INSERT INTO shelf VALUES(NULL, 6 , 1 , 6);
+INSERT INTO shelf VALUES(NULL, 7 , 1 , 7);
+INSERT INTO shelf VALUES(NULL, 8 , 1 , 8);
+INSERT INTO shelf VALUES(NULL, 9 , 1 , 9);
+INSERT INTO shelf VALUES(NULL, 10, 1 , 10);
+INSERT INTO shelf VALUES(NULL, 11, 1 , 11);
+INSERT INTO shelf VALUES(NULL, 12, 1 , 12);
+

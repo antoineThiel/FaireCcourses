@@ -17,7 +17,6 @@ void unset(){
 
 void update_price_order(){
   char start[60];
-  g_print("ici");
   sprintf(start, "update `order` set price = %.2lf where id = %s", ORDER_DATA.TOTAL_PRICE, ORDER_DATA.ORDER_NUMBER);
   if (mysql_query(CONNECTOR_DB, start)) {
   fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
@@ -27,7 +26,6 @@ void update_price_order(){
 
 void update_id_customer(){
   char start[60];
-  g_print("non la");
   sprintf(start, "update `order` set id_customer = %d where id = %s", USER_DATA.ID_CUSTOMER, ORDER_DATA.ORDER_NUMBER);
   if (mysql_query(CONNECTOR_DB, start)) {
   fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
