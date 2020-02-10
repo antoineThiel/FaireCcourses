@@ -3,7 +3,7 @@
     #define SERVER "localhost"
     #define USER "root"
     #define PASSWORD "root"
-    #define DATABASE "project"
+    #define DATABASE "final_db"
     #define PREPARE_CONNECTION(connector) connector = mysql_init(NULL);\
                                       if (!mysql_real_connect(connector, SERVER, USER, PASSWORD, DATABASE, 0, NULL, 0)) {\
                                           fprintf(stderr, "%s\n", mysql_error(connector));\
@@ -17,14 +17,22 @@ void fill_combobox_store(GtkComboBoxText *combo);
 
 struct SESSION{
     int IS_CONNECTED; // initially disconnected
-    char* CURRENT_SHOP;
-    int ORDER_STARTED; //Check if the order is started duh
-    char* ORDER_NUMBER;
     int ADMIN; //allows =/= rights
+    int ID_CUSTOMER;
+};
+
+struct ORDER{
+    int CURRENT_SHOP;
+    char* ORDER_NUMBER;
+    double TOTAL_PRICE;
     GtkWidget *CURRENT_GRID;
+    GtkWidget *GRID_RESULTS;
+    GtkWidget *PRICE;
 };
 
 typedef struct SESSION SESSION;
+typedef struct ORDER ORDER;
 
 
 void session_init(SESSION* data);
+void order_init(ORDER* data);

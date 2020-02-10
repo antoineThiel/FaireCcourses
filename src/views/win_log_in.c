@@ -4,12 +4,34 @@
 //~~~~~~GLOBALS~~~~~~~~~~~~
 
 extern GtkBuilder *MAIN_BUILDER;
+extern MYSQL* CONNECTOR_DB;
 extern SESSION USER_DATA;
+extern ORDER ORDER_DATA;
 
+
+char** get_id_customer(const gchar *name, const gchar *pass){
+  MYSQL_RES *results;
+  MYSQL_ROW row;
+
+  char start[80];
+  sprintf(start, "select id, status from customer where username = '%s' and password = '%s'", name, pass);
+
+  if (mysql_query(CONNECTOR_DB, start)) {
+  fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
+  exit(1);
+  }
+
+  results = mysql_store_result(CONNECTOR_DB);
+  row = mysql_fetch_row(results);
+  mysql_free_result(results);
+  return row;
+
+}
 
 void get_log(GtkWidget * widget, GtkWidget **array){
   GtkWidget *entry_id = array[0];
   GtkWidget *entry_pass = array[1];
+  char** data;
 
   GObject *btn_connexion = gtk_builder_get_object(MAIN_BUILDER , "btn_account");
   
@@ -17,8 +39,12 @@ void get_log(GtkWidget * widget, GtkWidget **array){
   a = gtk_entry_get_text(GTK_ENTRY (entry_id));
   b = gtk_entry_get_text(GTK_ENTRY (entry_pass));
   if ( (USER_DATA.IS_CONNECTED = log_in(a, b) ) ){
-    
-    gtk_button_set_label(GTK_BUTTON(btn_connexion) , "yepee");
+
+    data = get_id_customer(a, b);
+    USER_DATA.ID_CUSTOMER = atoi(data[0]);
+    USER_DATA.ADMIN = atoi(data[1]);
+    gtk_widget_hide(GTK_WIDGET(btn_connexion));
+    win_my_account(widget);
     
   }
   else 
@@ -39,9 +65,9 @@ void win_log_in(GtkWidget *widget){
   grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "base_grid"));
   label = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "label"));
 
-    if (USER_DATA.CURRENT_GRID != NULL)
+    if (ORDER_DATA.CURRENT_GRID != NULL)
     {
-      gtk_widget_destroy(USER_DATA.CURRENT_GRID);
+      gtk_widget_destroy(ORDER_DATA.CURRENT_GRID);
     }
     else{
       gtk_grid_remove_column(GTK_GRID(grid), 1);
@@ -49,7 +75,7 @@ void win_log_in(GtkWidget *widget){
     }
   
   grid_content = gtk_grid_new();
-  USER_DATA.CURRENT_GRID = grid_content;
+  ORDER_DATA.CURRENT_GRID = grid_content;
   gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,2,2);
   
   entry = gtk_entry_new();
@@ -75,4 +101,11 @@ void win_log_in(GtkWidget *widget){
 
 void modify_log_text(){
 
+}
+
+void win_start(GtkWidget *widget){
+
+  event_handler();
+  win_log_in(NULL);
+  widget = widget;
 }

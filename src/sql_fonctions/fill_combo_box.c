@@ -5,13 +5,15 @@
 //~~~~~~~~~~~~~~~GLOBALS~~~~~~~~~~~~~~~
 extern MYSQL* CONNECTOR_DB;
 extern GtkBuilder* MAIN_BUILDER;
+extern ORDER ORDER_DATA;
 
 void fill_combobox_cat(GtkComboBoxText *combo){
 
-  char *query = "SELECT * FROM category";
+    char start[60];
+    sprintf(start, "select * from category where id_store = %d", ORDER_DATA.CURRENT_SHOP);
     MYSQL_RES *result;
     MYSQL_ROW data;
-    if( !mysql_query(CONNECTOR_DB , query) ){
+    if( !mysql_query(CONNECTOR_DB , start) ){
 
         result = mysql_store_result(CONNECTOR_DB);
 

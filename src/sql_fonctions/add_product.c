@@ -4,12 +4,11 @@
 
 extern MYSQL* CONNECTOR_DB;
 extern GtkBuilder* MAIN_BUILDER;
+extern ORDER ORDER_DATA;
 
-void add_product(const gchar *param, const gchar *param2) {
+void add_product(const gchar *param, const gchar *param2, const gchar *param3) {
     
     char *start;
-    // char *param1;
-    // char input[50];
     char quote[2]="\""; 
     //Rserve memory
     start = malloc(sizeof(char)*200);
@@ -18,10 +17,7 @@ void add_product(const gchar *param, const gchar *param2) {
     //initializing query
     strcpy(start, "insert into product values(NULL");
     strcat(start, ",");
-    strcat(start, quote);
-
-    //Get name of the product
-    
+    strcat(start, quote);    
 
     //add quotes & comma
     strcat(start, param);
@@ -33,7 +29,9 @@ void add_product(const gchar *param, const gchar *param2) {
     //Finishing Query
     strcat(start, param2);
     strcat(start, quote);
-    strcat(start, ")");
+    strcat(start, ",");
+    strcat(start, param3);
+    sprintf(start, "%s, %d)", start, ORDER_DATA.CURRENT_SHOP);
 
     //Query to add a product
     if (mysql_query(CONNECTOR_DB, start)) {
@@ -41,6 +39,5 @@ void add_product(const gchar *param, const gchar *param2) {
         exit(1);
     }
 
-    free(start);
-    mysql_close(CONNECTOR_DB);    
+    free(start);  
 }
