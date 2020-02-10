@@ -18,6 +18,12 @@ typedef struct checkpoint{
     __uint16_t pos_y; 
 }checkpoint;
 
+typedef struct Graph{
+    __uint16_t* distance_array;
+    __uint16_t width_of_it;
+    checkpoint* arrayChecks;
+}Graph;
+
 FILE_representation read_config(const char* filepath);
 
 //returns a struct FILE_rep from file , with struct.width and height fields filled
@@ -41,8 +47,19 @@ FILE_representation file_rep_init(void);
 __uint8_t get_file_debt(FILE* pf);
 
 //generates a graph from a 2D "map"
-__uint16_t* createGraph(FILE_representation* file_rep);
+Graph* createGraph(FILE_representation* file_rep);
 
 //returns distance (in ~~blocs) between 2 chechpoints given
 __uint16_t distance_between(checkpoint first , checkpoint second);
 
+//returns 1D array of sorted shelfs to go to
+__int32_t* createStepsArray(Graph* graph);
+
+//return index from graph.checkpoint where distance is min
+__uint16_t search_index_of_min_in_line(Graph* graph , __uint16_t line , __int32_t* already_checked);
+
+//frees needed fields of Graph
+void free_graph(Graph* market_graph);
+
+
+ 
