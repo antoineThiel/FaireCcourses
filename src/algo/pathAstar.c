@@ -9,6 +9,7 @@
 
 
     extern SESSION USER_DATA;
+    extern ORDER ORDER_DATA;
     extern MYSQL* CONNECTOR_DB;
 
 //
@@ -274,9 +275,13 @@ bool already_visited(const __int32_t * visited_ones , __uint16_t shelf , __uint1
 }
 
 void generateSchema(void){
-    FILE_representation tmp = read_config("shops_config/model.model");
+
+    char *market_name = get_market_name();
+    FILE_representation tmp = read_config(market_name);
     Graph* market_graph;
     __int32_t* steps_needed = NULL;
+
+    free(market_name);
 
     REQUIRED_SHELFS = get_category_list_from_cart();
 
@@ -295,4 +300,29 @@ void generateSchema(void){
     free_graph(market_graph);
     free(market_graph);
 
+}
+
+char* get_market_name(void){
+    
+    char query[50];
+    char* filename = malloc(sizeof(char) * 50);
+    check_malloc(filename);
+
+    MYSQL_RES* result_set;
+    MYSQL_ROW db_line;
+    sprintf(query , "SELECT `name` FROM store WHERE id = %d" , ORDER_DATA.CURRENT_SHOP);
+
+    if( mysql_real_query(CONNECTOR_DB , query , strlen(query) )  ){
+            fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
+            exit(1);
+    }
+    result_set = mysql_store_result(CONNECTOR_DB);
+
+    db_line = mysql_fetch_row(result_set);
+
+    mysql_free_result(result_set);
+    sprintf(filename , "shops_config/%s.model" , db_line[0]); 
+
+    printf("%s test\n\n\n" , filename);   
+    return filename;
 }

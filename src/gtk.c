@@ -90,8 +90,6 @@ int main (int argc, char *argv[]){
   launcher();
   
   gtk_main ();
-
-  generateSchema();
   
   mysql_close(CONNECTOR_DB);
   return 0;

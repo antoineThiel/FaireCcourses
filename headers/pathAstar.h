@@ -66,3 +66,6 @@ bool already_visited(const __int32_t* array , __uint16_t value , __uint16_t size
 
 //considering everything related to order as global values , creates a file (ppm) which displays the path to follow in the shop 
 void generateSchema(void);
+
+//returns pointer to string representing current market's name :)
+char* get_market_name(void);
