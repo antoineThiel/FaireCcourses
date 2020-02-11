@@ -42,6 +42,8 @@ insert into category values ( NULL, 'habits hommes', 1);
 insert into category values ( NULL, 'habits femmes', 1);
 insert into category values ( NULL, 'habits enfants', 1);
 insert into category values ( NULL, 'congelés', 1);
+insert into category values ( NULL, 'beauté', 1);
+insert into category values ( NULL, 'multimédia', 1);
 
 create table product(
     id int auto_increment primary key, 
@@ -63,6 +65,9 @@ insert into product values ( NULL, 'slip', 'habits hommes', 5, 1);
 insert into product values ( NULL, 'culottes', 'habits femmes', 5, 1);
 insert into product values ( NULL, 'sweat', 'habits enfants', 10, 1);
 insert into product values ( NULL, 'frites', 'congelés', 7, 1);
+
+insert into product values ( NULL, 'pinceau', 'beauté', 2.50 , 1);
+insert into product values ( NULL, 'souris', 'multimédia', 17.99 , 1);
 
 create table `order`(
     id int auto_increment primary key, 
@@ -101,12 +106,3 @@ INSERT INTO shelf VALUES(NULL, 12, 1 , 12);
 INSERT INTO shelf VALUES(NULL, 14, 1 , 13);
 INSERT INTO shelf VALUES(NULL, 13, 1 , 14);
 
-
-SELECT shelf_order from shelf where category = (SELECT id from category where name = (SELECT category from product where id = (SELECT id_product from product_order where id_order = 2 LIMIT 1) LIMIT 1) LIMIT 1);
-SELECT shelf_order from shelf 
-	INNER JOIN category USING (id) 
-    INNER JOIN product USING (category)
-    INNER JOIN product_order ON product_order.id_order = 2;
-    
-    
-SELECT shelf_order from shelf WHERE category =  (SELECT id from category  where name = (SELECT category from product where id = 1 LIMIT 1));
