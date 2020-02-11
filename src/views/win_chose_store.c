@@ -152,16 +152,10 @@ char** get_product_list(const gchar *product){
   MYSQL_RES *result;
   MYSQL_ROW data = NULL;
   __uint64_t line_counter = 0;
-  char *start;
-  char quote[2]="\""; 
+  char start[90];
   //Rserve memory
-  start = malloc(sizeof(char)*200);
-  check_malloc(start);  
   //initializing query
-  strcpy(start, "select name, category, price from product where name =");
-  strcat(start, quote);
-  strcat(start, product);
-  strcat(start, quote);
+  sprintf(start, "select name, category, price from product where name = '%s' and id_store = %d", product, ORDER_DATA.CURRENT_SHOP);
 
   if (mysql_query(CONNECTOR_DB, start)) {
     fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
@@ -173,12 +167,8 @@ char** get_product_list(const gchar *product){
   if(line_counter != 0){  
     data = mysql_fetch_row(result);
     mysql_free_result(result);
-    free(start);
-
   }
-
   return data;
-
 }
   
 char** get_max_id(){
