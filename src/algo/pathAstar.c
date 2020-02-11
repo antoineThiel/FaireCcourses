@@ -183,6 +183,7 @@ Graph* createGraph(FILE_representation* file_rep){
     }
     for(size_t y = 0 ; y < graph_dimension ; y++){
         for(size_t x = 0 ; x < graph_dimension ; x++){
+            //set distance to 0 if disabled shelf
             distances_graph[x* graph_dimension + y] = distance_between( arrayChecks[y] , arrayChecks[x] );
             printf("%u\t", distances_graph[x* graph_dimension + y]);
         }

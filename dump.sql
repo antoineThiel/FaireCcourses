@@ -98,3 +98,15 @@ INSERT INTO shelf VALUES(NULL, 10, 1 , 10);
 INSERT INTO shelf VALUES(NULL, 11, 1 , 11);
 INSERT INTO shelf VALUES(NULL, 12, 1 , 12);
 
+INSERT INTO shelf VALUES(NULL, 14, 1 , 13);
+INSERT INTO shelf VALUES(NULL, 13, 1 , 14);
+
+
+SELECT shelf_order from shelf where category = (SELECT id from category where name = (SELECT category from product where id = (SELECT id_product from product_order where id_order = 2 LIMIT 1) LIMIT 1) LIMIT 1);
+SELECT shelf_order from shelf 
+	INNER JOIN category USING (id) 
+    INNER JOIN product USING (category)
+    INNER JOIN product_order ON product_order.id_order = 2;
+    
+    
+SELECT shelf_order from shelf WHERE category =  (SELECT id from category  where name = (SELECT category from product where id = 1 LIMIT 1));
