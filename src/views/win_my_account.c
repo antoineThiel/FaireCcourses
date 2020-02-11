@@ -52,7 +52,7 @@ void my_account(GtkWidget *widget){
     ORDER_DATA.CURRENT_GRID = grid_content;
     gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,2,5);
 
-    label = gtk_label_new("Username :");
+    label = gtk_label_new(_("Username"));
     gtk_grid_attach(GTK_GRID(grid_content), label, 0,0,1,1);
 
     sprintf(id, "%d", USER_DATA.ID_CUSTOMER);
@@ -60,21 +60,21 @@ void my_account(GtkWidget *widget){
     label = gtk_label_new(infos[0]);
     gtk_grid_attach(GTK_GRID(grid_content), label, 1,0,1,1);
 
-    label = gtk_label_new("Nombre total de commande : ");
+    label = gtk_label_new(_("total_order"));
     gtk_grid_attach(GTK_GRID(grid_content), label, 0,1,1,1);
 
     label = gtk_label_new(infos[1]);
     gtk_grid_attach(GTK_GRID(grid_content), label, 1,1,1,1);
 
-    label = gtk_label_new("Statut : ");
+    label = gtk_label_new(_("status"));
     gtk_grid_attach(GTK_GRID(grid_content), label, 0,2,1,1);
 
     if (!strcmp(infos[2], "1")){
-        label = gtk_label_new("Administrateur");
+        label = gtk_label_new(_("admin"));
         USER_DATA.ADMIN = 1;
     }
     else{
-        label = gtk_label_new("Client");
+        label = gtk_label_new(_("client"));
         USER_DATA.ADMIN = 0;
     }
     gtk_grid_attach(GTK_GRID(grid_content), label, 1,2,1,1);
@@ -94,7 +94,7 @@ void win_my_account(GtkWidget *widget){
     grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "grid"));
     button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_account"));
     gtk_widget_destroy(button);
-    button = gtk_button_new_with_label("Mon Compte");
+    button = gtk_button_new_with_label(_("account"));
     gtk_grid_attach(GTK_GRID(grid), button, 0, 0, 1, 1);
     g_signal_connect(button, "clicked", G_CALLBACK(my_account), NULL);
     widget=widget;

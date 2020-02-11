@@ -61,7 +61,7 @@ void win_create_account(GtkWidget *widget){
     ORDER_DATA.CURRENT_GRID = grid_content;
     gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,5,5);
 
-    label = gtk_label_new("Username :");
+    label = gtk_label_new(_("Username"));
     gtk_grid_attach(GTK_GRID(grid_content), label, 0,0,1,1);
 
     entry = gtk_entry_new();
@@ -69,7 +69,7 @@ void win_create_account(GtkWidget *widget){
 
     logs[0] = entry;
 
-    label = gtk_label_new("Password : ");
+    label = gtk_label_new(_("Password"));
     gtk_grid_attach(GTK_GRID(grid_content), label, 0,1,1,1);
 
     entry1 = gtk_entry_new();
@@ -77,19 +77,19 @@ void win_create_account(GtkWidget *widget){
 
     logs[1] = entry1;
 
-    label = gtk_label_new("Age (Pour des raisons statistiques): ");
+    label = gtk_label_new(_("born"));
     gtk_grid_attach(GTK_GRID(grid_content), label, 0,2,1,1);
 
     entry = gtk_entry_new();
     gtk_grid_attach(GTK_GRID(grid_content), entry, 1,2,1,1);
 
     combo = gtk_combo_box_text_new();
-    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), "1", "Administrateur");
-    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), "2", "Client");
+    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), "1", _("admin"));
+    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), "2", _("client"));
     gtk_grid_attach(GTK_GRID(grid_content), combo, 0,3,1,1);
     logs[2] = combo;
 
-    button = gtk_button_new_with_label("Confirmer la création");
+    button = gtk_button_new_with_label(_("confirm creation"));
     gtk_grid_attach(GTK_GRID(grid_content), button, 0, 4, 2, 1);
 
 

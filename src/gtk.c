@@ -78,7 +78,14 @@ int main (int argc, char *argv[]){
   /* Construct a GtkBuilder instance and load our UI description */
   MAIN_BUILDER = gtk_builder_new_from_file ("./glade/window_main.glade");
   
+  //pour fix les pb de double en sql
   setlocale(LC_NUMERIC, "en_US.UTF-8");
+
+  //Choix de la langue (fr : fr_FR.UTF-8 et messages_fr, en : en_US.UTF-8 et messages_en)
+
+  setlocale(LC_MESSAGES, "en_US.UTF-8");
+  bindtextdomain("messages_en", "trans");
+  textdomain("messages_en");
 
   launcher();
   

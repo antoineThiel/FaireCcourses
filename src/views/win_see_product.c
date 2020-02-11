@@ -38,9 +38,9 @@ void be4results(GtkWidget *widget, GtkWidget *cat){
         ORDER_DATA.GRID_RESULTS = grid_results;
         grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "base_grid"));
         gtk_grid_attach(GTK_GRID(grid), grid_results, 10,0,2,10);
-        label = gtk_label_new("Nom : ");
+        label = gtk_label_new(_("name"));
         gtk_grid_attach(GTK_GRID(grid_results), label, 0,0,1,1);
-        label = gtk_label_new("Prix :");
+        label = gtk_label_new(_("price"));
         gtk_grid_attach(GTK_GRID(grid_results), label, 1,0,1,1);
 
         for (u_int64_t i = 0; i < size ; i++)
@@ -71,9 +71,9 @@ void chose_cat(GtkWidget *widget, GtkWidget *combo){
     cat = gtk_combo_box_text_new();
     fill_combobox_cat(GTK_COMBO_BOX_TEXT(cat));
     gtk_grid_attach(GTK_GRID(ORDER_DATA.CURRENT_GRID), cat, 1,1,1,1);
-    label = gtk_label_new("Category : ");
+    label = gtk_label_new(_("category"));
     gtk_grid_attach(GTK_GRID(ORDER_DATA.CURRENT_GRID), label, 0,1,1,1);
-    button = gtk_button_new_with_label("Valider");
+    button = gtk_button_new_with_label(_("valid"));
     gtk_grid_attach(GTK_GRID(ORDER_DATA.CURRENT_GRID), button, 1,2,1,1);
 
     g_signal_connect(button, "clicked", G_CALLBACK(be4results), cat);
@@ -106,14 +106,14 @@ void win_see_product(GtkWidget *widget){
     ORDER_DATA.CURRENT_GRID = grid_content;
     gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,5,5);
 
-    label = gtk_label_new("Magasin :");
+    label = gtk_label_new(_("store"));
     gtk_grid_attach(GTK_GRID(grid_content), label, 0,0,1,1);
 
     combo = gtk_combo_box_text_new();
     fill_combobox_store(GTK_COMBO_BOX_TEXT(combo));
     gtk_grid_attach(GTK_GRID(grid_content), combo, 1,0,1,1);
 
-    button = gtk_button_new_with_label("Valider");
+    button = gtk_button_new_with_label(_("valid"));
     gtk_grid_attach(GTK_GRID(grid_content), button, 2,0,1,1);
 
     g_signal_connect(button, "clicked", G_CALLBACK(chose_cat), combo);

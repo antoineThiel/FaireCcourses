@@ -1,0 +1,144 @@
+# French translations for hello package.
+# Copyright (C) 2020 THE hello'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the hello package.
+# root <root@antoine-linux>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: hello 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-02-10 21:03+0100\n"
+"PO-Revision-Date: 2020-02-10 20:25+0100\n"
+"Last-Translator: root <root@antoine-linux>\n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: src/views/win_log_in.c:89
+msgid "Connection"
+msgstr "Connection"
+
+#: src/views/win_create_account.c:72 src/views/win_log_in.c:93
+msgid "Password"
+msgstr "Mot de Passe"
+
+#: src/views/win_create_account.c:64 src/views/win_log_in.c:91
+#: src/views/win_my_account.c:55
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: src/views/win_my_account.c:97
+msgid "account"
+msgstr "Mon compte"
+
+#: src/views/win_add_product.c:92 src/views/win_add_product.c:185
+#: src/views/win_chose_store.c:388
+msgid "add"
+msgstr "Ajouter"
+
+#: src/views/win_add_product.c:36
+msgid "add new"
+msgstr "Ajouter une nouvelle info"
+
+#: src/views/win_create_account.c:87 src/views/win_my_account.c:73
+msgid "admin"
+msgstr "Administrateur"
+
+#: src/views/win_chose_store.c:437
+msgid "basket"
+msgstr "Votre Panier"
+
+#: src/views/win_create_account.c:80
+msgid "born"
+msgstr "Age"
+
+#: src/views/win_add_product.c:98 src/views/win_add_product.c:255
+#: src/views/win_see_product.c:74
+msgid "category"
+msgstr "Categorie"
+
+#: src/views/win_create_account.c:88 src/views/win_my_account.c:77
+msgid "client"
+msgstr "Client"
+
+#: src/views/win_create_account.c:92
+msgid "confirm creation"
+msgstr "Confirmer la création"
+
+#: src/views/win_add_product.c:175 src/views/win_see_product.c:41
+#, fuzzy
+msgid "name"
+msgstr "Nom du produit"
+
+#: src/views/win_add_product.c:260
+msgid "next"
+msgstr "Suivant"
+
+#: src/views/win_chose_store.c:59
+msgid "order_more"
+msgstr "Refaire une commande"
+
+#: src/views/win_see_product.c:43
+msgid "price"
+msgstr "Prix"
+
+#: src/views/win_add_product.c:256
+msgid "product"
+msgstr "Produit"
+
+#: src/views/win_add_product.c:33
+msgid "product_added"
+msgstr "Produit ajouté"
+
+#: src/views/win_add_product.c:96
+msgid "product_name"
+msgstr "Nom du produit"
+
+#: src/views/win_add_product.c:109
+msgid "product_price"
+msgstr "Prix du produit"
+
+#: src/views/win_chose_store.c:64
+msgid "quit"
+msgstr "Quitter le programme"
+
+#: src/views/win_chose_store.c:430
+msgid "search"
+msgstr "Rechercher"
+
+#: src/views/win_chose_store.c:503
+msgid "start"
+msgstr "Commencer"
+
+#: src/views/win_my_account.c:69
+msgid "status"
+msgstr "Statut"
+
+#: src/views/win_add_product.c:243 src/views/win_see_product.c:109
+msgid "store"
+msgstr "Magasin"
+
+#: src/views/win_chose_store.c:501
+#, fuzzy
+msgid "store_name"
+msgstr "Nom du magasin"
+
+#: src/views/win_chose_store.c:439
+msgid "total"
+msgstr "Total"
+
+#: src/views/win_my_account.c:63
+msgid "total_order"
+msgstr "Nombre de commandes"
+
+#: src/views/win_add_product.c:246
+msgid "type"
+msgstr "Type"
+
+#: src/views/win_chose_store.c:442 src/views/win_see_product.c:76
+#: src/views/win_see_product.c:116
+msgid "valid"
+msgstr "Valider"

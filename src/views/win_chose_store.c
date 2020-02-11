@@ -57,12 +57,12 @@ void validate_order(){
   grid_content = gtk_grid_new();
   ORDER_DATA.CURRENT_GRID = GTK_WIDGET(grid_content);
   gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,2,3);
-  button = gtk_button_new_with_label("Refaire une commande");
+  button = gtk_button_new_with_label(_("order_more"));
   gtk_grid_attach(GTK_GRID(grid_content), button, 1,1,1,1);
 
   g_signal_connect(button, "clicked", G_CALLBACK(unset), NULL);
 
-  button = gtk_button_new_with_label("Quitter le programme");
+  button = gtk_button_new_with_label(_("quit"));
   gtk_grid_attach(GTK_GRID(grid_content), button, 1, 3, 1, 1);
 
   g_signal_connect(button, "clicked", G_CALLBACK(gtk_main_quit), NULL);
@@ -387,7 +387,7 @@ void display_search(GtkWidget *widget, GtkWidget **array){
   button = gtk_button_new_with_label("+");
   g_signal_connect(button, "clicked", G_CALLBACK(increase), label);
   gtk_grid_attach(GTK_GRID(grid),button, 2, 3, 1, 1);
-  button = gtk_button_new_with_label("Ajouter");
+  button = gtk_button_new_with_label(_("add"));
   gtk_grid_attach(GTK_GRID(grid),button, 0, 4, 3, 1);
   
   
@@ -429,19 +429,19 @@ void win_shopping(){
   gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,6,1);
 
   entry = gtk_entry_new();
-  button = gtk_button_new_with_label("Search");
+  button = gtk_button_new_with_label(_("search"));
   gtk_grid_attach(GTK_GRID(grid_content), entry, 0, 0, 4, 1);
   gtk_grid_attach(GTK_GRID(grid_content), button, 4, 0, 1, 1);
 
   grid_results = gtk_grid_new();
   ORDER_DATA.GRID_RESULTS = grid_results;
   gtk_grid_attach(GTK_GRID(grid), grid_results, 7, 0, 5, 2);
-  label = gtk_label_new("Votre Panier : ");
+  label = gtk_label_new(_("basket"));
   gtk_grid_attach(GTK_GRID(grid_results), label, 0, 0, 1, 1);
-  label = gtk_label_new("Total : ");
+  label = gtk_label_new(_("total"));
   ORDER_DATA.PRICE = label;
   gtk_grid_attach(GTK_GRID(grid_results), label, 0,2,1,1);
-  button2 = gtk_button_new_with_label("Valider");
+  button2 = gtk_button_new_with_label(_("valid"));
   gtk_grid_attach(GTK_GRID(grid_results), button2, 0,3,1,1);
 
   gtk_widget_show_all(grid_content);
@@ -500,9 +500,9 @@ void win_chose_store(GtkWidget *widget){
     combo = gtk_combo_box_text_new();
     fill_combobox_store(GTK_COMBO_BOX_TEXT(combo));
     gtk_grid_attach(GTK_GRID(grid_content), combo, 1,0,1,1);
-    label = gtk_label_new("Nom du magasin");
+    label = gtk_label_new(_("store_name"));
     gtk_grid_attach(GTK_GRID(grid_content), label, 0,0,1,1);
-    button = gtk_button_new_with_label("Commencer");
+    button = gtk_button_new_with_label(_("start"));
     gtk_grid_attach(GTK_GRID(grid_content), button, 2,0,1,1);
 
     gtk_widget_show_all(grid_content);

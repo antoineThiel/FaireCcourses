@@ -1,0 +1,34 @@
+gcc -o bin/total -Wall -Werror -Wextra src/*.c src/*/*.c
+
+
+1st Step: 
+
+xgettext --keyword=_ --language=C --add-comments --sort-output -o trans/fr.pot src/*.c src/*/*.c
+
+2nd Step : 
+
+msginit --input=trans/fr.pot --locale=fr --output=trans/fr/messages_fr.po
+
+3rd Step :
+
+msgfmt --output-file=trans/fr/messages_fr.mo trans/fr/messages_fr.po
+
+
+
+update : 
+
+
+1st step : 
+
+xgettext --keyword=_ --language=C --add-comments --sort-output -o trans/fr.pot src/*.c src/*/*.c
+
+2nd Step :
+
+msgmerge --update trans/fr/messages_fr.po trans/fr.pot
+
+3rd Step : 
+
+msgfmt --output-file=trans/en/messages_en.mo trans/en/messages_en.po
+
+
+msginit --input=trans/en.pot --locale=en --output=trans/en/messages_en.po
