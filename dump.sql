@@ -82,7 +82,6 @@ create table product_order(
     quantity int not null
     );
 
-drop table shelf;
 create table shelf(
     id int auto_increment primary key, 
     category int, 
