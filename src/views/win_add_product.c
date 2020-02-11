@@ -30,10 +30,10 @@ void win_new_product(){
   ORDER_DATA.CURRENT_GRID = grid_content;
   gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,2,2);
 
-  label = gtk_label_new("Produit ajouté !");
+  label = gtk_label_new(_("product_added"));
   gtk_grid_attach(GTK_GRID(grid_content), label, 0 ,0,2,1);
 
-  button = gtk_button_new_with_label("Ajouter une nouvelle info");
+  button = gtk_button_new_with_label(_("add new"));
   gtk_grid_attach(GTK_GRID(grid_content), button, 0, 1 ,2,1);
 
   g_signal_connect(button, "clicked", G_CALLBACK(win_add_product_admin), NULL);
@@ -89,13 +89,13 @@ void win_add_product(const gchar *store){
     ORDER_DATA.CURRENT_GRID = grid_content;
     gtk_grid_attach(GTK_GRID(grid), grid_content, 1,0,2,3);
 
-    button = gtk_button_new_with_label("Ajouter");
+    button = gtk_button_new_with_label(_("add"));
     entry = gtk_entry_new();
     combo = gtk_combo_box_text_new();
 
-    label = gtk_label_new("Nom du produit");
+    label = gtk_label_new(_("product_name"));
     gtk_grid_attach(GTK_GRID(grid_content), label, 0,0,1,1);
-    label = gtk_label_new("Categorie");
+    label = gtk_label_new(_("category"));
     gtk_grid_attach(GTK_GRID(grid_content), label, 0,1,1,1);
 
     fill_combobox_cat(GTK_COMBO_BOX_TEXT(combo));
@@ -106,7 +106,7 @@ void win_add_product(const gchar *store){
 
     array[0] = entry;
 
-    label = gtk_label_new("Prix du produit");
+    label = gtk_label_new(_("product_price"));
     gtk_grid_attach(GTK_GRID(grid_content), label, 0,2,1,1 );
     entry = gtk_entry_new();
     gtk_grid_attach(GTK_GRID(grid_content), entry, 1,2,1,1);
@@ -172,7 +172,7 @@ void win_add_category(const gchar *store){
   ORDER_DATA.CURRENT_GRID = grid_content;
   gtk_grid_attach(GTK_GRID(grid), grid_content, 1, 0, 3, 3);
 
-  label = gtk_label_new("Nom : ");
+  label = gtk_label_new(_("name"));
   gtk_grid_attach(GTK_GRID(grid_content), label, 0,0,1,1);
 
   entry = gtk_entry_new();
@@ -182,7 +182,7 @@ void win_add_category(const gchar *store){
   label = gtk_label_new(store);
   array[1] = label;
 
-  button = gtk_button_new_with_label("Ajouter");
+  button = gtk_button_new_with_label(_("add"));
   gtk_grid_attach(GTK_GRID(grid_content), button, 1,1,1,1);
 
   g_signal_connect(button, "clicked", G_CALLBACK(add_category), array);
@@ -240,10 +240,10 @@ void win_add_product_admin(GtkWidget *widget){
   ORDER_DATA.CURRENT_GRID = grid_content;
   gtk_grid_attach(GTK_GRID(grid), grid_content, 1, 0, 3, 3);
 
-  label = gtk_label_new("Magasin : ");
+  label = gtk_label_new(_("store"));
   gtk_grid_attach(GTK_GRID(grid_content), label, 0,0,1,1);
 
-  label = gtk_label_new("Type : ");
+  label = gtk_label_new(_("type"));
   gtk_grid_attach(GTK_GRID(grid_content), label, 0,1,1,1);
 
   combo = gtk_combo_box_text_new();
@@ -252,12 +252,12 @@ void win_add_product_admin(GtkWidget *widget){
   array[0] = combo;
 
   combo = gtk_combo_box_text_new();
-  gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), "1", "Categorie");
-  gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), "2", "Produit");
+  gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), "1", _("category"));
+  gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), "2", _("product"));
   gtk_grid_attach(GTK_GRID(grid_content), combo, 1,1,1,1);
   array[1] = combo;
 
-  button = gtk_button_new_with_label("Suivant");
+  button = gtk_button_new_with_label(_("next"));
   gtk_grid_attach(GTK_GRID(grid_content), button, 1,2,1,1);
 
   g_signal_connect(button, "clicked", G_CALLBACK(product_cat), array);

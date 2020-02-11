@@ -86,11 +86,11 @@ void win_log_in(GtkWidget *widget){
   gtk_grid_attach(GTK_GRID(grid_content), entry, 1,1,1,1);
   array[1] = entry;
   
-  button = gtk_button_new_with_label("Connexion");
+  button = gtk_button_new_with_label(_("Connection"));
   gtk_grid_attach(GTK_GRID(grid_content), button, 2,0,1,2);
-  label = gtk_label_new("Username");
+  label = gtk_label_new(_("Username"));
   gtk_grid_attach(GTK_GRID(grid_content), label, 0,0,1,1);
-  label = gtk_label_new("Password");
+  label = gtk_label_new(_("Password"));
   gtk_grid_attach(GTK_GRID(grid_content), label, 0,1,1,1);
 
   g_signal_connect(button, "clicked", G_CALLBACK(get_log), array);

@@ -5,6 +5,9 @@
   <object class="GtkWindow" id="window">
     <property name="can_focus">False</property>
     <child>
+      <placeholder/>
+    </child>
+    <child>
       <object class="GtkGrid" id="base_grid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -62,11 +65,20 @@ commencer ses courses</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">3</property>
+                <property name="top_attach">4</property>
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkButton" id="btn_see_product">
+                <property name="label" translatable="yes">Voir les produit disponibles</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">3</property>
+              </packing>
             </child>
           </object>
           <packing>
