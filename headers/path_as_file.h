@@ -15,3 +15,4 @@ void ppm_file_from_stepArray(const FILE_representation* origin , __uint16_t* ste
 list_ids* get_product_list_from_cart(void);
 list_ids* get_category_list_from_cart(void);
 
+#define RATIO_IMG 6

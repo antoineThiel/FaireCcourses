@@ -293,9 +293,11 @@ void generateSchema(void){
 
     steps_needed = realloc(steps_needed , sizeof(__int32_t) * REQUIRED_SHELFS->length);
 
-    for(__uint16_t i = 0 ; i < REQUIRED_SHELFS->length + 2; i++){ //+2 : entrance and exit are not considered as REQUIRED_SHELVES
-        printf("step %u : %u\n" , i , steps_needed[i]);
-    }
+    // for(__uint16_t i = 0 ; i < REQUIRED_SHELFS->length + 2; i++){ //+2 : entrance and exit are not considered as REQUIRED_SHELVES
+    //     printf("step %u : %u\n" , i , steps_needed[i]);
+    // }
+
+    
 
     free_graph(market_graph);
     free(market_graph);
