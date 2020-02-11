@@ -49,7 +49,7 @@
         </child>
         <child>
           <object class="GtkButton" id="btn_add_account">
-            <property name="label" translatable="yes">button</property>
+            <property name="label" translatable="yes">Je n'ai pas de compte ='(</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
