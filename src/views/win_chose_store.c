@@ -42,8 +42,7 @@ void update_order_customer(){
 }
 
 void validate_order(){
-  unsigned short* test;
-  
+    
   update_price_order();
   update_id_customer();
   update_order_customer();
@@ -70,8 +69,7 @@ void validate_order(){
   gtk_widget_show_all(grid_content);
 
 
-  test = get_category_list_from_cart();
-  free(test);
+  generateSchema();
   //print_plan()
 }
 void set_label_price(){

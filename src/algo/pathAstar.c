@@ -5,6 +5,8 @@
 //GLOBALS
     __uint16_t MARKET_ENTRANCE;
     __uint16_t MARKET_EXIT;
+    list_ids* REQUIRED_SHELFS; 
+
 
     extern SESSION USER_DATA;
     extern MYSQL* CONNECTOR_DB;
@@ -80,7 +82,6 @@ void fill_shop_model(FILE_representation* infos){
         }
 
     }
-
     free(oneline);
 }
 
@@ -182,14 +183,13 @@ Graph* createGraph(FILE_representation* file_rep){
         }
     }
     for(size_t y = 0 ; y < graph_dimension ; y++){
-        for(size_t x = 0 ; x < graph_dimension ; x++){
-            //set distance to 0 if disabled shelf
-            distances_graph[x* graph_dimension + y] = distance_between( arrayChecks[y] , arrayChecks[x] );
-            printf("%u\t", distances_graph[x* graph_dimension + y]);
-        }
-        printf("\n");
-    }
+        for(size_t x = 0 ; x < graph_dimension ; x++){            
+            distances_graph[x*graph_dimension + y] = distance_between(arrayChecks[y] , arrayChecks[x]);
 
+            // printf("%u\t", distances_graph[x* graph_dimension + y]);
+        }
+        // printf("\n");
+    }
     graph->distance_array = distances_graph;
     graph->arrayChecks = arrayChecks;
     return graph;
@@ -212,14 +212,13 @@ __uint16_t search_index_of_min_in_line(Graph* graph , __uint16_t line , __int32_
 
     __uint16_t min_dist = 65535; // MAX_OF_UINT_16 (thought of -1 but ???)^^
     __uint16_t index = 0 ;
-    // __uint16_t index_tmp = index , min_dist_tmp = min_dist;
 
     for(__uint16_t pos = 0 ; pos < graph->width_of_it ; pos++ ){
 
         //order of statement is pure algorithm/self appreciation deppending of data consumed
         if(graph->distance_array[line * graph->width_of_it + pos] > 0){
             if(graph->distance_array[line * graph->width_of_it + pos] < min_dist){
-                if(already_visited( already_checked , pos , graph->width_of_it)){ //"index" already passed by : skip loop's round , no already passed by :
+                if(already_visited( already_checked , pos , graph->width_of_it) || !already_visited(REQUIRED_SHELFS->id , pos , REQUIRED_SHELFS->length)){ //"index" already passed by : skip loop's round , no already passed by :
                     continue;
                 }
                 // else{
@@ -244,6 +243,10 @@ __int32_t* createStepsArray(Graph* graph){
     check_malloc(visited_shelf);
     memset(visited_shelf , -1 , graph->width_of_it * sizeof(__int32_t) ) ;
 
+    list_ids *required_shelf = get_category_list_from_cart();
+    for(int i = 0 ; i < required_shelf->length ; i++){
+        printf("requiredshelf %d  : shelf nb %d \n" , i , required_shelf->id[i]);
+    }
     __uint16_t new_step ; //index to put new step in follow steps
     __uint16_t  current_line = MARKET_ENTRANCE ;
 
@@ -275,18 +278,19 @@ void generateSchema(void){
     Graph* market_graph;
     __int32_t* steps_needed = NULL;
 
+    REQUIRED_SHELFS = get_category_list_from_cart();
+
     market_graph = createGraph(&tmp);
     file_rep_destroy(&tmp);
 
 
     steps_needed = createStepsArray(market_graph);
 
-    free(market_graph);
-    free_graph(market_graph);
-
     for(__uint16_t i = 0 ; i < market_graph->width_of_it ; i++){
         printf("step %u : %u\n" , i , steps_needed[i]);
     }
 
-    free(steps_needed);
+    free_graph(market_graph);
+    free(market_graph);
+
 }
