@@ -317,7 +317,7 @@ void add_to_cart(GtkWidget *widget, GtkWidget **array){
 
 //Affiche les resultats de recherche et la possibilité d'ajouter au panier
 void display_search(GtkWidget *widget, GtkWidget **array){
-
+ 
   GtkWidget *label;
   GtkWidget *grid_results;
   GtkWidget *grid;
@@ -334,7 +334,7 @@ void display_search(GtkWidget *widget, GtkWidget **array){
       grid_results= gtk_grid_new();
       ORDER_DATA.GRID_RESULTS = grid_results;
       grid = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "base_grid"));
-      gtk_grid_attach(GTK_GRID(grid), grid_results, 10,0,2,10);
+      gtk_grid_attach(GTK_GRID(grid), grid_results, 10,0,6,10);
       label = gtk_label_new(_("name"));
       gtk_grid_attach(GTK_GRID(grid_results), label, 0,0,1,1);
       label = gtk_label_new(_("price"));
@@ -349,18 +349,24 @@ void display_search(GtkWidget *widget, GtkWidget **array){
           sprintf(price, "%s €", data[1]);
           label = gtk_label_new(price);
           gtk_grid_attach(GTK_GRID(grid_results), label, 1,1+(int)i,1,1);
+          //Quantity
+          button = gtk_button_new_with_label("-");
+          gtk_grid_attach(GTK_GRID(grid_results),button, 2, 1+(int)i, 1, 1);
+          label = gtk_label_new("1");
+          g_signal_connect(button, "clicked", G_CALLBACK(decrease), label);
+          gtk_grid_attach(GTK_GRID(grid_results),label, 3, 1+(int)i, 1, 1);
+          button = gtk_button_new_with_label("+");
+          g_signal_connect(button, "clicked", G_CALLBACK(increase), label);
+          gtk_grid_attach(GTK_GRID(grid_results),button, 4, 1+(int)i, 1, 1);
+          button = gtk_button_new_with_label(_("add"));
+          gtk_grid_attach(GTK_GRID(grid_results),button, 5, 1+(int)i, 1, 1);
       }
   }
-  gtk_widget_show_all(ORDER_DATA.GRID_RESULTS);
-
-
-
   g_signal_connect(button, "clicked", G_CALLBACK(add_to_cart), );
   
+  gtk_widget_show_all(ORDER_DATA.GRID_RESULTS);
 
   }
-  gtk_widget_show_all(grid);
-
   widget = widget;
 }
 
