@@ -239,9 +239,9 @@ __uint16_t search_index_of_min_in_line(Graph* graph , __uint16_t line , __int32_
 
 __int32_t* createStepsArray(Graph* graph){
 
-    __int32_t* visited_shelf = malloc(graph->width_of_it * sizeof(__int32_t)); //avoid initializing it :)))
+    __int32_t* visited_shelf = malloc( (REQUIRED_SHELFS->length+2) * sizeof(__int32_t)); //avoid initializing it :)))
     check_malloc(visited_shelf);
-    memset(visited_shelf , -1 , graph->width_of_it * sizeof(__int32_t) ) ;
+    memset(visited_shelf , -1 , (REQUIRED_SHELFS->length+2) * sizeof(__int32_t) ) ;
 
     list_ids *required_shelf = get_category_list_from_cart();
     for(int i = 0 ; i < required_shelf->length ; i++){
@@ -252,9 +252,9 @@ __int32_t* createStepsArray(Graph* graph){
 
     //begining is obviously the entrance , and last... is the exit :)
     visited_shelf[0] = MARKET_ENTRANCE;
-    visited_shelf[graph->width_of_it -1] = MARKET_EXIT;
+    visited_shelf[REQUIRED_SHELFS->length +1] = MARKET_EXIT;  // no -1 needed because [0] is filled // +1 because visitedshelf.length == requiredshelves.length + 2
     printf("\n");
-    for( new_step = 1 ; new_step < graph->width_of_it - 1 ; new_step++ ){
+    for( new_step = 1 ; new_step <= REQUIRED_SHELFS->length ; new_step++ ){
 
         visited_shelf[new_step] = search_index_of_min_in_line(graph , current_line , visited_shelf); // add closest point to visited cities
         current_line = visited_shelf[new_step];
@@ -286,7 +286,9 @@ void generateSchema(void){
 
     steps_needed = createStepsArray(market_graph);
 
-    for(__uint16_t i = 0 ; i < market_graph->width_of_it ; i++){
+    steps_needed = realloc(steps_needed , sizeof(__int32_t) * REQUIRED_SHELFS->length);
+
+    for(__uint16_t i = 0 ; i < REQUIRED_SHELFS->length + 2; i++){ //+2 : entrance and exit are not considered as REQUIRED_SHELVES
         printf("step %u : %u\n" , i , steps_needed[i]);
     }
 
