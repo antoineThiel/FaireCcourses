@@ -74,9 +74,14 @@ void chose_cat(GtkWidget *widget, GtkWidget *combo){
     label = gtk_label_new(_("category"));
     gtk_grid_attach(GTK_GRID(ORDER_DATA.CURRENT_GRID), label, 0,1,1,1);
     button = gtk_button_new_with_label(_("valid"));
-    gtk_grid_attach(GTK_GRID(ORDER_DATA.CURRENT_GRID), button, 1,2,1,1);
+    gtk_grid_attach(GTK_GRID(ORDER_DATA.CURRENT_GRID), button, 2,1,1,1);
 
+    if (ORDER_DATA.SHOPPING){
+        g_signal_connect(button, "clicked", G_CALLBACK(display_search), cat);
+    }
+    else{
     g_signal_connect(button, "clicked", G_CALLBACK(be4results), cat);
+    }
     gtk_widget_show_all(ORDER_DATA.CURRENT_GRID);
     (void) widget;
 
@@ -119,4 +124,12 @@ void win_see_product(GtkWidget *widget){
     g_signal_connect(button, "clicked", G_CALLBACK(chose_cat), combo);
     gtk_widget_show_all(grid_content);
     (void) widget;
+}
+
+void win_see_product_1(GtkWidget *widget, char choice){
+    if(!strcmp(choice, "store")){
+        ORDER_DATA.SHOPPING = 1;
+    }else{
+        ORDER_DATA.SHOPPING = 0;
+    }
 }

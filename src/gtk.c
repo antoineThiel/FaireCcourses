@@ -33,6 +33,8 @@ void event_handler(){
   
   GtkWidget *window;
   GtkWidget *button;
+  char store[5] = "store";
+  char admin_see[5] = "admin";
 
   //Destroying the window 
   window = GTK_WIDGET(gtk_builder_get_object (MAIN_BUILDER, "window"));
@@ -48,7 +50,7 @@ void event_handler(){
     g_signal_connect (button, "clicked", G_CALLBACK(win_add_product_admin), NULL);
 
     button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_see_product"));
-    g_signal_connect(button, "clicked", G_CALLBACK(win_see_product), NULL);
+    g_signal_connect(button, "clicked", G_CALLBACK(win_see_product_1), admin_see);
     }else {
       button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_add_product"));
       gtk_widget_hide(button);
@@ -56,7 +58,7 @@ void event_handler(){
       gtk_widget_hide(button);
     }
   button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_store"));
-  g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), NULL);
+  g_signal_connect(button, "clicked", G_CALLBACK(win_see_product_1), store);
   }
 
   button = GTK_WIDGET (gtk_builder_get_object(MAIN_BUILDER, "quit"));
