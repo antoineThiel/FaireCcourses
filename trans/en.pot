@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-10 21:07+0100\n"
+"POT-Creation-Date: 2020-02-12 21:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,124 +19,121 @@ msgstr ""
 
 #: src/views/win_log_in.c:89
 msgid "Connection"
-msgstr "Connection"
+msgstr ""
 
 #: src/views/win_create_account.c:72 src/views/win_log_in.c:93
 msgid "Password"
-msgstr "Password"
+msgstr ""
 
 #: src/views/win_create_account.c:64 src/views/win_log_in.c:91
 #: src/views/win_my_account.c:55
 msgid "Username"
-msgstr "Username"
+msgstr ""
 
 #: src/views/win_my_account.c:97
 msgid "account"
-msgstr "My account"
+msgstr ""
 
 #: src/views/win_add_product.c:92 src/views/win_add_product.c:185
-#: src/views/win_chose_store.c:388
+#: src/views/win_chose_store.c:351
 msgid "add"
-msgstr "Add"
+msgstr ""
 
 #: src/views/win_add_product.c:36
 msgid "add new"
-msgstr "Add more"
+msgstr ""
+
+#: src/views/win_log_in.c:116
+msgid "add_product"
+msgstr ""
 
 #: src/views/win_create_account.c:87 src/views/win_my_account.c:73
 msgid "admin"
-msgstr "Administrator"
+msgstr ""
 
-#: src/views/win_chose_store.c:437
+#: src/views/win_see_product.c:139
 msgid "basket"
-msgstr "Your basket"
+msgstr ""
 
 #: src/views/win_create_account.c:80
 msgid "born"
-msgstr "Age"
+msgstr ""
 
 #: src/views/win_add_product.c:98 src/views/win_add_product.c:255
 #: src/views/win_see_product.c:74
 msgid "category"
-msgstr "category"
+msgstr ""
+
+#: src/views/win_log_in.c:118
+msgid "check_list"
+msgstr ""
 
 #: src/views/win_create_account.c:88 src/views/win_my_account.c:77
 msgid "client"
-msgstr "customer"
+msgstr ""
 
 #: src/views/win_create_account.c:92
 msgid "confirm creation"
-msgstr "confirm the creation"
+msgstr ""
 
-#: src/views/win_add_product.c:175 src/views/win_see_product.c:41
+#: src/views/win_add_product.c:175 src/views/win_chose_store.c:325
+#: src/views/win_see_product.c:41
 msgid "name"
-msgstr "name of the product"
+msgstr ""
 
 #: src/views/win_add_product.c:260
 msgid "next"
-msgstr "next"
+msgstr ""
 
-#: src/views/win_chose_store.c:59
+#: src/views/win_chose_store.c:60
 msgid "order_more"
-msgstr "do it again"
+msgstr ""
 
-#: src/views/win_see_product.c:43
+#: src/views/win_chose_store.c:327 src/views/win_see_product.c:43
 msgid "price"
-msgstr "price"
+msgstr ""
 
 #: src/views/win_add_product.c:256
 msgid "product"
-msgstr "product"
+msgstr ""
 
 #: src/views/win_add_product.c:33
 msgid "product_added"
-msgstr "product added"
+msgstr ""
 
 #: src/views/win_add_product.c:96
 msgid "product_name"
-msgstr "product name"
+msgstr ""
 
 #: src/views/win_add_product.c:109
 msgid "product_price"
-msgstr "product price"
+msgstr ""
 
-#: src/views/win_chose_store.c:64
+#: src/views/win_chose_store.c:65 src/views/win_log_in.c:122
 msgid "quit"
-msgstr "Quit"
+msgstr ""
 
-#: src/views/win_chose_store.c:430
-msgid "search"
-msgstr "search"
-
-#: src/views/win_chose_store.c:503
-msgid "start"
-msgstr "start"
+#: src/views/win_log_in.c:120
+msgid "start_order"
+msgstr ""
 
 #: src/views/win_my_account.c:69
 msgid "status"
-msgstr "status"
+msgstr ""
 
-#: src/views/win_add_product.c:243 src/views/win_see_product.c:109
+#: src/views/win_add_product.c:243 src/views/win_see_product.c:119
 msgid "store"
-msgstr "store"
-
-#: src/views/win_chose_store.c:501
-msgid "store_name"
-msgstr "Store name"
-
-#: src/views/win_chose_store.c:439
-msgid "total"
-msgstr "total"
+msgstr ""
 
 #: src/views/win_my_account.c:63
 msgid "total_order"
-msgstr "Number of order"
+msgstr ""
 
 #: src/views/win_add_product.c:246
 msgid "type"
-msgstr "type"
+msgstr ""
 
-#: src/views/win_chose_store.c:442 src/views/win_see_product.c:76
-#: src/views/win_see_product.c:116
+#: src/views/win_chose_store.c:252 src/views/win_see_product.c:76
+#: src/views/win_see_product.c:126
 msgid "valid"
-msgstr "Confirm"
+msgstr ""

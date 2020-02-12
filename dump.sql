@@ -49,7 +49,7 @@ create table product(
     id int auto_increment primary key, 
     name varchar(50), 
     category varchar(50), 
-    price double, 
+    price int, 
     id_store int
     );
 
@@ -65,14 +65,13 @@ insert into product values ( NULL, 'slip', 'habits hommes', 5, 1);
 insert into product values ( NULL, 'culottes', 'habits femmes', 5, 1);
 insert into product values ( NULL, 'sweat', 'habits enfants', 10, 1);
 insert into product values ( NULL, 'frites', 'congeles', 7, 1);
-
-insert into product values ( NULL, 'pinceau', 'beaute', 2.50 , 1);
-insert into product values ( NULL, 'souris', 'multimedia', 17.99 , 1);
+insert into product values ( NULL, 'pinceau', 'beaute', 2 , 1);
+insert into product values ( NULL, 'souris', 'multimedia', 17 , 1);
 
 create table `order`(
     id int auto_increment primary key, 
     id_customer int, 
-    price double, 
+    price int, 
     id_store int
     );
 

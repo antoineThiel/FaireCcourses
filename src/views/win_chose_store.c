@@ -16,7 +16,7 @@ void unset(){
 
 void update_price_order(){
   char start[60];
-  sprintf(start, "update `order` set price = %.2lf where id = %d", ORDER_DATA.TOTAL_PRICE, ORDER_DATA.ORDER_NUMBER);
+  sprintf(start, "update `order` set price = %d where id = %d", ORDER_DATA.TOTAL_PRICE, ORDER_DATA.ORDER_NUMBER);
   if (mysql_query(CONNECTOR_DB, start)) {
   fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
   exit(1);
@@ -76,7 +76,7 @@ void validate_order(){
 void set_label_price(){
 
   char text[20];
-  sprintf(text, "Total : %.2lf €", ORDER_DATA.TOTAL_PRICE);
+  sprintf(text, "Total : %d €", ORDER_DATA.TOTAL_PRICE);
   gtk_label_set_text(GTK_LABEL(ORDER_DATA.PRICE), text);
 }
 
@@ -293,7 +293,7 @@ void add_to_cart(GtkWidget *widget, GtkWidget **array){
 
   def_add_cart(id_order[0],temp, quantity);  
   see_order(name, quantity);
-  ORDER_DATA.TOTAL_PRICE += (strtod(price, NULL)*strtod(quantity, NULL));
+  ORDER_DATA.TOTAL_PRICE += (atoi(price)*atoi(quantity));
   set_label_price();
   widget = widget;
 

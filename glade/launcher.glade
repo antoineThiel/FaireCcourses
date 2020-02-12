@@ -36,10 +36,9 @@
           </packing>
         </child>
         <child>
-          <object class="GtkImage">
+          <object class="GtkImage" id="img">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">../img/launcher.jpg</property>
           </object>
           <packing>
             <property name="left_attach">0</property>

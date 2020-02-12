@@ -17,11 +17,13 @@
             <property name="can_focus">False</property>
             <child>
               <object class="GtkButton" id="btn_account">
-                <property name="label" translatable="yes">Connexion</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="win_log_in" swapped="no"/>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -30,13 +32,13 @@
             </child>
             <child>
               <object class="GtkButton" id="btn_store">
-                <property name="label" translatable="yes">choisissez un magasin 
-			&amp;
-commencer ses courses</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="win_chose_store" swapped="no"/>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -45,11 +47,13 @@ commencer ses courses</property>
             </child>
             <child>
               <object class="GtkButton" id="btn_add_product">
-                <property name="label" translatable="yes">Ajouter un produit</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="win_add_product" swapped="no"/>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -58,10 +62,12 @@ commencer ses courses</property>
             </child>
             <child>
               <object class="GtkButton" id="quit">
-                <property name="label" translatable="yes">Quitter</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -70,10 +76,12 @@ commencer ses courses</property>
             </child>
             <child>
               <object class="GtkButton" id="btn_see_product">
-                <property name="label" translatable="yes">Voir les produit disponibles</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
                 <property name="left_attach">0</property>

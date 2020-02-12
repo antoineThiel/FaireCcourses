@@ -23,6 +23,8 @@ void win_log_in(GtkWidget *widget);
 void modify_log_text(void);
 void win_see_product_1(GtkWidget *widget, GtkWidget *choice);
 void validate_order();
+void set_labels();
+void set_img();
 struct SESSION{
     int IS_CONNECTED; // initially disconnected
     int ADMIN; //allows =/= rights
@@ -32,7 +34,7 @@ struct SESSION{
 struct ORDER{
     int CURRENT_SHOP;
     int ORDER_NUMBER;
-    double TOTAL_PRICE;
+    int TOTAL_PRICE;
     GtkWidget *CURRENT_GRID;
     GtkWidget *GRID_RESULTS;
     GtkWidget *BASKET;
