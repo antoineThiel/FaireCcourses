@@ -6,6 +6,5 @@ void win_start(GtkWidget *widget);
 void win_create_account(GtkWidget *widget);
 void win_add_product_admin(GtkWidget *widget);
 void event_handler();
-char** get_product_id(const gchar *product);
 char** get_id(const gchar *store);
 void win_see_product(GtkWidget *widget);
