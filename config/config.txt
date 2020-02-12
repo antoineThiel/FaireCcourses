@@ -5,4 +5,4 @@ en:OFF
 
 [background-image]
 
-src: img/launcher.jpg
+src: img/launcher.jpgblablabla
