@@ -9,7 +9,6 @@ void win_show_order(GtkWidget *widget);
 char** get_id(const gchar *store);
 char** get_product_id(const gchar *product);
 char** get_product_list(const gchar *product);
-void start_order(MYSQL_ROW data);
 void increase(GtkWidget *widget, GtkWidget *label);
 void decrease(GtkWidget *widget, GtkWidget *label);
 void def_add_cart(gchar *id_order,char *id_product, const gchar *quantity);
