@@ -122,9 +122,9 @@ void set_labels(){
   gtk_button_set_label(GTK_BUTTON(button), _("quit"));
 }
 
-void set_img(){
+void set_img(const char* path){
   GtkWidget* img;
   img = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "img"));
-  gtk_image_set_from_file(GTK_IMAGE(img), /*path*/);
+  gtk_image_set_from_file(GTK_IMAGE(img), path);
   gtk_widget_show(img);
 }

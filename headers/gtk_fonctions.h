@@ -24,7 +24,7 @@ void modify_log_text(void);
 void win_see_product_1(GtkWidget *widget, GtkWidget *choice);
 void validate_order();
 void set_labels();
-void set_img();
+void set_img(const char* path);
 struct SESSION{
     int IS_CONNECTED; // initially disconnected
     int ADMIN; //allows =/= rights

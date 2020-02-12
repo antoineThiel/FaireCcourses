@@ -93,7 +93,7 @@ int main (int argc, char *argv[]){
   //Choix de la langue (fr : fr_FR.UTF-8 et messages_fr, en : en_US.UTF-8 et messages_en)
 
   setlocale(LC_MESSAGES, "en_US.UTF-8");
-  set_img(/*path*/);
+  // set_img(/*path*/);
 
   // free(string_config[ENCODING]);
   // free(string_config[MESSAGE]);
