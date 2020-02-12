@@ -73,23 +73,32 @@ void event_handler(){
 }
 
 int main (int argc, char *argv[]){
+  char** string_config =  launcher_config();
 
-
+  printf("%s et %s" , string_config[0] , string_config[1]);
   PREPARE_CONNECTION(CONNECTOR_DB);
   session_init(&USER_DATA);
   order_init(&ORDER_DATA);
   gtk_init (&argc, &argv);
   /* Construct a GtkBuilder instance and load our UI description */
   MAIN_BUILDER = gtk_builder_new_from_file ("./glade/window_main.glade");
+
   
   //pour fix les pb de double en sql
   setlocale(LC_NUMERIC, "en_US.UTF-8");
 
   //Choix de la langue (fr : fr_FR.UTF-8 et messages_fr, en : en_US.UTF-8 et messages_en)
 
-  setlocale(LC_MESSAGES, "en_US.UTF-8");
+  setlocale(LC_MESSAGES, string_config[ENCODING]);
+
+  // free(string_config[ENCODING]);
+  // free(string_config[MESSAGE]);
+  free(string_config);
+
   bindtextdomain("messages_en", "trans");
   textdomain("messages_en");
+
+
 
   launcher();
   

@@ -326,7 +326,7 @@ char* get_market_name(void){
     db_line = mysql_fetch_row(result_set);
 
     mysql_free_result(result_set);
-    sprintf(filename , "shops_config/%s.model" , db_line[0]); 
+    sprintf(filename , "config/shops_config/%s.model" , db_line[0]); 
 
     return filename;
 }

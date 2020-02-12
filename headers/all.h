@@ -10,6 +10,7 @@
 
 #include "commons.h"
 
+#include "read_config.h"
 #include "gtk_fonctions.h"
 #include "sql_fonctions.h"
 #include "views.h"
