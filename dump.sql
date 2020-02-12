@@ -32,18 +32,18 @@ create table category(
 
 insert into category values ( NULL, 'viande', 1);
 insert into category values ( NULL, 'fruits', 1);
-insert into category values ( NULL, 'légumes', 1);
-insert into category values ( NULL, 'gâteaux', 1);
+insert into category values ( NULL, 'legumes', 1);
+insert into category values ( NULL, 'gateaux', 1);
 insert into category values ( NULL, 'bonbons', 1);
-insert into category values ( NULL, 'féculents', 1);
+insert into category values ( NULL, 'feculents', 1);
 insert into category values ( NULL, 'produits de toilettes', 1);
 insert into category values ( NULL, 'jardinage', 1);
 insert into category values ( NULL, 'habits hommes', 1);
 insert into category values ( NULL, 'habits femmes', 1);
 insert into category values ( NULL, 'habits enfants', 1);
-insert into category values ( NULL, 'congelés', 1);
-insert into category values ( NULL, 'beauté', 1);
-insert into category values ( NULL, 'multimédia', 1);
+insert into category values ( NULL, 'congeles', 1);
+insert into category values ( NULL, 'beaute', 1);
+insert into category values ( NULL, 'multimedia', 1);
 
 create table product(
     id int auto_increment primary key, 
@@ -55,19 +55,19 @@ create table product(
 
 insert into product values ( NULL, 'bavette', 'viande', 5, 1);
 insert into product values ( NULL, 'pomme', 'fruits', 1, 1);
-insert into product values ( NULL, 'carottes', 'légumes', 1, 1);
-insert into product values ( NULL, 'prince', 'gâteaux', 2, 1);
+insert into product values ( NULL, 'carottes', 'legumes', 1, 1);
+insert into product values ( NULL, 'prince', 'geteaux', 2, 1);
 insert into product values ( NULL, 'crocros', 'bonbons', 3, 1);
-insert into product values ( NULL, 'coquillettes', 'féculents', 2 ,1);
-insert into product values ( NULL, 'brosse à dents', 'produits de toilettes', 3, 1);
+insert into product values ( NULL, 'coquillettes', 'feculents', 2 ,1);
+insert into product values ( NULL, 'brosse a dents', 'produits de toilettes', 3, 1);
 insert into product values ( NULL, 'pelle', 'jardinage', 10, 1);
 insert into product values ( NULL, 'slip', 'habits hommes', 5, 1);
 insert into product values ( NULL, 'culottes', 'habits femmes', 5, 1);
 insert into product values ( NULL, 'sweat', 'habits enfants', 10, 1);
-insert into product values ( NULL, 'frites', 'congelés', 7, 1);
+insert into product values ( NULL, 'frites', 'congeles', 7, 1);
 
-insert into product values ( NULL, 'pinceau', 'beauté', 2.50 , 1);
-insert into product values ( NULL, 'souris', 'multimédia', 17.99 , 1);
+insert into product values ( NULL, 'pinceau', 'beaute', 2.50 , 1);
+insert into product values ( NULL, 'souris', 'multimedia', 17.99 , 1);
 
 create table `order`(
     id int auto_increment primary key, 

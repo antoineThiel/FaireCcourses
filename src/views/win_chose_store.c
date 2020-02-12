@@ -166,20 +166,14 @@ char** get_max_id(){
 }
 
 //SQL Creation nouvelle commande
-void start_order(MYSQL_ROW data){
-  char *start;
+void start_order(){
+  char start[80];
   //Rserve memory
-  start = malloc(sizeof(char)*200);
-  check_malloc(start);
-
-  strcpy(start, "insert into `order` values(NULL, NULL, 0, ");
-  strcat(start, data[0]);
-  strcat(start, ")");
+  sprintf(start, "insert into `order` values(NULL, 0, 0, %d)", ORDER_DATA.CURRENT_SHOP);
   if (mysql_query(CONNECTOR_DB, start)) {
     fprintf(stderr, "%s\n", mysql_error(CONNECTOR_DB));
     exit(1);
   }
-  free(start);
 }
 
 //Ajoute 1 au compteur a coté du produit
@@ -288,7 +282,7 @@ void add_to_cart(GtkWidget *widget, GtkWidget **array){
 
   name = gtk_label_get_text(GTK_LABEL(product_name));
   id_product = get_product_id(name);
-
+  start_order();
   strcpy(temp, id_product[0]);
   id_order = get_max_id();
   tmp = atoi(id_order[0]);
