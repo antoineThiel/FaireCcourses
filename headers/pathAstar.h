@@ -7,6 +7,7 @@ typedef struct FILE_representation{
 
     FILE* shop_file;
 
+    //1D array (used a 2D one) recording content of shop_file's file
     __uint8_t* aisle;
 
     __uint16_t checkpoints_max;

@@ -3,11 +3,10 @@
 
 //~~~~~~~~~~~GLOBALS~~~~~~~~~~~~~
 
-// extern GtkBuilder* MAIN_BUILDER;
-extern MYSQL* CONNECTOR_DB;
-extern SESSION USER_DATA;
-extern ORDER ORDER_DATA;
-
+    extern MYSQL* CONNECTOR_DB;
+    // extern SESSION USER_DATA;
+    extern ORDER ORDER_DATA;
+    extern list_ids* REQUIRED_SHELFS;
 
 list_ids* get_product_list_from_cart(){
     char query[200];
@@ -92,5 +91,103 @@ list_ids* get_category_list_from_cart(){
     return shelf_order;
 }
 
+void file_ppm(FILE_representation* file_rep ,__int32_t* steps_needed , checkpoint* pos_shelves){
+    // checkpoint tmp_coord;
+
+    //setting used shelves to a noticeable value and linking shelves , entrance and exit are included
+    for(__uint16_t pos = 0 ; pos <= REQUIRED_SHELFS->length ; pos++){
+        trace_line_on_filerep(file_rep ,pos_shelves[steps_needed[pos]],
+                                        pos_shelves[steps_needed[pos+1]],
+                                        NOTICEABLE_VALUE+pos);
+    
+    }
+    ppm_file_from_filerep(file_rep);
+    get_file_rep(file_rep);
+}
+
+void trace_line_on_filerep(FILE_representation* file_rep , checkpoint origin , checkpoint end , __uint8_t value_to_set){
+
+    __int8_t horizontal_move; // origin more or less right than end 
+    __int8_t vertical_move; //
+    
+    checkpoint copy = origin;
+
+    if( origin.pos_x > end.pos_x)
+        horizontal_move = -1;
+    else if (  origin.pos_x == end.pos_x)
+        horizontal_move = 0;
+    else
+        horizontal_move = 1;
+
+    if( origin.pos_y > end.pos_y)
+        vertical_move = -1;
+    else if (  origin.pos_y == end.pos_y)
+        vertical_move = 0;
+    else
+        vertical_move = 1;
+
+    // printf("origin : %hhu \\ %hhu   end : %hhu \\ %hhu\n" , origin.pos_x ,origin.pos_y , end.pos_x , end.pos_y);
+    // printf("h : %hhd , v : %hhd \n" , horizontal_move , vertical_move);
+    
+    // while(origin.pos_x != end.pos_x && origin.pos_y != end.pos_y){
+    //     origin.pos_x += horizontal_move;
+    //     origin.pos_y += vertical_move;
+
+    //     file_rep->aisle[origin.pos_y * file_rep->width + origin.pos_x] = value_to_set;
+    // }
+
+    //might not go through this one or the other one , because 1 statement was used to break the loop above (: 
+    while (copy.pos_x != end.pos_x){
+        copy.pos_x += horizontal_move;
+
+        file_rep->aisle[copy.pos_y * file_rep->width + copy.pos_x] = value_to_set;
+    }
+    
+    while(copy.pos_y != end.pos_y){
+        copy.pos_y += vertical_move;
+        file_rep->aisle[copy.pos_y * file_rep->width + copy.pos_x] = value_to_set;
+
+    }
+}
 
 
+void ppm_file_from_filerep(const FILE_representation* origin){
+    FILE* new_file = fopen("result.ppm" , "wb");
+    check_fopen(new_file);
+
+    pixel_t pixel_tmp = {0,0,0};
+    char config[30];
+    __uint8_t cell_content;
+    fseek(new_file , 0 , SEEK_SET);
+
+    sprintf(config , "P6\n%lu %lu\n255\n", origin->width * RATIO_IMG, origin->height * RATIO_IMG);
+
+    fwrite(config , sizeof(char) , strlen(config) , new_file );
+
+    for(size_t i = 0 ; i < origin->height ; i++){
+        for(__int8_t loop1 = 0 ; loop1 < RATIO_IMG ; loop1++){
+
+            for(size_t j = 0 ; j < origin->width ; j++){
+                for(__int8_t loop2 = 0 ; loop2 < RATIO_IMG ; loop2++){
+                    cell_content = origin->aisle[i * origin->width + j];
+
+                    if(cell_content >= NOTICEABLE_VALUE){
+                        pixel_tmp.red   = 20 * cell_content;
+                        pixel_tmp.green = 12 * cell_content;
+                        pixel_tmp.blue  = 50 * cell_content;
+                    }
+                    else{
+                        pixel_tmp.red   = 255;
+                        pixel_tmp.green = 255;
+                        pixel_tmp.blue  = 255;
+                    }
+
+
+                    fwrite(&pixel_tmp , sizeof(u_int8_t) , 3 , new_file);
+                }
+            }
+        }
+    }
+
+    fclose(new_file);
+}

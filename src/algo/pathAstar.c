@@ -244,10 +244,12 @@ __int32_t* createStepsArray(Graph* graph){
     check_malloc(visited_shelf);
     memset(visited_shelf , -1 , (REQUIRED_SHELFS->length+2) * sizeof(__int32_t) ) ;
 
-    list_ids *required_shelf = get_category_list_from_cart();
-    for(int i = 0 ; i < required_shelf->length ; i++){
-        printf("requiredshelf %d  : shelf nb %d \n" , i , required_shelf->id[i]);
-    }
+    list_ids *REQUIRED_SHELFS = get_category_list_from_cart();
+    
+    // for(int i = 0 ; i < required_shelf->length ; i++){
+    //     printf("requiredshelf %d  : shelf nb %d \n" , i , required_shelf->id[i]);
+    // }
+    
     __uint16_t new_step ; //index to put new step in follow steps
     __uint16_t  current_line = MARKET_ENTRANCE ;
 
@@ -286,7 +288,6 @@ void generateSchema(void){
     REQUIRED_SHELFS = get_category_list_from_cart();
 
     market_graph = createGraph(&tmp);
-    file_rep_destroy(&tmp);
 
 
     steps_needed = createStepsArray(market_graph);
@@ -296,11 +297,13 @@ void generateSchema(void){
     // for(__uint16_t i = 0 ; i < REQUIRED_SHELFS->length + 2; i++){ //+2 : entrance and exit are not considered as REQUIRED_SHELVES
     //     printf("step %u : %u\n" , i , steps_needed[i]);
     // }
+    file_ppm(&tmp , steps_needed , market_graph->arrayChecks);
 
-    
 
     free_graph(market_graph);
     free(market_graph);
+    file_rep_destroy(&tmp);
+
 
 }
 
@@ -325,6 +328,5 @@ char* get_market_name(void){
     mysql_free_result(result_set);
     sprintf(filename , "shops_config/%s.model" , db_line[0]); 
 
-    printf("%s test\n\n\n" , filename);   
     return filename;
 }
