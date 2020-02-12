@@ -109,3 +109,22 @@ void win_start(GtkWidget *widget){
   win_log_in(NULL);
   widget = widget;
 }
+
+void set_labels(){
+  GtkWidget *button;
+  button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_add_product"));
+  gtk_button_set_label(GTK_BUTTON(button), _("add_product"));
+  button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_see_product"));
+  gtk_button_set_label(GTK_BUTTON(button), _("check_list"));
+  button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_store"));
+  gtk_button_set_label(GTK_BUTTON(button), _("start_order"));
+  button = GTK_WIDGET (gtk_builder_get_object(MAIN_BUILDER, "quit"));
+  gtk_button_set_label(GTK_BUTTON(button), _("quit"));
+}
+
+void set_img(){
+  GtkWidget* img;
+  img = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "img"));
+  gtk_image_set_from_file(GTK_IMAGE(img), /*path*/);
+  gtk_widget_show(img);
+}

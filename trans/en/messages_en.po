@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-10 21:07+0100\n"
+"POT-Creation-Date: 2020-02-12 21:32+0100\n"
 "PO-Revision-Date: 2020-02-10 21:12+0100\n"
 "Last-Translator: root <root@antoine-linux>\n"
 "Language-Team: English\n"
@@ -35,7 +35,7 @@ msgid "account"
 msgstr "My account"
 
 #: src/views/win_add_product.c:92 src/views/win_add_product.c:185
-#: src/views/win_chose_store.c:388
+#: src/views/win_chose_store.c:351
 msgid "add"
 msgstr "Add"
 
@@ -43,11 +43,16 @@ msgstr "Add"
 msgid "add new"
 msgstr "Add more"
 
+#: src/views/win_log_in.c:116
+#, fuzzy
+msgid "add_product"
+msgstr "add product"
+
 #: src/views/win_create_account.c:87 src/views/win_my_account.c:73
 msgid "admin"
 msgstr "Administrator"
 
-#: src/views/win_chose_store.c:437
+#: src/views/win_see_product.c:139
 msgid "basket"
 msgstr "Your basket"
 
@@ -60,6 +65,10 @@ msgstr "Age"
 msgid "category"
 msgstr "category"
 
+#: src/views/win_log_in.c:118
+msgid "check_list"
+msgstr "check existing product"
+
 #: src/views/win_create_account.c:88 src/views/win_my_account.c:77
 msgid "client"
 msgstr "customer"
@@ -68,7 +77,8 @@ msgstr "customer"
 msgid "confirm creation"
 msgstr "confirm the creation"
 
-#: src/views/win_add_product.c:175 src/views/win_see_product.c:41
+#: src/views/win_add_product.c:175 src/views/win_chose_store.c:325
+#: src/views/win_see_product.c:41
 msgid "name"
 msgstr "name of the product"
 
@@ -76,11 +86,11 @@ msgstr "name of the product"
 msgid "next"
 msgstr "next"
 
-#: src/views/win_chose_store.c:59
+#: src/views/win_chose_store.c:60
 msgid "order_more"
 msgstr "do it again"
 
-#: src/views/win_see_product.c:43
+#: src/views/win_chose_store.c:327 src/views/win_see_product.c:43
 msgid "price"
 msgstr "price"
 
@@ -100,33 +110,22 @@ msgstr "product name"
 msgid "product_price"
 msgstr "product price"
 
-#: src/views/win_chose_store.c:64
+#: src/views/win_chose_store.c:65 src/views/win_log_in.c:122
 msgid "quit"
 msgstr "Quit"
 
-#: src/views/win_chose_store.c:430
-msgid "search"
-msgstr "search"
-
-#: src/views/win_chose_store.c:503
-msgid "start"
-msgstr "start"
+#: src/views/win_log_in.c:120
+#, fuzzy
+msgid "start_order"
+msgstr "Start new order"
 
 #: src/views/win_my_account.c:69
 msgid "status"
 msgstr "status"
 
-#: src/views/win_add_product.c:243 src/views/win_see_product.c:109
+#: src/views/win_add_product.c:243 src/views/win_see_product.c:119
 msgid "store"
 msgstr "store"
-
-#: src/views/win_chose_store.c:501
-msgid "store_name"
-msgstr "Store name"
-
-#: src/views/win_chose_store.c:439
-msgid "total"
-msgstr "total"
 
 #: src/views/win_my_account.c:63
 msgid "total_order"
@@ -136,7 +135,19 @@ msgstr "Number of order"
 msgid "type"
 msgstr "type"
 
-#: src/views/win_chose_store.c:442 src/views/win_see_product.c:76
-#: src/views/win_see_product.c:116
+#: src/views/win_chose_store.c:252 src/views/win_see_product.c:76
+#: src/views/win_see_product.c:126
 msgid "valid"
 msgstr "Confirm"
+
+#~ msgid "search"
+#~ msgstr "search"
+
+#~ msgid "start"
+#~ msgstr "start"
+
+#~ msgid "store_name"
+#~ msgstr "Store name"
+
+#~ msgid "total"
+#~ msgstr "total"

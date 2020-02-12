@@ -12,6 +12,7 @@ void launcher(){
   GtkBuilder *builder;
   GtkWidget *window;
   GtkWidget *button;
+  set_labels();
 
   builder = gtk_builder_new_from_file("glade/launcher.glade");
    //Destroying the window 
@@ -39,6 +40,7 @@ void event_handler(){
   admin = gtk_label_new("admin");
   custo = gtk_label_new("custo"); 
 
+  
   //Destroying the window 
   window = GTK_WIDGET(gtk_builder_get_object (MAIN_BUILDER, "window"));
   g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
@@ -91,6 +93,7 @@ int main (int argc, char *argv[]){
   //Choix de la langue (fr : fr_FR.UTF-8 et messages_fr, en : en_US.UTF-8 et messages_en)
 
   setlocale(LC_MESSAGES, "en_US.UTF-8");
+  set_img(/*path*/);
 
   // free(string_config[ENCODING]);
   // free(string_config[MESSAGE]);
