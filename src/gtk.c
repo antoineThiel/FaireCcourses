@@ -33,6 +33,10 @@ void event_handler(){
   
   GtkWidget *window;
   GtkWidget *button;
+  GtkWidget *admin;
+  GtkWidget *custo;
+  admin = gtk_label_new("admin");
+  custo = gtk_label_new("custo"); 
 
   //Destroying the window 
   window = GTK_WIDGET(gtk_builder_get_object (MAIN_BUILDER, "window"));
