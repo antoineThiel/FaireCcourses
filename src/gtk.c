@@ -29,8 +29,9 @@ void launcher(){
   gtk_widget_show(window);
 }
 
+
 void event_handler(){
-  
+
   GtkWidget *window;
   GtkWidget *button;
   GtkWidget *admin;
@@ -52,17 +53,17 @@ void event_handler(){
     g_signal_connect (button, "clicked", G_CALLBACK(win_add_product_admin), NULL);
 
     button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_see_product"));
-    g_signal_connect(button, "clicked", G_CALLBACK(win_see_product), NULL);
+    g_signal_connect(button, "clicked", G_CALLBACK(win_see_product_1), admin);
     }else {
       button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_add_product"));
       gtk_widget_hide(button);
       button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_see_product"));
       gtk_widget_hide(button);
     }
-  button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_store"));
-  g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), NULL);
+  
+    button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_store"));
+    g_signal_connect(button, "clicked", G_CALLBACK(win_see_product_1), custo);
   }
-
   button = GTK_WIDGET (gtk_builder_get_object(MAIN_BUILDER, "quit"));
   g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_main_quit), window);
 
