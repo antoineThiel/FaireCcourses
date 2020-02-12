@@ -10,7 +10,7 @@ char** launcher_config(void){
     check_malloc(parameters);
 
 
-    char* img_debt = NULL , *img_end = NULL;
+    // char* img_debt = NULL , *img_end = NULL;
     char* lang_pos = NULL;
 
     for(int i = 0 ; i < 3 ; i++){
@@ -34,13 +34,13 @@ char** launcher_config(void){
         parameters[MESSAGE] = "messages_en";
     }
 
-    img_debt = strstr(infos , "src:");
-    // img_end = strchr(img_debt , "\n");
+    // img_debt = strstr(infos , "src:");
+    // // img_end = strchr(img_debt , "\n");
 
-    strcpy(parameters[MESSAGE] , img_debt+4);
-    img_end = strchr(parameters[MESSAGE] , '\n');
+    // strcpy(parameters[MESSAGE] , img_debt+4);
+    // img_end = strchr(parameters[MESSAGE] , '\n');
 
-    (void)img_end;
+    // (void)img_end;
 
     fclose(config_file);
     return parameters;

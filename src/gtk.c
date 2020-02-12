@@ -33,10 +33,6 @@ void event_handler(){
   
   GtkWidget *window;
   GtkWidget *button;
-  GtkWidget *admin;
-  GtkWidget *custo;
-  admin = gtk_label_new("admin");
-  custo = gtk_label_new("custo");
 
   //Destroying the window 
   window = GTK_WIDGET(gtk_builder_get_object (MAIN_BUILDER, "window"));
@@ -52,7 +48,7 @@ void event_handler(){
     g_signal_connect (button, "clicked", G_CALLBACK(win_add_product_admin), NULL);
 
     button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_see_product"));
-    g_signal_connect(button, "clicked", G_CALLBACK(win_see_product_1), admin);
+    g_signal_connect(button, "clicked", G_CALLBACK(win_see_product), NULL);
     }else {
       button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_add_product"));
       gtk_widget_hide(button);
@@ -60,7 +56,7 @@ void event_handler(){
       gtk_widget_hide(button);
     }
   button = GTK_WIDGET(gtk_builder_get_object(MAIN_BUILDER, "btn_store"));
-  g_signal_connect(button, "clicked", G_CALLBACK(win_see_product_1), custo);
+  g_signal_connect(button, "clicked", G_CALLBACK(win_chose_store), NULL);
   }
 
   button = GTK_WIDGET (gtk_builder_get_object(MAIN_BUILDER, "quit"));
@@ -89,11 +85,11 @@ int main (int argc, char *argv[]){
 
   //Choix de la langue (fr : fr_FR.UTF-8 et messages_fr, en : en_US.UTF-8 et messages_en)
 
-  setlocale(LC_MESSAGES, string_config[ENCODING]);
+  setlocale(LC_MESSAGES, "en_US.UTF-8");
 
   // free(string_config[ENCODING]);
   // free(string_config[MESSAGE]);
-  free(string_config);
+  // free(string_config);
 
   bindtextdomain("messages_en", "trans");
   textdomain("messages_en");
