@@ -23,7 +23,7 @@ make sure mysql service is on with :
 
 you can use our files to create and fill the DB using :
 -   mysql < "_path_to_sql_file".sql 
-
+    (dump.sql gives the minimum required to create DB , and fill some)
 
 
 Get Gtk:
@@ -34,8 +34,6 @@ You can use any text editor, save your file with the .c extension
 
 To compile, place yourself in the folder's project and use 
 
-make gcc (if wanted , you can also type "make" ,  since gcc is the only target written)
+make total (if wanted , you can also type "make" ,  since total is the first target written)
 
-launch program with ./test  (current destination file for compilation)
-
-WE ARE WORKING ON HOW TO COMPILE MULTIPLE FILES THEN launch "".exe""
+launch program with  make launch  (current destination file for compilation)
