@@ -74,9 +74,14 @@ void chose_cat(GtkWidget *widget, GtkWidget *combo){
     label = gtk_label_new(_("category"));
     gtk_grid_attach(GTK_GRID(ORDER_DATA.CURRENT_GRID), label, 0,1,1,1);
     button = gtk_button_new_with_label(_("valid"));
-    gtk_grid_attach(GTK_GRID(ORDER_DATA.CURRENT_GRID), button, 1,2,1,1);
+    gtk_grid_attach(GTK_GRID(ORDER_DATA.CURRENT_GRID), button, 2,1,1,1);
 
+    if (ORDER_DATA.SHOPPING){
+        g_signal_connect(button, "clicked", G_CALLBACK(display_search), cat);
+    }
+    else{
     g_signal_connect(button, "clicked", G_CALLBACK(be4results), cat);
+    }
     gtk_widget_show_all(ORDER_DATA.CURRENT_GRID);
     (void) widget;
 
@@ -100,6 +105,11 @@ void win_see_product(GtkWidget *widget){
     if (ORDER_DATA.GRID_RESULTS != NULL){
       gtk_widget_destroy(ORDER_DATA.GRID_RESULTS);
     }
+    if (ORDER_DATA.BASKET != NULL)
+    {
+        gtk_widget_destroy(ORDER_DATA.BASKET);
+    }
+    
     
 
     grid_content = gtk_grid_new();
@@ -118,5 +128,32 @@ void win_see_product(GtkWidget *widget){
 
     g_signal_connect(button, "clicked", G_CALLBACK(chose_cat), combo);
     gtk_widget_show_all(grid_content);
+    (void) widget;
+}
+
+void set_second_grid(GtkWidget *widget){
+
+  GtkWidget *second_grid;
+  GtkWidget *label;
+  second_grid = gtk_grid_new();
+  label = gtk_label_new(_("basket"));
+  ORDER_DATA.BASKET_STAT = 0;
+  ORDER_DATA.BASKET_NAME = label;
+  label = gtk_label_new("");
+  ORDER_DATA.PRICE  = label;
+  ORDER_DATA.BASKET = second_grid;
+  win_see_product(NULL);
+  (void)widget;
+}
+
+void win_see_product_1(GtkWidget *widget, GtkWidget *choice){
+    const gchar *choices;
+    choices = gtk_label_get_text(GTK_LABEL(choice));
+    if(!strcmp(choices, "custo")){
+        ORDER_DATA.SHOPPING = 1;
+    }else{
+        ORDER_DATA.SHOPPING = 0;
+    }
+    set_second_grid(NULL);
     (void) widget;
 }
